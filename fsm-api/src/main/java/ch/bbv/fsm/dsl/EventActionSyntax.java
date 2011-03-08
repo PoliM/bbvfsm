@@ -21,7 +21,7 @@ package ch.bbv.fsm.dsl;
 import ch.bbv.fsm.Action;
 
 public interface EventActionSyntax<TState, TEvent> extends EventSyntax<TState, TEvent> {
-
+ 
     /**
      * Defines the actions to execute on a transition.
      * 

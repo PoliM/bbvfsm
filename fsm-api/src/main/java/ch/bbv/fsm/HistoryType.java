@@ -23,7 +23,7 @@ package ch.bbv.fsm;
  * 
  * @author Ueli Kurmann (bbv Software Services AG)
  */
-public enum HistoryType {
+public enum HistoryType { 
 
     /**
      * The state enters into its initial sub-state. The sub-state itself enters

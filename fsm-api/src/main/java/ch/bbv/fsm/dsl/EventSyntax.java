@@ -21,7 +21,7 @@ package ch.bbv.fsm.dsl;
 public interface EventSyntax<TState, TEvent> {
 
     /**
-     * Defines an event that is accepted.
+     * Defines an event that is accepted. 
      * 
      * @param eventId
      *            the event id.

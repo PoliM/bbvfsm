@@ -22,7 +22,7 @@ import ch.bbv.fsm.Action;
 
 public interface ExecuteSyntax<TState, TEvent> extends GuardSyntax<TState, TEvent> {
 
-    /**
+    /** 
      * Defines the actions to execute on a transition.
      * 
      * @param actions

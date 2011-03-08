@@ -17,7 +17,7 @@
  *     bbv Software Services AG (http://www.bbv.ch), Ueli Kurmann
  *******************************************************************************/
 package ch.bbv.fsm.annotation;
-
+ 
 public @interface GuardMethod {
 
 }

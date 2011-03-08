@@ -19,7 +19,7 @@
 package ch.bbv.fsm;
 
 /**
- * @author Ueli Kurmann (bbv Software Services AG) (bbv Software Services AG)
+ * @author Ueli Kurmann (bbv Software Services AG) 
  */
 public interface Action {
 

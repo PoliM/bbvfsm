@@ -22,7 +22,7 @@ import ch.bbv.fsm.Action;
 
 public interface ExitActionSyntax<TState, TEvent> extends EventSyntax<TState, TEvent> {
 
-    /**
+    /** 
      * Defines an exit action.
      * 
      * @param action

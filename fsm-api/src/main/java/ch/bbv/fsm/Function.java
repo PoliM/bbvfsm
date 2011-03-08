@@ -21,7 +21,7 @@ package ch.bbv.fsm;
 /**
  * Defines a function with one parameter.
  * 
- * @author Ueli Kurmann (bbv Software Services AG) (bbv Software Services AG)
+ * @author Ueli Kurmann (bbv Software Services AG)
  * @param <ParameterType>
  *            parameter type
  * @param <ReturnType>

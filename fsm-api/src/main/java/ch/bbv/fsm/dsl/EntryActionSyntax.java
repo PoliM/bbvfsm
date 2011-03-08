@@ -23,7 +23,7 @@ import ch.bbv.fsm.Action;
 /**
  * Entry Action Syntax.
  * 
- * @author Ueli Kurmann (bbv Software Services AG) (bbv Software Services AG)
+ * @author Ueli Kurmann (bbv Software Services AG) 
  * @param <TState>
  *            the type of the states.
  * @param <TEvent>
