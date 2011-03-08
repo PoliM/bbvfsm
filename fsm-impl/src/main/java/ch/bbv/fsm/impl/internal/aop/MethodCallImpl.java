@@ -30,95 +30,96 @@ import ch.bbv.fsm.dsl.MethodCall;
  */
 public class MethodCallImpl implements MethodCall {
 
-    private static ThreadLocal<Stack<MethodCall>> methodCalls = new ThreadLocal<Stack<MethodCall>>() {
-        @Override
-        protected Stack<MethodCall> initialValue() {
-            return new Stack<MethodCall>();
-        }
-    };
+	private final Object[] args;
 
-    /**
-     * Pops a method call from the stack.
-     * 
-     * @return the method call on the top of the stack.
-     */
-    public static MethodCall pop() {
-        return methodCalls.get().pop();
-    }
+	private final Method method;
 
-    /**
-     * Pushes a method call instance to the stack.
-     * 
-     * @param methodCall
-     *            the method call.
-     */
-    public static void push(final MethodCall methodCall) {
-        methodCalls.get().push(methodCall);
-    }
+	private final Object owner;
 
-    private final Method method;
+	private static ThreadLocal<Stack<MethodCall>> methodCalls = new ThreadLocal<Stack<MethodCall>>() {
+		@Override
+		protected Stack<MethodCall> initialValue() {
+			return new Stack<MethodCall>();
+		}
+	};
 
-    private final Object owner;
+	/**
+	 * Pops a method call from the stack.
+	 * 
+	 * @return the method call on the top of the stack.
+	 */
+	public static MethodCall pop() {
+		return methodCalls.get().pop();
+	}
 
-    private final Object[] args;
+	/**
+	 * Pushes a method call instance to the stack.
+	 * 
+	 * @param methodCall
+	 *            the method call.
+	 */
+	public static void push(final MethodCall methodCall) {
+		methodCalls.get().push(methodCall);
+	}
 
-    /**
-     * Creates a new instance.
-     * 
-     * @param owner
-     *            the object owner.
-     * @param method
-     *            the method.
-     * @param args
-     *            the arguments of the method.
-     */
-    public MethodCallImpl(final Object owner, final Method method, final Object[] args) {
-        this.owner = owner;
-        this.method = method;
-        this.args = args;
-    }
+	/**
+	 * Creates a new instance.
+	 * 
+	 * @param owner
+	 *            the object owner.
+	 * @param method
+	 *            the method.
+	 * @param args
+	 *            the arguments of the method.
+	 */
+	public MethodCallImpl(final Object owner, final Method method,
+			final Object[] args) {
+		this.owner = owner;
+		this.method = method;
+		this.args = args;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see ch.bbv.asm.dsl.MethodCall#execute()
-     */
-    @Override
-    public void execute() {
-        try {
-            this.method.invoke(this.owner, this.args);
-        } catch (final Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bbv.asm.dsl.MethodCall#execute()
+	 */
+	@Override
+	public void execute() {
+		try {
+			this.method.invoke(this.owner, this.args);
+		} catch (final Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see ch.bbv.asm.dsl.MethodCall#getArguments()
-     */
-    @Override
-    public Object[] getArguments() {
-        return this.args;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bbv.asm.dsl.MethodCall#getArguments()
+	 */
+	@Override
+	public Object[] getArguments() {
+		return this.args;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see ch.bbv.asm.dsl.MethodCall#getMethod()
-     */
-    @Override
-    public Method getMethod() {
-        return this.method;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bbv.asm.dsl.MethodCall#getMethod()
+	 */
+	@Override
+	public Method getMethod() {
+		return this.method;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see ch.bbv.asm.dsl.MethodCall#getOwner()
-     */
-    @Override
-    public Object getOwner() {
-        return this.owner;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bbv.asm.dsl.MethodCall#getOwner()
+	 */
+	@Override
+	public Object getOwner() {
+		return this.owner;
+	}
 }
