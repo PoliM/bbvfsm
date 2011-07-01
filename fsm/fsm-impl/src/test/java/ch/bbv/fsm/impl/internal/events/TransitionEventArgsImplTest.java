@@ -30,9 +30,11 @@ import ch.bbv.fsm.impl.internal.transition.TransitionContext;
 public class TransitionEventArgsImplTest {
     @Test
     public void toStringExpectInformationAboutTheTransitionEvent() {
-        final State<States, Events> stateMock = Mockito.mock(State.class);
+        @SuppressWarnings("unchecked")
+		final State<States, Events> stateMock = Mockito.mock(State.class);
         Mockito.when(stateMock.getId()).thenReturn(States.A);
-        final TransitionContext<States, Events> contextMock = Mockito.mock(TransitionContext.class);
+        @SuppressWarnings("unchecked")
+		final TransitionContext<States, Events> contextMock = Mockito.mock(TransitionContext.class);
         Mockito.when(contextMock.getEventId()).thenReturn(Events.A);
         Mockito.when(contextMock.getState()).thenReturn(stateMock);
         final TransitionEventArgsImpl<States, Events> testee = new TransitionEventArgsImpl<States, Events>(contextMock);

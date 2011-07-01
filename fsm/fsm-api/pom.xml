@@ -7,10 +7,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>ch.bbv</groupId>
 	<artifactId>fsm-api</artifactId>
 	<name>Statemachine API</name>
-	<version>1.0.0-SNAPSHOT</version>
 	<organization>
 		<name>bbv Software Services AG</name>
 		<url>http://www.bbv.ch</url>
