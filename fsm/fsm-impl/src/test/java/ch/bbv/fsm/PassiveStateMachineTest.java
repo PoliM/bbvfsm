@@ -24,17 +24,16 @@ import ch.bbv.fsm.impl.PassiveStateMachine;
 import ch.bbv.fsm.impl.StatesAndEvents.Events;
 import ch.bbv.fsm.impl.StatesAndEvents.States;
 
-// / <summary>
-// / Base for state machine test fixtures.
-// / </summary>
-// / <typeparam name="TStateMachine">The type of the state machine.</typeparam>
+/**
+ * Base for state machine test fixtures.
+ */
 public class PassiveStateMachineTest extends BaseStateMachineTest
 
 {
-    @Override
-    @Before
-    public void setup() {
-        this.testee = new PassiveStateMachine<States, Events>();
-        super.setup();
-    }
+	@Override
+	@Before
+	public void setup() {
+		this.testee = new PassiveStateMachine<States, Events>();
+		super.setup();
+	}
 }

@@ -24,17 +24,16 @@ import ch.bbv.fsm.impl.ActiveStateMachine;
 import ch.bbv.fsm.impl.StatesAndEvents.Events;
 import ch.bbv.fsm.impl.StatesAndEvents.States;
 
-// / <summary>
-// / Base for state machine test fixtures.
-// / </summary>
-// / <typeparam name="TStateMachine">The type of the state machine.</typeparam>
+/**
+ * Base for state machine test fixtures.
+ */
 public class ActiveStateMachineTest extends BaseStateMachineTest
 
 {
-    @Override
-    @Before
-    public void setup() {
-        this.testee = new ActiveStateMachine<States, Events>();
-        super.setup();
-    }
+	@Override
+	@Before
+	public void setup() {
+		this.testee = new ActiveStateMachine<States, Events>();
+		super.setup();
+	}
 }
