@@ -128,12 +128,10 @@
 
 	<distributionManagement>
 		<repository>
-			<id>nexus</id>
+			<id>nexus-bbv</id>
 			<name>Nexus Staging Repo</name>
-			<url>http://www.smartness.ch/nexus/content/repositories/snapshots</url>
+			<url>http://javabuild.bbv.ch/nexus/content/repositories/snapshots</url>
 		</repository>
 	</distributionManagement>
-
-
 
 </project>
