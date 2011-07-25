@@ -74,6 +74,7 @@
 		<name>bbv Software Services AG</name>
 		<url>http://www.bbv.ch</url>
 	</organization>
+	
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -128,10 +129,14 @@
 
 	<distributionManagement>
 		<repository>
-			<id>nexus-bbv</id>
-			<name>Nexus Staging Repo</name>
-			<url>http://javabuild.bbv.ch/nexus/content/repositories/snapshots</url>
+			<id>bbvfsm</id>
+			<name>Google Code Repo</name>
+			<url>https://bbvfsm.googlecode.com/svn/trunk/bbvfsm</url>
 		</repository>
 	</distributionManagement>
 
+	<scm>
+		<url>https://svn.bbv.ch/svn/tmcom/trunk</url>
+		<connection>scm:svn:https://svn.bbv.ch/svn/tmcom/trunk</connection>
+	</scm>
 </project>
