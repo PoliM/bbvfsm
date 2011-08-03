@@ -68,7 +68,7 @@ public class HierarchyExample {
 
         this.testee.initialize(States.A);
         this.testee.start();
-        this.testee.fire(Events.toB, true);
+        this.testee.fire(Events.toB);
         this.testee.fire(Events.toC);
         this.testee.fire(Events.toD);
         final States stateD1 = this.testee.getCurrentState();
@@ -90,7 +90,7 @@ public class HierarchyExample {
 
         this.testee.initialize(States.A);
         this.testee.start();
-        this.testee.fire(Events.toB, true);
+        this.testee.fire(Events.toB);
         final States stateB1 = this.testee.getCurrentState();
         this.testee.fire(Events.toC);
         final States stateC = this.testee.getCurrentState();
@@ -104,7 +104,7 @@ public class HierarchyExample {
 
         this.testee.initialize(States.A);
         this.testee.start();
-        this.testee.fire(Events.toB, true);
+        this.testee.fire(Events.toB);
         final States stateB1 = this.testee.getCurrentState();
         this.testee.fire(Events.toB2);
         final States stateB2 = this.testee.getCurrentState();
