@@ -24,6 +24,7 @@ import java.util.EmptyStackException;
 
 import junit.framework.Assert;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -45,7 +46,13 @@ public class ToolTest {
 
     @Before
     public void setup() {
+    	MethodCallImpl.reset();
         this.isFooExecuted = false;
+    }
+    
+    @After
+    public void teardown(){
+    	MethodCallImpl.reset();
     }
 
     @Test
@@ -54,6 +61,13 @@ public class ToolTest {
         Assert.assertEquals(null, any(String.class));
     }
 
+    @Test
+    public void testFromExecution_doNotCallOriginalMethod() {
+        from(this).foo("String1", new Integer(99));
+        Assert.assertFalse(this.isFooExecuted);
+    }
+    
+    
     @Test
     public void testFromExecution() {
         from(this).foo("String1", new Integer(99));

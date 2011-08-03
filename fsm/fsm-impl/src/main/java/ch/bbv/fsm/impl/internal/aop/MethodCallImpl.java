@@ -61,6 +61,10 @@ public class MethodCallImpl implements MethodCall {
 	public static void push(final MethodCall methodCall) {
 		methodCalls.get().push(methodCall);
 	}
+	
+	public static void reset(){
+		methodCalls.get().clear();
+	}
 
 	/**
 	 * Creates a new instance.

@@ -18,6 +18,7 @@
  *******************************************************************************/
 package ch.bbv.fsm.impl;
 
+import net.sf.cglib.core.GeneratorStrategy;
 import net.sf.cglib.proxy.Enhancer;
 import ch.bbv.fsm.impl.internal.aop.MethodCallInterceptor;
 
