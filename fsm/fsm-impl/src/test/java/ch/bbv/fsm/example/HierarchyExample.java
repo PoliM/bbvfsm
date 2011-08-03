@@ -64,7 +64,7 @@ public class HierarchyExample {
     }
 
     @Test
-    public void testDeep() {
+    public void testShallow() {
 
         this.testee.initialize(States.A);
         this.testee.start();
@@ -100,7 +100,7 @@ public class HierarchyExample {
     }
 
     @Test
-    public void testShallow() {
+    public void testNone() {
 
         this.testee.initialize(States.A);
         this.testee.start();
