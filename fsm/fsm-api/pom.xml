@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<description>Statemachine API</description>
 	<parent>
 		<artifactId>fsm</artifactId>
@@ -8,8 +9,24 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>fsm-api</artifactId>
 	<name>Statemachine API</name>
+	<packaging>bundle</packaging>
 	<organization>
 		<name>bbv Software Services AG</name>
 		<url>http://www.bbv.ch</url>
 	</organization>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Export-Package>{local-packages}</Export-Package>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
