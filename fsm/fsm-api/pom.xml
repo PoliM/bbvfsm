@@ -9,26 +9,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>fsm-api</artifactId>
 	<name>Statemachine API</name>
-	<packaging>bundle</packaging>
+	
 	<organization>
 		<name>bbv Software Services AG</name>
 		<url>http://www.bbv.ch</url>
 	</organization>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<extensions>true</extensions>
-				<configuration>
-					<instructions>
-						<Export-Package>{local-packages}</Export-Package>
-						<Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
-						<Embed-Transitive>true</Embed-Transitive>
-					</instructions>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 </project>

@@ -9,60 +9,44 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>fsm-impl</artifactId>
 	<name>Statemachine Implementation</name>
-	<packaging>bundle</packaging>
 	<organization>
 		<name>bbv Software Services AG</name>
 		<url>http://www.bbv.ch</url>
 	</organization>
 	<dependencies>
+		<!-- Internal -->
 		<dependency>
 			<groupId>ch.bbv</groupId>
 			<artifactId>fsm-api</artifactId>
 			<version>${project.version}</version>
-			<scope>compile</scope>
 		</dependency>
+
+		<!-- Runtime -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>r09</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+		</dependency>
+
+		<!-- Test -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib</artifactId>
-			<version>2.2.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>1.8.4</version>
-			<type>jar</type>
-			<scope>test</scope>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
 		</dependency>
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<extensions>true</extensions>
-				<configuration>
-					<instructions>
-						<Export-Package>{local-packages}</Export-Package>
-						<Embed-Dependency>!(fsm-api|slf4j-api);scope=compile|runtime</Embed-Dependency>
-						<Embed-Transitive>true</Embed-Transitive>
-					</instructions>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
 </project>
