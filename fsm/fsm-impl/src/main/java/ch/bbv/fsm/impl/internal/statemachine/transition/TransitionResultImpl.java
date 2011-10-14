@@ -81,16 +81,10 @@ public class TransitionResultImpl<TStateMachine extends StateMachine<TState, TEv
 
 	/**
 	 * Creates a not fired result.
-	 * 
-	 * @param <TStateMachine>
-	 *            the type of state machine
-	 * @param <TState>
-	 *            the type of the states
-	 * @param <TEvent>
-	 *            the type of the events
 	 */
-	public static <TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>> TransitionResult<TStateMachine, TState, TEvent> getNotFired() {
-		return new TransitionResultImpl<TStateMachine, TState, TEvent>(false, null, null);
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static TransitionResult getNotFired() {
+		return new TransitionResultImpl(false, null, null);
 
 	}
 }

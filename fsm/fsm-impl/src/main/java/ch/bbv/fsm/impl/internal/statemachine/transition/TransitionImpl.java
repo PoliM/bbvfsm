@@ -72,11 +72,12 @@ public class TransitionImpl<TStateMachine extends StateMachine<TState, TEvent>, 
 	 * There exist the following transition scenarios:
 	 * <ul>
 	 * <li>0. there is no target state (internal transition) --> handled outside this method.</li>
-	 * <li>1. The source and target state are the same (self transition) --> perform the transition directly: Exit source state, perform transition actions and enter target state</li>
-	 * <li>2. The target state is a direct or indirect sub-state of the source state --> perform the transition actions, then traverse the hierarchy from the source state down to
-	 * the target state, entering each state along the way. No state is exited.
-	 * <li>3. The source state is a sub-state of the target state --> traverse the hierarchy from the source up to the target, exiting each state along the way. Then perform
-	 * transition actions. Finally enter the target state.</li>
+	 * <li>1. The source and target state are the same (self transition) --> perform the transition directly: Exit source state, perform
+	 * transition actions and enter target state</li>
+	 * <li>2. The target state is a direct or indirect sub-state of the source state --> perform the transition actions, then traverse the
+	 * hierarchy from the source state down to the target state, entering each state along the way. No state is exited.
+	 * <li>3. The source state is a sub-state of the target state --> traverse the hierarchy from the source up to the target, exiting each
+	 * state along the way. Then perform transition actions. Finally enter the target state.</li>
 	 * <li>4. The source and target state share the same super-state</li>
 	 * <li>5. All other scenarios:
 	 * <ul>
@@ -95,8 +96,8 @@ public class TransitionImpl<TStateMachine extends StateMachine<TState, TEvent>, 
 	 * @param context
 	 *            the state context
 	 */
-	private void fire(final State<TStateMachine, TState, TEvent> source, final State<TStateMachine, TState, TEvent> target, final Object[] eventArguments,
-			final TransitionContext<TStateMachine, TState, TEvent> context) {
+	private void fire(final State<TStateMachine, TState, TEvent> source, final State<TStateMachine, TState, TEvent> target,
+			final Object[] eventArguments, final TransitionContext<TStateMachine, TState, TEvent> context) {
 		if (source == this.getTarget()) {
 			// Handles 1.
 			// Handles 3. after traversing from the source to the target.
@@ -140,7 +141,9 @@ public class TransitionImpl<TStateMachine extends StateMachine<TState, TEvent>, 
 		LOG.debug("Start transition1 {}", this);
 		if (!this.shouldFire(context.getEventArguments(), context)) {
 			LOG.debug("Start transition2 {}", this);
-			return TransitionResultImpl.getNotFired();
+			@SuppressWarnings("unchecked")
+			TransitionResult<TStateMachine, TState, TEvent> result = TransitionResultImpl.getNotFired();
+			return result;
 		}
 		LOG.debug("Start transition3 {}", this);
 
@@ -277,7 +280,8 @@ public class TransitionImpl<TStateMachine extends StateMachine<TState, TEvent>, 
 	 * @param stateContext
 	 *            the state context
 	 */
-	private void unwindSubStates(final State<TStateMachine, TState, TEvent> origin, final StateContext<TStateMachine, TState, TEvent> stateContext) {
+	private void unwindSubStates(final State<TStateMachine, TState, TEvent> origin,
+			final StateContext<TStateMachine, TState, TEvent> stateContext) {
 		for (State<TStateMachine, TState, TEvent> o = origin; o != this.getSource(); o = o.getSuperState()) {
 			o.exit(stateContext);
 		}

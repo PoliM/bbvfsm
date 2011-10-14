@@ -260,6 +260,7 @@ public class StateImpl<TStateMachine extends StateMachine<TState, TEvent>, TStat
 
 	@Override
 	public TransitionResult<TStateMachine, TState, TEvent> fire(final TransitionContext<TStateMachine, TState, TEvent> context) {
+		@SuppressWarnings("unchecked")
 		TransitionResult<TStateMachine, TState, TEvent> result = TransitionResultImpl.getNotFired();
 
 		final List<Transition<TStateMachine, TState, TEvent>> transitionsForEvent = this.transitions.getTransitions(context.getEventId());
