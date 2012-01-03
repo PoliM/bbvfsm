@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>ch.bbv</groupId>
+	<groupId>ch.bbv.fsm</groupId>
 	<artifactId>fsm</artifactId>
 	<packaging>pom</packaging>
 	<name>bbvfsm - Parent Project.</name>
@@ -29,9 +29,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<junit.version>4.8.2</junit.version>
 		<java.source.version>1.6</java.source.version>
-		<slf4j.version>1.6.1</slf4j.version>
+		<slf4j.version>1.6.4</slf4j.version>
 		<logback.version>0.9.29</logback.version>
-		<guava.version>r09</guava.version>
+		<guava.version>10.0.1</guava.version>
 		<cglib.version>2.2.2</cglib.version>
 		<mockito.version>1.8.4</mockito.version>
 		<hamcrest.version>1.2.1</hamcrest.version>

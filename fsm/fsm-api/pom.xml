@@ -2,7 +2,7 @@
 	<description>Statemachine API</description>
 	<parent>
 		<artifactId>fsm</artifactId>
-		<groupId>ch.bbv</groupId>
+		<groupId>ch.bbv.fsm</groupId>
 		<version>2.0.0-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
