@@ -20,6 +20,7 @@ package ch.bbv.fsm.dsl;
 
 import ch.bbv.fsm.StateMachine;
 import ch.bbv.fsm.action.Action;
+import ch.bbv.fsm.action.EmbeddedAction;
 
 /**
  * Possibilities to execute an action on exit.
@@ -54,7 +55,8 @@ public interface ExitActionSyntax<TStateMachine extends StateMachine<TState, TEv
 	 *            the parameter of the action.
 	 * @return Exit action syntax.
 	 */
-	<T> EventSyntax<TStateMachine, TState, TEvent> executeOnExit(Action<TStateMachine, TState, TEvent> action, T parameter);
+	<T> EventSyntax<TStateMachine, TState, TEvent> executeOnExit(Action<TStateMachine, TState, TEvent> action,
+			T parameter);
 
 	/**
 	 * Defines an exit action.
@@ -64,5 +66,31 @@ public interface ExitActionSyntax<TStateMachine extends StateMachine<TState, TEv
 	 * @return Event syntax.
 	 */
 	EventSyntax<TStateMachine, TState, TEvent> executeOnExit(Object method);
+
+	/**
+	 * Defines an exit action.
+	 * 
+	 * @param actionClass
+	 *            the {@link EmbeddedAction} Class
+	 * @return the EventSyntax
+	 * @throws IllegalActionClassDefinitionException
+	 */
+	EventSyntax<TStateMachine, TState, TEvent> executeOnExit(
+			Class<? extends EmbeddedAction<TStateMachine, TState, TEvent>> actionClass);
+
+	/**
+	 * Defines an entry action.
+	 * 
+	 * @param <T>
+	 *            The return type of the action.
+	 * @param actionClass
+	 *            The {@link EmbeddedAction} class.
+	 * @param parameter
+	 *            (necessary?)
+	 * @return the EventSyntax
+	 * @throws IllegalActionClassDefinitionException
+	 */
+	<T> EventSyntax<TStateMachine, TState, TEvent> executeOnExit(
+			Class<? extends EmbeddedAction<TStateMachine, TState, TEvent>> actionClass, T parameter);
 
 }

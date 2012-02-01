@@ -20,6 +20,7 @@ package ch.bbv.fsm.dsl;
 
 import ch.bbv.fsm.StateMachine;
 import ch.bbv.fsm.action.Action;
+import ch.bbv.fsm.action.EmbeddedAction;
 
 /**
  * Entry Action Syntax.
@@ -56,7 +57,8 @@ public interface EntryActionSyntax<TStateMachine extends StateMachine<TState, TE
 	 *            (necessary?)
 	 * @return the ExitActionSyntax
 	 */
-	<T> ExitActionSyntax<TStateMachine, TState, TEvent> executeOnEntry(Action<TStateMachine, TState, TEvent> action, T parameter);
+	<T> ExitActionSyntax<TStateMachine, TState, TEvent> executeOnEntry(Action<TStateMachine, TState, TEvent> action,
+			T parameter);
 
 	/**
 	 * Defines an entry action.
@@ -65,4 +67,31 @@ public interface EntryActionSyntax<TStateMachine extends StateMachine<TState, TE
 	 *            the method called on entry.
 	 */
 	ExitActionSyntax<TStateMachine, TState, TEvent> executeOnEntry(Void methodCall);
+
+	/**
+	 * Defines an entry action.
+	 * 
+	 * @param actionClass
+	 *            the {@link EmbeddedAction} Class
+	 * @return the ExitActionSyntax
+	 * @throws IllegalActionClassDefinitionException
+	 */
+	ExitActionSyntax<TStateMachine, TState, TEvent> executeOnEntry(
+			Class<? extends EmbeddedAction<TStateMachine, TState, TEvent>> actionClass);
+
+	/**
+	 * Defines an entry action.
+	 * 
+	 * @param <T>
+	 *            The return type of the action.
+	 * @param actionClass
+	 *            The {@link EmbeddedAction} class.
+	 * @param parameter
+	 *            (necessary?)
+	 * @return the ExitActionSyntax
+	 * @throws IllegalActionClassDefinitionException
+	 */
+	<T> ExitActionSyntax<TStateMachine, TState, TEvent> executeOnEntry(
+			Class<? extends EmbeddedAction<TStateMachine, TState, TEvent>> actionClass, T parameter);
+
 }

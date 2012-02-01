@@ -13,7 +13,7 @@
 	<dependencies>
 		<!-- Internal -->
 		<dependency>
-			<groupId>ch.bbv</groupId>
+			<groupId>ch.bbv.fsm</groupId>
 			<artifactId>fsm-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>

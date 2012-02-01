@@ -33,7 +33,8 @@ public class AbstractStateMachine<TStateMachine extends StateMachine<TState, TEv
 	}
 
 	@Override
-	public final void firePriority(final TEvent eventId, final Object... eventArguments) {
+	public final void firePriority(final TEvent eventId,
+			final Object... eventArguments) {
 		driver.firePriority(eventId, eventArguments);
 	}
 

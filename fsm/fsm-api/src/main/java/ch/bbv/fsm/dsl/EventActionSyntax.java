@@ -20,6 +20,7 @@ package ch.bbv.fsm.dsl;
 
 import ch.bbv.fsm.StateMachine;
 import ch.bbv.fsm.action.Action;
+import ch.bbv.fsm.action.EmbeddedAction;
 
 /**
  * Possibilities to do with a transition.
@@ -51,5 +52,15 @@ public interface EventActionSyntax<TStateMachine extends StateMachine<TState, TE
 	 * @return Execute syntax.
 	 */
 	ExecuteSyntax<TStateMachine, TState, TEvent> goTo(TState target);
+
+	/**
+	 * Defines the actions to execute on a transition.
+	 * 
+	 * @param action
+	 *            The actions.
+	 * @throws IllegalActionClassDefinitionException
+	 */
+	GuardSyntax<TStateMachine, TState, TEvent> execute(
+			Class<? extends EmbeddedAction<TStateMachine, TState, TEvent>> action);
 
 }
