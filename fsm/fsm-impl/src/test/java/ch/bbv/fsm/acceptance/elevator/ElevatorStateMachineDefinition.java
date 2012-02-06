@@ -6,7 +6,8 @@ import ch.bbv.fsm.action.Action;
 import ch.bbv.fsm.guard.Function;
 import ch.bbv.fsm.impl.AbstractStateMachineDefinition;
 
-public class ElevatorStateMachineDefinition extends
+public class ElevatorStateMachineDefinition
+		extends
 		AbstractStateMachineDefinition<ElevatorStateMachine, ElevatorStateMachineDefinition.State, ElevatorStateMachineDefinition.Event> {
 
 	/**
@@ -67,29 +68,36 @@ public class ElevatorStateMachineDefinition extends
 	/**
 	 * Announces the floor.
 	 */
-	private final Action<ElevatorStateMachine, State, Event> announceFloor = new Action<ElevatorStateMachine, State, Event>() {
+	public static class AnnounceFloorAction implements
+			Action<ElevatorStateMachine, State, Event> {
+
 		@Override
-		public void execute(final ElevatorStateMachine stateMachine, final Object... arguments) {
+		public void execute(final ElevatorStateMachine stateMachine,
+				final Object... arguments) {
 			System.out.println("announceFloor: 1");
 		}
-	};
+	}
 
 	/**
 	 * Announces that the elevator is overloaded.
 	 */
-	private final Action<ElevatorStateMachine, State, Event> announceOverload = new Action<ElevatorStateMachine, State, Event>() {
+	public static class AnnounceOverloadAction implements
+			Action<ElevatorStateMachine, State, Event> {
+
 		@Override
-		public void execute(final ElevatorStateMachine stateMachine, final Object... arguments) {
+		public void execute(final ElevatorStateMachine stateMachine,
+				final Object... arguments) {
 			System.out.println("announceOverload...");
-		};
-	};
+		}
+	}
 
 	/**
 	 * Checks whether the elevator is overloaded.
 	 */
 	private final Function<ElevatorStateMachine, State, Event, Object[], Boolean> checkOverload = new Function<ElevatorStateMachine, State, Event, Object[], Boolean>() {
 		@Override
-		public Boolean execute(final ElevatorStateMachine stateMachine, final Object[] arguments) {
+		public Boolean execute(final ElevatorStateMachine stateMachine,
+				final Object[] arguments) {
 			return true;
 		};
 	};
@@ -100,22 +108,41 @@ public class ElevatorStateMachineDefinition extends
 	}
 
 	private void define() {
-		defineHierarchyOn(State.Healthy, State.OnFloor, HistoryType.DEEP, State.OnFloor, State.Moving);
-		defineHierarchyOn(State.Moving, State.MovingUp, HistoryType.SHALLOW, State.MovingUp, State.MovingDown);
-		defineHierarchyOn(State.OnFloor, State.DoorClosed, HistoryType.NONE, State.DoorClosed, State.DoorOpen);
+		defineHierarchyOn(State.Healthy, State.OnFloor, HistoryType.DEEP,
+				State.OnFloor, State.Moving);
+		defineHierarchyOn(State.Moving, State.MovingUp, HistoryType.SHALLOW,
+				State.MovingUp, State.MovingDown);
+		defineHierarchyOn(State.OnFloor, State.DoorClosed, HistoryType.NONE,
+				State.DoorClosed, State.DoorOpen);
 
 		in(State.Healthy).on(Event.ErrorOccured).goTo(State.Error);
 		in(State.Error).on(Event.Reset).goTo(State.Healthy);
-		in(State.OnFloor).executeOnEntry(this.announceFloor).on(Event.CloseDoor).goTo(State.DoorClosed).on(Event.OpenDoor)
-				.goTo(State.DoorOpen).on(Event.GoUp).goTo(State.MovingUp).onlyIf(this.checkOverload).on(Event.GoUp)
-				.execute(this.announceOverload).on(Event.GoDown).goTo(State.MovingDown).onlyIf(this.checkOverload).on(Event.GoUp)
-				.execute(this.announceOverload);
+		in(State.OnFloor)
+				.executeOnEntry(
+						ElevatorStateMachineDefinition.AnnounceFloorAction.class)
+				.on(Event.CloseDoor)
+				.goTo(State.DoorClosed)
+				.on(Event.OpenDoor)
+				.goTo(State.DoorOpen)
+				.on(Event.GoUp)
+				.goTo(State.MovingUp)
+				.onlyIf(this.checkOverload)
+				.on(Event.GoUp)
+				.execute(
+						ElevatorStateMachineDefinition.AnnounceOverloadAction.class)
+				.on(Event.GoDown)
+				.goTo(State.MovingDown)
+				.onlyIf(this.checkOverload)
+				.on(Event.GoUp)
+				.execute(
+						ElevatorStateMachineDefinition.AnnounceOverloadAction.class);
 
 		in(State.Moving).on(Event.Stop).goTo(State.OnFloor);
 	}
 
 	@Override
-	protected ElevatorStateMachine createStateMachine(final StateMachine<State, Event> driver) {
+	protected ElevatorStateMachine createStateMachine(
+			final StateMachine<State, Event> driver) {
 		return new ElevatorStateMachine(driver);
 	}
 }

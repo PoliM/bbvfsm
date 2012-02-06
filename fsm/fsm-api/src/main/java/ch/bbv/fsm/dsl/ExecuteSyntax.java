@@ -31,17 +31,17 @@ import ch.bbv.fsm.action.Action;
  * @param <TEvent>
  *            the type of the events.
  */
-public interface ExecuteSyntax<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>> extends
-		GuardSyntax<TStateMachine, TState, TEvent> {
+public interface ExecuteSyntax<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>>
+		extends GuardSyntax<TStateMachine, TState, TEvent> {
 
 	/**
 	 * Defines the actions to execute on a transition.
 	 * 
 	 * @param action
-	 *            The actions.
-	 * @return Guard syntax.
+	 *            The action class.
 	 */
-	ExecuteSyntax<TStateMachine, TState, TEvent> execute(Action<TStateMachine, TState, TEvent> action);
+	ExecuteSyntax<TStateMachine, TState, TEvent> execute(
+			Class<? extends Action<TStateMachine, TState, TEvent>> action);
 
 	/**
 	 * Defines the actions to execute on a transition.

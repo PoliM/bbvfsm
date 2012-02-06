@@ -26,7 +26,6 @@ import org.slf4j.LoggerFactory;
 
 import ch.bbv.fsm.StateMachine;
 import ch.bbv.fsm.action.Action;
-import ch.bbv.fsm.action.EmbeddedAction;
 import ch.bbv.fsm.dsl.EntryActionSyntax;
 import ch.bbv.fsm.dsl.EventActionSyntax;
 import ch.bbv.fsm.dsl.EventSyntax;
@@ -38,7 +37,7 @@ import ch.bbv.fsm.guard.Function;
 import ch.bbv.fsm.impl.internal.action.ActionHolderMethodCall;
 import ch.bbv.fsm.impl.internal.action.ActionHolderNoParameter;
 import ch.bbv.fsm.impl.internal.action.ActionHolderParameter;
-import ch.bbv.fsm.impl.internal.action.EmbeddedCallAction;
+import ch.bbv.fsm.impl.internal.action.ActionClassCallAction;
 import ch.bbv.fsm.impl.internal.action.MethodCallAction;
 import ch.bbv.fsm.impl.internal.action.MethodCallFunction;
 import ch.bbv.fsm.impl.internal.aop.CallInterceptorBuilder;
@@ -61,10 +60,13 @@ import ch.bbv.fsm.impl.internal.statemachine.transition.TransitionImpl;
  *            the type of the events.
  */
 public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>>
-		implements EntryActionSyntax<TStateMachine, TState, TEvent>, EventActionSyntax<TStateMachine, TState, TEvent>,
-		ExecuteSyntax<TStateMachine, TState, TEvent>, GotoSyntax<TStateMachine, TState, TEvent> {
+		implements EntryActionSyntax<TStateMachine, TState, TEvent>,
+		EventActionSyntax<TStateMachine, TState, TEvent>,
+		ExecuteSyntax<TStateMachine, TState, TEvent>,
+		GotoSyntax<TStateMachine, TState, TEvent> {
 
-	private static final Logger LOG = LoggerFactory.getLogger(StateBuilder.class);
+	private static final Logger LOG = LoggerFactory
+			.getLogger(StateBuilder.class);
 
 	private final State<TStateMachine, TState, TEvent> state;
 	private final StateDictionary<TStateMachine, TState, TEvent> stateDictionary;
@@ -85,114 +87,100 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 	}
 
 	@Override
-	public ExecuteSyntax<TStateMachine, TState, TEvent> execute(final Action<TStateMachine, TState, TEvent> action) {
-		this.currentTransition.getActions().add(action);
-		return this;
-	}
-
-	@Override
-	public ExecuteSyntax<TStateMachine, TState, TEvent> execute(final Object methodCall) {
+	public ExecuteSyntax<TStateMachine, TState, TEvent> execute(
+			final Object methodCall) {
 		final MethodCall<TStateMachine> call = CallInterceptorBuilder.pop();
 		LOG.debug(currentTransition.toString() + " use action " + call);
-		this.currentTransition.getActions().add(new MethodCallAction<TStateMachine, TState, TEvent>(call));
+		this.currentTransition.getActions().add(
+				new MethodCallAction<TStateMachine, TState, TEvent>(call));
 		return this;
 	}
 
 	@Override
 	public ExecuteSyntax<TStateMachine, TState, TEvent> execute(
-			final Class<? extends EmbeddedAction<TStateMachine, TState, TEvent>> embeddedAction) {
+			final Class<? extends Action<TStateMachine, TState, TEvent>> embeddedAction) {
 
 		checkAction(embeddedAction);
 
-		this.currentTransition.getActions().add(new EmbeddedCallAction<TStateMachine, TState, TEvent>(embeddedAction));
+		this.currentTransition.getActions().add(
+				new ActionClassCallAction<TStateMachine, TState, TEvent>(
+						embeddedAction));
 		return this;
 	}
 
 	@Override
 	public ExitActionSyntax<TStateMachine, TState, TEvent> executeOnEntry(
-			final Class<? extends EmbeddedAction<TStateMachine, TState, TEvent>> action) {
+			final Class<? extends Action<TStateMachine, TState, TEvent>> action) {
 
 		checkAction(action);
 
-		this.state.setEntryAction(new ActionHolderNoParameter<TStateMachine, TState, TEvent>(
-				new EmbeddedCallAction<TStateMachine, TState, TEvent>(action)));
+		this.state
+				.setEntryAction(new ActionHolderNoParameter<TStateMachine, TState, TEvent>(
+						new ActionClassCallAction<TStateMachine, TState, TEvent>(
+								action)));
 
 		return this;
 	}
 
 	@Override
 	public <T> ExitActionSyntax<TStateMachine, TState, TEvent> executeOnEntry(
-			final Class<? extends EmbeddedAction<TStateMachine, TState, TEvent>> actionClass, final T parameter) {
+			final Class<? extends Action<TStateMachine, TState, TEvent>> actionClass,
+			final T parameter) {
 
 		checkAction(actionClass);
 
-		this.state.setEntryAction(new ActionHolderParameter<TStateMachine, TState, TEvent, T>(
-				new EmbeddedCallAction<TStateMachine, TState, TEvent>(actionClass), parameter));
+		this.state
+				.setEntryAction(new ActionHolderParameter<TStateMachine, TState, TEvent, T>(
+						new ActionClassCallAction<TStateMachine, TState, TEvent>(
+								actionClass), parameter));
 		return this;
 	}
 
 	@Override
 	public ExitActionSyntax<TStateMachine, TState, TEvent> executeOnEntry(
-			final Action<TStateMachine, TState, TEvent> action) {
-		this.state.setEntryAction(new ActionHolderNoParameter<TStateMachine, TState, TEvent>(action));
-		return this;
-	}
-
-	@Override
-	public <T> ExitActionSyntax<TStateMachine, TState, TEvent> executeOnEntry(
-			final Action<TStateMachine, TState, TEvent> action, final T parameter) {
-		this.state.setEntryAction(new ActionHolderParameter<TStateMachine, TState, TEvent, T>(action, parameter));
-		return this;
-	}
-
-	@Override
-	public ExitActionSyntax<TStateMachine, TState, TEvent> executeOnEntry(final Void action) {
+			final Void action) {
 		MethodCall<TStateMachine> call = CallInterceptorBuilder.pop();
-		this.state.setEntryAction(new ActionHolderMethodCall<TStateMachine, TState, TEvent>(call));
+		this.state
+				.setEntryAction(new ActionHolderMethodCall<TStateMachine, TState, TEvent>(
+						call));
 		return this;
 	}
 
 	@Override
 	public ExitActionSyntax<TStateMachine, TState, TEvent> executeOnExit(
-			final Action<TStateMachine, TState, TEvent> action) {
-		this.state.setExitAction(new ActionHolderNoParameter<TStateMachine, TState, TEvent>(action));
-		return this;
-	}
-
-	@Override
-	public <T> EventSyntax<TStateMachine, TState, TEvent> executeOnExit(
-			final Action<TStateMachine, TState, TEvent> action, final T parameter) {
-		this.state.setExitAction(new ActionHolderParameter<TStateMachine, TState, TEvent, T>(action, parameter));
-		return this;
-	}
-
-	@Override
-	public ExitActionSyntax<TStateMachine, TState, TEvent> executeOnExit(final Object action) {
+			final Object action) {
 		MethodCall<TStateMachine> call = CallInterceptorBuilder.pop();
-		this.state.setExitAction(new ActionHolderMethodCall<TStateMachine, TState, TEvent>(call));
+		this.state
+				.setExitAction(new ActionHolderMethodCall<TStateMachine, TState, TEvent>(
+						call));
 		return this;
 	}
 
 	@Override
 	public ExitActionSyntax<TStateMachine, TState, TEvent> executeOnExit(
-			final Class<? extends EmbeddedAction<TStateMachine, TState, TEvent>> actionClass) {
+			final Class<? extends Action<TStateMachine, TState, TEvent>> actionClass) {
 
 		checkAction(actionClass);
 
-		this.state.setExitAction(new ActionHolderNoParameter<TStateMachine, TState, TEvent>(
-				new EmbeddedCallAction<TStateMachine, TState, TEvent>(actionClass)));
+		this.state
+				.setExitAction(new ActionHolderNoParameter<TStateMachine, TState, TEvent>(
+						new ActionClassCallAction<TStateMachine, TState, TEvent>(
+								actionClass)));
 
 		return this;
 	}
 
 	@Override
 	public <T> EventSyntax<TStateMachine, TState, TEvent> executeOnExit(
-			final Class<? extends EmbeddedAction<TStateMachine, TState, TEvent>> actionClass, final T parameter) {
+			final Class<? extends Action<TStateMachine, TState, TEvent>> actionClass,
+			final T parameter) {
 
 		checkAction(actionClass);
 
-		this.state.setExitAction(new ActionHolderParameter<TStateMachine, TState, TEvent, T>(
-				new EmbeddedCallAction<TStateMachine, TState, TEvent>(actionClass), parameter));
+		this.state
+				.setExitAction(new ActionHolderParameter<TStateMachine, TState, TEvent, T>(
+						new ActionClassCallAction<TStateMachine, TState, TEvent>(
+								actionClass), parameter));
 		return this;
 	}
 
@@ -203,7 +191,8 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 	}
 
 	@Override
-	public EventActionSyntax<TStateMachine, TState, TEvent> on(final TEvent eventId) {
+	public EventActionSyntax<TStateMachine, TState, TEvent> on(
+			final TEvent eventId) {
 		this.currentTransition = new TransitionImpl<TStateMachine, TState, TEvent>();
 		this.state.getTransitions().add(eventId, this.currentTransition);
 		return this;
@@ -213,7 +202,9 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 	public EventSyntax<TStateMachine, TState, TEvent> onlyIf(final boolean guard) {
 		final MethodCall<TStateMachine> call = CallInterceptorBuilder.pop();
 		LOG.debug(currentTransition.toString() + " use guard " + call);
-		this.currentTransition.setGuard(new MethodCallFunction<TStateMachine, TState, TEvent>(call));
+		this.currentTransition
+				.setGuard(new MethodCallFunction<TStateMachine, TState, TEvent>(
+						call));
 		return this;
 
 	}
@@ -231,7 +222,8 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 	 * @throws IllegalActionClassDefinitionException
 	 *             if the action definition is not valid
 	 */
-	private void checkAction(final Class<? extends EmbeddedAction<TStateMachine, TState, TEvent>> action) {
+	private void checkAction(
+			final Class<? extends Action<TStateMachine, TState, TEvent>> action) {
 
 		if (!isValidActionDefinition(action)) {
 			throw new IllegalActionClassDefinitionException(
@@ -246,10 +238,12 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 	 * @param action
 	 * @return
 	 */
-	private boolean isValidActionDefinition(final Class<? extends EmbeddedAction<TStateMachine, TState, TEvent>> action) {
+	private boolean isValidActionDefinition(
+			final Class<? extends Action<TStateMachine, TState, TEvent>> action) {
 		try {
 
-			return isRegularOrStaticClass(action) && hasDefaultConstructor(action) && isInstanciable(action);
+			return isRegularOrStaticClass(action)
+					&& hasDefaultConstructor(action) && isInstanciable(action);
 
 		} catch (Exception e) {
 			// In case of no default constructor.
@@ -261,8 +255,11 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 	 * @param action
 	 * @return
 	 */
-	private boolean isRegularOrStaticClass(final Class<? extends EmbeddedAction<TStateMachine, TState, TEvent>> action) {
-		return Modifier.isStatic(action.getModifiers()) || action.getDeclaringClass() == null;
+	private boolean isRegularOrStaticClass(
+			final Class<? extends Action<TStateMachine, TState, TEvent>> action) {
+
+		return Modifier.isStatic(action.getModifiers())
+				|| action.getDeclaringClass() == null;
 	}
 
 	/**
@@ -270,8 +267,10 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 	 * @return
 	 * @throws NoSuchMethodException
 	 */
-	private boolean hasDefaultConstructor(final Class<? extends EmbeddedAction<TStateMachine, TState, TEvent>> action)
+	private boolean hasDefaultConstructor(
+			final Class<? extends Action<TStateMachine, TState, TEvent>> action)
 			throws NoSuchMethodException {
+
 		return action.getConstructor(new Class[0]) != null;
 	}
 
@@ -285,8 +284,11 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 	 * @throws NoSuchMethodException
 	 * @throws SecurityException
 	 */
-	private boolean isInstanciable(final Class<? extends EmbeddedAction<TStateMachine, TState, TEvent>> action)
-			throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+	private boolean isInstanciable(
+			final Class<? extends Action<TStateMachine, TState, TEvent>> action)
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, NoSuchMethodException {
+
 		return action.getConstructor(new Class[0]).newInstance() != null;
 	}
 }

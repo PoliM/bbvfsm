@@ -4,7 +4,7 @@
 package ch.bbv.fsm.dsl;
 
 /**
- * Exception that can be thrown when an {@link ch.bbv.fsm.action.EmbeddedAction} class doesn't is not defined correctly.
+ * Exception that can be thrown when an {@link ch.bbv.fsm.action.Action} class doesn't is not defined correctly.
  * This means that the action class <br>
  * <br>
  * - is it an static class, or <br>

@@ -43,14 +43,14 @@ import java.util.List;
 import ch.bbv.fsm.StateMachine;
 import ch.bbv.fsm.acceptance.action.definition.SimpleStateMachineDefinition.Event;
 import ch.bbv.fsm.acceptance.action.definition.SimpleStateMachineDefinition.State;
-import ch.bbv.fsm.action.EmbeddedAction;
+import ch.bbv.fsm.action.Action;
 import ch.bbv.fsm.impl.AbstractStateMachine;
 
 public class SimpleStateMachine
 		extends
 		AbstractStateMachine<SimpleStateMachine, SimpleStateMachineDefinition.State, SimpleStateMachineDefinition.Event> {
 
-	private final List<EmbeddedAction<SimpleStateMachine, State, Event>> callingActions = new LinkedList<EmbeddedAction<SimpleStateMachine, State, Event>>();
+	private final List<Action<SimpleStateMachine, State, Event>> callingActions = new LinkedList<Action<SimpleStateMachine, State, Event>>();
 
 	private String log = "";
 
@@ -62,11 +62,12 @@ public class SimpleStateMachine
 		super(driver);
 	}
 
-	public void addCallingAction(final EmbeddedAction<SimpleStateMachine, State, Event> callingAction) {
+	public void addCallingAction(
+			final Action<SimpleStateMachine, State, Event> callingAction) {
 		callingActions.add(callingAction);
 	}
 
-	public List<EmbeddedAction<SimpleStateMachine, State, Event>> getCallingActions() {
+	public List<Action<SimpleStateMachine, State, Event>> getCallingActions() {
 		return callingActions;
 	}
 
@@ -76,10 +77,6 @@ public class SimpleStateMachine
 
 	public void log(final String msg) {
 		this.log = msg;
-	}
-
-	public void resetLog() {
-		this.log = "";
 	}
 
 }

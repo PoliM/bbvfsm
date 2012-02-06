@@ -20,7 +20,6 @@ package ch.bbv.fsm.dsl;
 
 import ch.bbv.fsm.StateMachine;
 import ch.bbv.fsm.action.Action;
-import ch.bbv.fsm.action.EmbeddedAction;
 
 /**
  * Entry Action Syntax.
@@ -40,29 +39,6 @@ public interface EntryActionSyntax<TStateMachine extends StateMachine<TState, TE
 	/**
 	 * Defines an entry action.
 	 * 
-	 * @param action
-	 *            the Action
-	 * @return the ExitActionSyntax.
-	 */
-	ExitActionSyntax<TStateMachine, TState, TEvent> executeOnEntry(Action<TStateMachine, TState, TEvent> action);
-
-	/**
-	 * Defines an entry action.
-	 * 
-	 * @param <T>
-	 *            The return type of the action.
-	 * @param action
-	 *            The action.
-	 * @param parameter
-	 *            (necessary?)
-	 * @return the ExitActionSyntax
-	 */
-	<T> ExitActionSyntax<TStateMachine, TState, TEvent> executeOnEntry(Action<TStateMachine, TState, TEvent> action,
-			T parameter);
-
-	/**
-	 * Defines an entry action.
-	 * 
 	 * @param methodCall
 	 *            the method called on entry.
 	 */
@@ -72,12 +48,11 @@ public interface EntryActionSyntax<TStateMachine extends StateMachine<TState, TE
 	 * Defines an entry action.
 	 * 
 	 * @param actionClass
-	 *            the {@link EmbeddedAction} Class
+	 *            the {@link Action} Class
 	 * @return the ExitActionSyntax
-	 * @throws IllegalActionClassDefinitionException
 	 */
 	ExitActionSyntax<TStateMachine, TState, TEvent> executeOnEntry(
-			Class<? extends EmbeddedAction<TStateMachine, TState, TEvent>> actionClass);
+			Class<? extends Action<TStateMachine, TState, TEvent>> actionClass);
 
 	/**
 	 * Defines an entry action.
@@ -85,13 +60,12 @@ public interface EntryActionSyntax<TStateMachine extends StateMachine<TState, TE
 	 * @param <T>
 	 *            The return type of the action.
 	 * @param actionClass
-	 *            The {@link EmbeddedAction} class.
+	 *            The {@link Action} class.
 	 * @param parameter
 	 *            (necessary?)
 	 * @return the ExitActionSyntax
-	 * @throws IllegalActionClassDefinitionException
 	 */
 	<T> ExitActionSyntax<TStateMachine, TState, TEvent> executeOnEntry(
-			Class<? extends EmbeddedAction<TStateMachine, TState, TEvent>> actionClass, T parameter);
+			Class<? extends Action<TStateMachine, TState, TEvent>> actionClass, T parameter);
 
 }

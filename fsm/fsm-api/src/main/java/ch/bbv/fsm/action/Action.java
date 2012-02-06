@@ -21,6 +21,8 @@ package ch.bbv.fsm.action;
 import ch.bbv.fsm.StateMachine;
 
 /**
+ * Defines an explicit Action, which can be executed during the {@link StateMachine} lifecycle.
+ * 
  * @author Ueli Kurmann (bbv Software Services AG)
  * 
  * @param <TStateMachine>

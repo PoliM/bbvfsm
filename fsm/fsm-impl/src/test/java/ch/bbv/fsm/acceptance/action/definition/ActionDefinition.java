@@ -20,9 +20,9 @@ package ch.bbv.fsm.acceptance.action.definition;
 
 import ch.bbv.fsm.acceptance.action.definition.SimpleStateMachineDefinition.Event;
 import ch.bbv.fsm.acceptance.action.definition.SimpleStateMachineDefinition.State;
-import ch.bbv.fsm.action.EmbeddedAction;
+import ch.bbv.fsm.action.Action;
 
-public class ActionDefinition implements EmbeddedAction<SimpleStateMachine, State, Event> {
+public class ActionDefinition implements Action<SimpleStateMachine, State, Event> {
 
 	@Override
 	public void execute(final SimpleStateMachine stateMachine, final Object... arguments) {
@@ -34,7 +34,7 @@ public class ActionDefinition implements EmbeddedAction<SimpleStateMachine, Stat
 	/*
 	 * CLASS
 	 */
-	public static class ActionDefinitionInnerStatic implements EmbeddedAction<SimpleStateMachine, State, Event> {
+	public static class ActionDefinitionInnerStatic implements Action<SimpleStateMachine, State, Event> {
 
 		@Override
 		public void execute(final SimpleStateMachine stateMachine, final Object... arguments) {
@@ -46,7 +46,7 @@ public class ActionDefinition implements EmbeddedAction<SimpleStateMachine, Stat
 		 * CLASS
 		 */
 		public static class ActionDefinitionInnerStaticSecondLevel implements
-				EmbeddedAction<SimpleStateMachine, State, Event> {
+				Action<SimpleStateMachine, State, Event> {
 
 			@Override
 			public void execute(final SimpleStateMachine stateMachine, final Object... arguments) {
@@ -61,7 +61,7 @@ public class ActionDefinition implements EmbeddedAction<SimpleStateMachine, Stat
 	/*
 	 * CLASS
 	 */
-	public class ActionDefinitionInner implements EmbeddedAction<SimpleStateMachine, State, Event> {
+	public class ActionDefinitionInner implements Action<SimpleStateMachine, State, Event> {
 
 		@Override
 		public void execute(final SimpleStateMachine stateMachine, final Object... arguments) {
@@ -72,7 +72,7 @@ public class ActionDefinition implements EmbeddedAction<SimpleStateMachine, Stat
 	}
 
 	public final class ActionDefinitionInnerWithoutDefaultConstructor implements
-			EmbeddedAction<SimpleStateMachine, State, Event> {
+			Action<SimpleStateMachine, State, Event> {
 
 		@Override
 		public void execute(final SimpleStateMachine stateMachine, final Object... arguments) {
@@ -86,7 +86,7 @@ public class ActionDefinition implements EmbeddedAction<SimpleStateMachine, Stat
 	/*
 	 * CLASS
 	 */
-	public static class ActionDefinitionEntry implements EmbeddedAction<SimpleStateMachine, State, Event> {
+	public static class ActionDefinitionEntry implements Action<SimpleStateMachine, State, Event> {
 
 		@Override
 		public void execute(final SimpleStateMachine stateMachine, final Object... arguments) {
@@ -97,7 +97,7 @@ public class ActionDefinition implements EmbeddedAction<SimpleStateMachine, Stat
 		}
 	}
 
-	public static class ActionDefinitionEntryWithParameter implements EmbeddedAction<SimpleStateMachine, State, Event> {
+	public static class ActionDefinitionEntryWithParameter implements Action<SimpleStateMachine, State, Event> {
 
 		@Override
 		public void execute(final SimpleStateMachine stateMachine, final Object... arguments) {

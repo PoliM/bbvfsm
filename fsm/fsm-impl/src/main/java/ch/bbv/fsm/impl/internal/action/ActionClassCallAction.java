@@ -20,10 +20,10 @@ package ch.bbv.fsm.impl.internal.action;
 
 import ch.bbv.fsm.StateMachine;
 import ch.bbv.fsm.action.Action;
-import ch.bbv.fsm.action.EmbeddedAction;
 
 /**
- * Calls a method.
+ * executes an action. The action is defined as a
+ * {@literal Class<? extends Action<TStateMachine, TState, TEvent>>}
  * 
  * @param <TStateMachine>
  *            the type of state machine
@@ -32,24 +32,26 @@ import ch.bbv.fsm.action.EmbeddedAction;
  * @param <TEvent>
  *            the type of the events
  */
-public class EmbeddedCallAction<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>>
+public class ActionClassCallAction<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>>
 		implements Action<TStateMachine, TState, TEvent> {
 
-	private final Class<? extends EmbeddedAction<TStateMachine, TState, TEvent>> methodCall;
+	private final Class<? extends Action<TStateMachine, TState, TEvent>> actionClass;
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param methodCall
+	 * @param actionClass
 	 *            the method to call
 	 */
-	public EmbeddedCallAction(final Class<? extends EmbeddedAction<TStateMachine, TState, TEvent>> methodCall) {
-		this.methodCall = methodCall;
+	public ActionClassCallAction(
+			final Class<? extends Action<TStateMachine, TState, TEvent>> actionClass) {
+		this.actionClass = actionClass;
 	}
 
 	@Override
-	public void execute(final TStateMachine stateMachine, final Object... arguments) {
-		EmbeddedAction<TStateMachine, TState, TEvent> instance = createClassInstance(this.methodCall);
+	public void execute(final TStateMachine stateMachine,
+			final Object... arguments) {
+		Action<TStateMachine, TState, TEvent> instance = createClassInstance(this.actionClass);
 		instance.execute(stateMachine, arguments);
 	}
 
@@ -64,7 +66,6 @@ public class EmbeddedCallAction<TStateMachine extends StateMachine<TState, TEven
 		try {
 			return clazz.getDeclaredConstructor(new Class[0]).newInstance();
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 	}
