@@ -231,8 +231,6 @@ public class ActionDefinitionTest {
 		testee1.start();
 		testee2.start();
 
-		testee1.fire(Event.move);
-
 		Assert.assertEquals("Invalid size", 1, testee1.getCallingActions()
 				.size());
 		Assert.assertEquals("Invalid size", 1, testee2.getCallingActions()

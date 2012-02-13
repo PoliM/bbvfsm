@@ -94,7 +94,8 @@ public class ElevatorStateMachineDefinition
 	/**
 	 * Checks whether the elevator is overloaded.
 	 */
-	private final Function<ElevatorStateMachine, State, Event, Object[], Boolean> checkOverload = new Function<ElevatorStateMachine, State, Event, Object[], Boolean>() {
+	public static class CheckOverloadFunction implements
+			Function<ElevatorStateMachine, State, Event, Object[], Boolean> {
 		@Override
 		public Boolean execute(final ElevatorStateMachine stateMachine,
 				final Object[] arguments) {
@@ -126,13 +127,13 @@ public class ElevatorStateMachineDefinition
 				.goTo(State.DoorOpen)
 				.on(Event.GoUp)
 				.goTo(State.MovingUp)
-				.onlyIf(this.checkOverload)
+				.onlyIf(ElevatorStateMachineDefinition.CheckOverloadFunction.class)
 				.on(Event.GoUp)
 				.execute(
 						ElevatorStateMachineDefinition.AnnounceOverloadAction.class)
 				.on(Event.GoDown)
 				.goTo(State.MovingDown)
-				.onlyIf(this.checkOverload)
+				.onlyIf(ElevatorStateMachineDefinition.CheckOverloadFunction.class)
 				.on(Event.GoUp)
 				.execute(
 						ElevatorStateMachineDefinition.AnnounceOverloadAction.class);

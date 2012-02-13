@@ -29,13 +29,88 @@ import ch.bbv.fsm.impl.StatesAndEvents.Events;
 import ch.bbv.fsm.impl.StatesAndEvents.States;
 
 public class GuardTest {
-	private class Handler extends StateMachineEventAdapter<SimpleStateMachine<States, Events>, States, Events> {
+
+	private class GuardTestStateMachine extends
+			AbstractStateMachine<GuardTestStateMachine, States, Events> {
+
+		private final Object[][] eventArguments = new Object[1][];
+
+		public void setEventArguments(final int position,
+				final Object[] eventArguments) {
+			this.eventArguments[position] = eventArguments;
+		}
+
+		public Object[][] getEventArguments() {
+			return eventArguments;
+		}
+
+		protected GuardTestStateMachine(
+				final StateMachine<States, Events> driver) {
+			super(driver);
+		}
+
+	}
+
+	private class GuardTestStateMachineDefinition
+			extends
+			AbstractStateMachineDefinition<GuardTestStateMachine, States, Events> {
+
+		public GuardTestStateMachineDefinition(final String name,
+				final States initialState) {
+
+			super("GuardTestStateMachine", States.A);
+		}
 
 		@Override
-		public void onTransitionDeclined(final TransitionEventArgs<SimpleStateMachine<States, Events>, States, Events> arg) {
+		protected GuardTestStateMachine createStateMachine(
+				final StateMachine<States, Events> driver) {
+			return new GuardTestStateMachine(driver);
+		}
+
+	}
+
+	private class Handler extends
+			StateMachineEventAdapter<GuardTestStateMachine, States, Events> {
+
+		@Override
+		public void onTransitionDeclined(
+				final TransitionEventArgs<GuardTestStateMachine, States, Events> arg) {
 			GuardTest.this.transitionDeclined = true;
 		}
 	}
+
+	public static class FunctionTrue implements
+			Function<GuardTestStateMachine, States, Events, Object[], Boolean> {
+
+		@Override
+		public Boolean execute(final GuardTestStateMachine stateMachine,
+				final Object[] parameter) {
+			return true;
+		}
+	}
+
+	public static class FunctionFalse implements
+			Function<GuardTestStateMachine, States, Events, Object[], Boolean> {
+
+		@Override
+		public Boolean execute(final GuardTestStateMachine stateMachine,
+				final Object[] parameter) {
+			return false;
+		}
+	}
+
+	public static class FunctionTrueWithArgs implements
+			Function<GuardTestStateMachine, States, Events, Object[], Boolean> {
+
+		@Override
+		public Boolean execute(final GuardTestStateMachine stateMachine,
+				final Object[] parameter) {
+
+			stateMachine.setEventArguments(0, parameter);
+			return true;
+		}
+
+	};
 
 	private boolean transitionDeclined = false;
 
@@ -45,22 +120,17 @@ public class GuardTest {
 	@Test
 	public void allGuardsReturnFalse() {
 
-		final Function<SimpleStateMachine<States, Events>, States, Events, Object[], Boolean> f1 = new Function<SimpleStateMachine<States, Events>, States, Events, Object[], Boolean>() {
-
-			@Override
-			public Boolean execute(final SimpleStateMachine<States, Events> stateMachine, final Object[] parameter) {
-				return false;
-			}
-		};
-
-		final SimpleStateMachineDefinition<States, Events> stateMachineDefinition = new SimpleStateMachineDefinition<States, Events>(
+		final GuardTestStateMachineDefinition stateMachineDefinition = new GuardTestStateMachineDefinition(
 				"allGuardsReturnFalse", States.A);
 
 		stateMachineDefinition.addEventHandler(new Handler());
 
-		stateMachineDefinition.in(States.A).on(Events.A).goTo(States.B).onlyIf(f1).on(Events.A).goTo(States.C).onlyIf(f1);
+		stateMachineDefinition.in(States.A).on(Events.A).goTo(States.B)
+				.onlyIf(GuardTest.FunctionFalse.class).on(Events.A)
+				.goTo(States.C).onlyIf(GuardTest.FunctionFalse.class);
 
-		final StateMachine<States, Events> fsm = stateMachineDefinition.createPassiveStateMachine("allGuardsReturnFalse", States.A);
+		final StateMachine<States, Events> fsm = stateMachineDefinition
+				.createPassiveStateMachine("allGuardsReturnFalse", States.A);
 		fsm.start();
 
 		fsm.fire(Events.A);
@@ -74,61 +144,40 @@ public class GuardTest {
 	 */
 	@Test
 	public void eventArgumentsArePassedToTheGuard() {
+
 		final Object[] originalEventArguments = new Object[] { 1, 2, "test" };
 
-		final Object[][] eventArguments = new Object[1][];
-
-		final Function<SimpleStateMachine<States, Events>, States, Events, Object[], Boolean> f1 = new Function<SimpleStateMachine<States, Events>, States, Events, Object[], Boolean>() {
-
-			@Override
-			public Boolean execute(final SimpleStateMachine<States, Events> stateMachine, final Object[] parameter) {
-				eventArguments[0] = parameter;
-				return true;
-			}
-
-		};
-		final SimpleStateMachineDefinition<States, Events> stateMachineDefinition = new SimpleStateMachineDefinition<States, Events>(
+		final GuardTestStateMachineDefinition stateMachineDefinition = new GuardTestStateMachineDefinition(
 				"eventArgumentsArePassedToTheGuard", States.A);
 
-		stateMachineDefinition.in(States.A).on(Events.A).goTo(States.B).onlyIf(f1);
+		stateMachineDefinition.in(States.A).on(Events.A).goTo(States.B)
+				.onlyIf(GuardTest.FunctionTrueWithArgs.class);
 
-		final StateMachine<States, Events> fsm = stateMachineDefinition.createPassiveStateMachine("allGuardsReturnFalse", States.A);
+		final GuardTestStateMachine fsm = stateMachineDefinition
+				.createPassiveStateMachine("allGuardsReturnFalse", States.A);
 		fsm.start();
 
 		fsm.fire(Events.A, originalEventArguments);
 
-		Assert.assertSame(originalEventArguments, eventArguments[0]);
+		Assert.assertSame(originalEventArguments, fsm.getEventArguments()[0]);
 	}
 
 	/**
-	 * Only the transition with a guard returning true is executed and the event arguments are passed to the guard.
+	 * Only the transition with a guard returning true is executed and the event
+	 * arguments are passed to the guard.
 	 */
 	@Test
 	public void transitionWithGuardReturningTrueIsExecuted() {
-		final Function<SimpleStateMachine<States, Events>, States, Events, Object[], Boolean> f1 = new Function<SimpleStateMachine<States, Events>, States, Events, Object[], Boolean>() {
 
-			@Override
-			public Boolean execute(final SimpleStateMachine<States, Events> stateMachine, final Object[] parameter) {
-				return false;
-			}
-
-		};
-
-		final Function<SimpleStateMachine<States, Events>, States, Events, Object[], Boolean> f2 = new Function<SimpleStateMachine<States, Events>, States, Events, Object[], Boolean>() {
-
-			@Override
-			public Boolean execute(final SimpleStateMachine<States, Events> stateMachine, final Object[] parameter) {
-				return true;
-			}
-
-		};
-
-		final SimpleStateMachineDefinition<States, Events> stateMachineDefinition = new SimpleStateMachineDefinition<States, Events>(
+		final GuardTestStateMachineDefinition stateMachineDefinition = new GuardTestStateMachineDefinition(
 				"transitionWithGuardReturningTrueIsExecuted", States.A);
 
-		stateMachineDefinition.in(States.A).on(Events.A).goTo(States.B).onlyIf(f1).on(Events.A).goTo(States.C).onlyIf(f2);
+		stateMachineDefinition.in(States.A).on(Events.A).goTo(States.B)
+				.onlyIf(GuardTest.FunctionFalse.class).on(Events.A)
+				.goTo(States.C).onlyIf(GuardTest.FunctionTrue.class);
 
-		final StateMachine<States, Events> fsm = stateMachineDefinition.createPassiveStateMachine("allGuardsReturnFalse", States.A);
+		final StateMachine<States, Events> fsm = stateMachineDefinition
+				.createPassiveStateMachine("allGuardsReturnFalse", States.A);
 		fsm.start();
 
 		fsm.fire(Events.A);

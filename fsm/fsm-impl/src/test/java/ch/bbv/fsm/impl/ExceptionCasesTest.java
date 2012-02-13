@@ -32,13 +32,14 @@ import ch.bbv.fsm.impl.StatesAndEvents.Events;
 import ch.bbv.fsm.impl.StatesAndEvents.States;
 
 public class ExceptionCasesTest {
+
 	private class Handler
 			extends
-			StateMachineEventAdapter<SimpleStateMachine<States, Events>, States, Events> {
+			StateMachineEventAdapter<ExceptionCasesTestStateMachine, States, Events> {
 
 		@Override
 		public void onExceptionThrown(
-				final ExceptionEventArgs<SimpleStateMachine<States, Events>, States, Events> eventArgs) {
+				final ExceptionEventArgs<ExceptionCasesTestStateMachine, States, Events> eventArgs) {
 			if (eventArgs != null) {
 				ExceptionCasesTest.this.recordedException = eventArgs
 						.getException();
@@ -48,14 +49,14 @@ public class ExceptionCasesTest {
 
 		@Override
 		public void onTransitionDeclined(
-				final TransitionEventArgs<SimpleStateMachine<States, Events>, States, Events> arg) {
+				final TransitionEventArgs<ExceptionCasesTestStateMachine, States, Events> arg) {
 			ExceptionCasesTest.this.transitionDeclined = true;
 
 		}
 
 		@Override
 		public void onTransitionThrowsException(
-				final TransitionExceptionEventArgs<SimpleStateMachine<States, Events>, States, Events> eventArgs) {
+				final TransitionExceptionEventArgs<ExceptionCasesTestStateMachine, States, Events> eventArgs) {
 
 			ExceptionCasesTest.this.recordedStateId = eventArgs.getStateId();
 			ExceptionCasesTest.this.recordedEventId = eventArgs.getEventId();
@@ -68,14 +69,48 @@ public class ExceptionCasesTest {
 
 	}
 
+	private class ExceptionCasesTestStateMachine
+			extends
+			AbstractStateMachine<ExceptionCasesTestStateMachine, States, Events> {
+
+		private final RuntimeException e = new RuntimeException();
+
+		public RuntimeException getException() {
+			return e;
+		}
+
+		protected ExceptionCasesTestStateMachine(
+				final StateMachine<States, Events> driver) {
+			super(driver);
+		}
+
+	}
+
+	private class ExceptionCasesTestStateMachineDefinition
+			extends
+			AbstractStateMachineDefinition<ExceptionCasesTestStateMachine, States, Events> {
+
+		public ExceptionCasesTestStateMachineDefinition(final String name,
+				final States initialState) {
+
+			super("ExceptionCasesTestStateMachine", States.A);
+		}
+
+		@Override
+		protected ExceptionCasesTestStateMachine createStateMachine(
+				final StateMachine<States, Events> driver) {
+			return new ExceptionCasesTestStateMachine(driver);
+		}
+
+	}
+
 	public static class ThrowExceptionAction implements
-			Action<SimpleStateMachine<States, Events>, States, Events> {
+			Action<ExceptionCasesTestStateMachine, States, Events> {
 
 		private static RuntimeException exception = new RuntimeException();
 
 		@Override
-		public void execute(
-				final SimpleStateMachine<States, Events> stateMachine,
+		public void execute(final ExceptionCasesTestStateMachine stateMachine,
 				final Object... arguments) {
 
 			throw exception;
@@ -122,6 +157,19 @@ public class ExceptionCasesTest {
 
 	private final Class<ThrowExceptionAction> throwException = ThrowExceptionAction.class;
 
+	public static class ThrowExceptionFunction
+			implements
+			Function<ExceptionCasesTestStateMachine, States, Events, Object[], Boolean> {
+
+		@Override
+		public Boolean execute(
+				final ExceptionCasesTestStateMachine stateMachine,
+				final Object[] parameter) {
+
+			throw stateMachine.getException();
+		}
+	}
+
 	/**
 	 * Asserts that the correct exception was notified.
 	 */
@@ -148,7 +196,7 @@ public class ExceptionCasesTest {
 
 		final Object[] eventArguments = new Object[] { 1, 2, "test" };
 
-		final SimpleStateMachineDefinition<States, Events> def = new SimpleStateMachineDefinition<States, Events>(
+		final ExceptionCasesTestStateMachineDefinition def = new ExceptionCasesTestStateMachineDefinition(
 				"exceptionThrowingAction", States.A);
 
 		def.in(States.A).on(Events.B).goTo(States.B).execute(throwException);
@@ -172,7 +220,7 @@ public class ExceptionCasesTest {
 
 		final Object[] eventArguments = new Object[] { 1, 2, "test" };
 
-		final SimpleStateMachineDefinition<States, Events> def = new SimpleStateMachineDefinition<States, Events>(
+		final ExceptionCasesTestStateMachineDefinition def = new ExceptionCasesTestStateMachineDefinition(
 				"exceptionThrowingEntryAction", States.A);
 		def.addEventHandler(new Handler());
 		def.in(States.A).on(Events.B).goTo(States.B);
@@ -198,7 +246,7 @@ public class ExceptionCasesTest {
 
 		final Object[] eventArguments = new Object[] { 1, 2, "test" };
 
-		final SimpleStateMachineDefinition<States, Events> def = new SimpleStateMachineDefinition<States, Events>(
+		final ExceptionCasesTestStateMachineDefinition def = new ExceptionCasesTestStateMachineDefinition(
 				"exceptionThrowingExitAction", States.A);
 		def.addEventHandler(new Handler());
 		def.in(States.A).executeOnExit(throwException).on(Events.B)
@@ -223,29 +271,21 @@ public class ExceptionCasesTest {
 	@Test
 	public void exceptionThrowingGuard() {
 		final Object[] eventArguments = new Object[] { 1, 2, "test" };
-		final RuntimeException e = new RuntimeException();
 
-		final Function<SimpleStateMachine<States, Events>, States, Events, Object[], Boolean> f1 = new Function<SimpleStateMachine<States, Events>, States, Events, Object[], Boolean>() {
-			@Override
-			public Boolean execute(
-					final SimpleStateMachine<States, Events> stateMachine,
-					final Object[] parameter) {
-				throw e;
-			}
-		};
-
-		final SimpleStateMachineDefinition<States, Events> def = new SimpleStateMachineDefinition<States, Events>(
+		final ExceptionCasesTestStateMachineDefinition def = new ExceptionCasesTestStateMachineDefinition(
 				"exceptionThrowingGuard", States.A);
-		def.in(States.A).on(Events.B).goTo(States.B).onlyIf(f1);
+		def.in(States.A).on(Events.B).goTo(States.B)
+				.onlyIf(ExceptionCasesTest.ThrowExceptionFunction.class);
 
 		def.addEventHandler(new Handler());
 
-		final StateMachine<States, Events> testee = def
+		final ExceptionCasesTestStateMachine testee = def
 				.createPassiveStateMachine("testee", States.A);
 		testee.start();
 		testee.fire(Events.B, eventArguments);
 
-		this.assertException(States.A, Events.B, eventArguments, e);
+		this.assertException(States.A, Events.B, eventArguments,
+				testee.getException());
 		Assert.assertEquals(States.A, testee.getCurrentState());
 		Assert.assertTrue(this.transitionDeclined);
 

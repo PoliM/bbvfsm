@@ -34,10 +34,11 @@ import ch.bbv.fsm.dsl.ExitActionSyntax;
 import ch.bbv.fsm.dsl.GotoSyntax;
 import ch.bbv.fsm.dsl.IllegalActionClassDefinitionException;
 import ch.bbv.fsm.guard.Function;
+import ch.bbv.fsm.impl.internal.action.ActionClassCallAction;
 import ch.bbv.fsm.impl.internal.action.ActionHolderMethodCall;
 import ch.bbv.fsm.impl.internal.action.ActionHolderNoParameter;
 import ch.bbv.fsm.impl.internal.action.ActionHolderParameter;
-import ch.bbv.fsm.impl.internal.action.ActionClassCallAction;
+import ch.bbv.fsm.impl.internal.action.FunctionClassCallFunction;
 import ch.bbv.fsm.impl.internal.action.MethodCallAction;
 import ch.bbv.fsm.impl.internal.action.MethodCallFunction;
 import ch.bbv.fsm.impl.internal.aop.CallInterceptorBuilder;
@@ -100,7 +101,7 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 	public ExecuteSyntax<TStateMachine, TState, TEvent> execute(
 			final Class<? extends Action<TStateMachine, TState, TEvent>> embeddedAction) {
 
-		checkAction(embeddedAction);
+		checkClassDefinition(embeddedAction);
 
 		this.currentTransition.getActions().add(
 				new ActionClassCallAction<TStateMachine, TState, TEvent>(
@@ -112,7 +113,7 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 	public ExitActionSyntax<TStateMachine, TState, TEvent> executeOnEntry(
 			final Class<? extends Action<TStateMachine, TState, TEvent>> action) {
 
-		checkAction(action);
+		checkClassDefinition(action);
 
 		this.state
 				.setEntryAction(new ActionHolderNoParameter<TStateMachine, TState, TEvent>(
@@ -127,7 +128,7 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 			final Class<? extends Action<TStateMachine, TState, TEvent>> actionClass,
 			final T parameter) {
 
-		checkAction(actionClass);
+		checkClassDefinition(actionClass);
 
 		this.state
 				.setEntryAction(new ActionHolderParameter<TStateMachine, TState, TEvent, T>(
@@ -160,7 +161,7 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 	public ExitActionSyntax<TStateMachine, TState, TEvent> executeOnExit(
 			final Class<? extends Action<TStateMachine, TState, TEvent>> actionClass) {
 
-		checkAction(actionClass);
+		checkClassDefinition(actionClass);
 
 		this.state
 				.setExitAction(new ActionHolderNoParameter<TStateMachine, TState, TEvent>(
@@ -175,7 +176,7 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 			final Class<? extends Action<TStateMachine, TState, TEvent>> actionClass,
 			final T parameter) {
 
-		checkAction(actionClass);
+		checkClassDefinition(actionClass);
 
 		this.state
 				.setExitAction(new ActionHolderParameter<TStateMachine, TState, TEvent, T>(
@@ -211,9 +212,16 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 
 	@Override
 	public EventSyntax<TStateMachine, TState, TEvent> onlyIf(
-			final Function<TStateMachine, TState, TEvent, Object[], Boolean> guard) {
-		this.currentTransition.setGuard(guard);
+			final Class<? extends Function<TStateMachine, TState, TEvent, Object[], Boolean>> guard) {
+
+		checkClassDefinition(guard);
+
+		this.currentTransition
+				.setGuard(new FunctionClassCallFunction<TStateMachine, TState, TEvent, Object[], Boolean>(
+						guard));
+
 		return this;
+
 	}
 
 	/**
@@ -222,12 +230,11 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 	 * @throws IllegalActionClassDefinitionException
 	 *             if the action definition is not valid
 	 */
-	private void checkAction(
-			final Class<? extends Action<TStateMachine, TState, TEvent>> action) {
+	private <TClassType> void checkClassDefinition(final Class<?> action) {
 
 		if (!isValidActionDefinition(action)) {
 			throw new IllegalActionClassDefinitionException(
-					"Action class "
+					" class "
 							+ action.getName()
 							+ " must be either static or not have a declaring class. The default constructor must also be accesible.",
 					null);
@@ -235,11 +242,11 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 	}
 
 	/**
+	 * @param <TClassType>
 	 * @param action
 	 * @return
 	 */
-	private boolean isValidActionDefinition(
-			final Class<? extends Action<TStateMachine, TState, TEvent>> action) {
+	private <TClassType> boolean isValidActionDefinition(final Class<?> action) {
 		try {
 
 			return isRegularOrStaticClass(action)
@@ -255,8 +262,7 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 	 * @param action
 	 * @return
 	 */
-	private boolean isRegularOrStaticClass(
-			final Class<? extends Action<TStateMachine, TState, TEvent>> action) {
+	private boolean isRegularOrStaticClass(final Class<?> action) {
 
 		return Modifier.isStatic(action.getModifiers())
 				|| action.getDeclaringClass() == null;
@@ -267,8 +273,7 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 	 * @return
 	 * @throws NoSuchMethodException
 	 */
-	private boolean hasDefaultConstructor(
-			final Class<? extends Action<TStateMachine, TState, TEvent>> action)
+	private boolean hasDefaultConstructor(final Class<?> action)
 			throws NoSuchMethodException {
 
 		return action.getConstructor(new Class[0]) != null;
@@ -284,8 +289,7 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 	 * @throws NoSuchMethodException
 	 * @throws SecurityException
 	 */
-	private boolean isInstanciable(
-			final Class<? extends Action<TStateMachine, TState, TEvent>> action)
+	private boolean isInstanciable(final Class<?> action)
 			throws InstantiationException, IllegalAccessException,
 			InvocationTargetException, NoSuchMethodException {
 
