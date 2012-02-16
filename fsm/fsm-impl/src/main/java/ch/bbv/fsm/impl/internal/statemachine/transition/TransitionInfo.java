@@ -19,6 +19,7 @@
 package ch.bbv.fsm.impl.internal.statemachine.transition;
 
 import ch.bbv.fsm.StateMachine;
+import ch.bbv.fsm.impl.internal.model.visitor.Visitor;
 import ch.bbv.fsm.impl.internal.statemachine.state.State;
 
 /**
@@ -33,7 +34,7 @@ import ch.bbv.fsm.impl.internal.statemachine.state.State;
  * @param <TEvent>
  *            the type of the events
  */
-class TransitionInfo<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>> {
+public class TransitionInfo<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>> {
 	private TEvent eventId;
 	private State<TStateMachine, TState, TEvent> source;
 	private State<TStateMachine, TState, TEvent> target;
@@ -54,8 +55,10 @@ class TransitionInfo<TStateMachine extends StateMachine<TState, TEvent>, TState 
 	 * @param actions
 	 *            the number of actions
 	 */
-	public TransitionInfo(final TEvent eventId, final State<TStateMachine, TState, TEvent> source, final State<TStateMachine, TState, TEvent> target, final boolean hasGuard,
-			final int actions) {
+	public TransitionInfo(final TEvent eventId,
+			final State<TStateMachine, TState, TEvent> source,
+			final State<TStateMachine, TState, TEvent> target,
+			final boolean hasGuard, final int actions) {
 		this.eventId = eventId;
 		this.source = source;
 		this.target = target;
@@ -156,6 +159,18 @@ class TransitionInfo<TStateMachine extends StateMachine<TState, TEvent>, TState 
 	 */
 	public void setTarget(final State<TStateMachine, TState, TEvent> target) {
 		this.target = target;
+	}
+
+	/**
+	 * Accepts a {@link #Visitor}.
+	 * 
+	 * @param visitor
+	 *            the visitor.
+	 */
+	public void accept(final Visitor<TStateMachine, TState, TEvent> visitor) {
+
+		visitor.visitOnEntry(this);
+		visitor.visitOnExit(this);
 	}
 
 }

@@ -18,6 +18,7 @@
  *******************************************************************************/
 package ch.bbv.fsm;
 
+import ch.bbv.fsm.documentation.DocumentationGenerator;
 import ch.bbv.fsm.dsl.EntryActionSyntax;
 import ch.bbv.fsm.events.StateMachineEventHandler;
 
@@ -35,8 +36,8 @@ import ch.bbv.fsm.events.StateMachineEventHandler;
 public interface StateMachineDefinition<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>> {
 
 	/**
-	 * Returns the state machine's default initial state. This state will be used as initial state if the state machine is created using
-	 * {@link #createActiveStateMachine(String)} or {@link #createPassiveStateMachine(String)}.
+	 * Returns the state machine's default initial state. This state will be used as initial state if the state machine
+	 * is created using {@link #createActiveStateMachine(String)} or {@link #createPassiveStateMachine(String)}.
 	 */
 	TState getInitialState();
 
@@ -60,7 +61,8 @@ public interface StateMachineDefinition<TStateMachine extends StateMachine<TStat
 	 * @param subStateIds
 	 *            the sub state id's.
 	 */
-	void defineHierarchyOn(TState superStateId, TState initialSubStateId, HistoryType historyType, TState... subStateIds);
+	void defineHierarchyOn(TState superStateId, TState initialSubStateId, HistoryType historyType,
+			TState... subStateIds);
 
 	/**
 	 * Returns the name of this state machine.
@@ -118,4 +120,30 @@ public interface StateMachineDefinition<TStateMachine extends StateMachine<TStat
 	 *            the state machine's name
 	 */
 	TStateMachine createPassiveStateMachine(String name);
+
+	/**
+	 * Generates the documentation for the StateMachineDefinition.
+	 * 
+	 * @param documentGenerator
+	 *            the generator in charge of creating the documentation.
+	 * @param <TDocumentationFormat>
+	 *            the format of the Documentation.
+	 * @return TDocumentationFormat the format of the Documentation.
+	 */
+	<TDocumentationFormat> TDocumentationFormat generateDocumentation(
+			final DocumentationGenerator<TDocumentationFormat, TStateMachine, TState, TEvent> documentGenerator);
+
+	/**
+	 * Generates the decision table documentation for the StateMachineDefinition.
+	 * 
+	 * @param documentGenerator
+	 *            the generator in charge of creating the documentation.
+	 * @param <TDocumentationFormat>
+	 *            the format of the Documentation.
+	 * 
+	 * @return TDocumentationFormat the format of the Documentation.
+	 */
+	<TDocumentationFormat> TDocumentationFormat generateDecisionTableDocumentation(
+			final DocumentationGenerator<TDocumentationFormat, TStateMachine, TState, TEvent> documentGenerator);
+
 }

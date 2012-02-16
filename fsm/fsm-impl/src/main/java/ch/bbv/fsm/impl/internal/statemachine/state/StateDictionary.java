@@ -58,7 +58,8 @@ public class StateDictionary<TStateMachine extends StateMachine<TState, TEvent>,
 	 */
 	public State<TStateMachine, TState, TEvent> getState(final TState stateId) {
 		if (!this.dictionary.containsKey(stateId)) {
-			this.dictionary.putIfAbsent(stateId, new StateImpl<TStateMachine, TState, TEvent>(stateId));
+			this.dictionary.putIfAbsent(stateId,
+					new StateImpl<TStateMachine, TState, TEvent>(stateId));
 		}
 
 		return this.dictionary.get(stateId);

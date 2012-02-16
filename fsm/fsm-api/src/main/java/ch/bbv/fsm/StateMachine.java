@@ -74,8 +74,9 @@ public interface StateMachine<TState extends Enum<?>, TEvent extends Enum<?>> {
 	boolean isIdle();
 
 	/**
-	 * Starts the state machine. Events will be processed. If the state machine is not started then the events will be queued until the state machine is started. Already queued
-	 * events are processed. If there is an entry action defined on the initial state, this entry action will be executed.
+	 * Starts the state machine. Events will be processed. If the state machine is not started then the events will be
+	 * queued until the state machine is started. Already queued events are processed. If there is an entry action
+	 * defined on the initial state, this entry action will be executed.
 	 */
 	void start();
 
@@ -88,4 +89,5 @@ public interface StateMachine<TState extends Enum<?>, TEvent extends Enum<?>> {
 	 * Returns the current state.
 	 */
 	TState getCurrentState();
+
 }

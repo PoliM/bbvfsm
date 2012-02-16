@@ -21,6 +21,7 @@ package ch.bbv.fsm.impl.internal.statemachine.state;
 import ch.bbv.fsm.HistoryType;
 import ch.bbv.fsm.StateMachine;
 import ch.bbv.fsm.impl.internal.action.ActionHolder;
+import ch.bbv.fsm.impl.internal.model.visitor.Visitor;
 import ch.bbv.fsm.impl.internal.statemachine.transition.TransitionContext;
 import ch.bbv.fsm.impl.internal.statemachine.transition.TransitionDictionary;
 import ch.bbv.fsm.impl.internal.statemachine.transition.TransitionResult;
@@ -48,13 +49,17 @@ public interface State<TStateMachine extends StateMachine<TState, TEvent>, TStat
 	void addSubState(State<TStateMachine, TState, TEvent> state);
 
 	/**
-	 * Enters this state by its history depending on its <code>HistoryType</code>. The <code>Entry</code> method has to be called already.
+	 * Enters this state by its history depending on its
+	 * <code>HistoryType</code>. The <code>Entry</code> method has to be called
+	 * already.
 	 * 
 	 * @param stateContext
 	 *            the state context.
-	 * @return the active state. (depends on this states <code>HistoryType</code>)
+	 * @return the active state. (depends on this states
+	 *         <code>HistoryType</code>)
 	 */
-	State<TStateMachine, TState, TEvent> enterByHistory(StateContext<TStateMachine, TState, TEvent> stateContext);
+	State<TStateMachine, TState, TEvent> enterByHistory(
+			StateContext<TStateMachine, TState, TEvent> stateContext);
 
 	/**
 	 * Enters this state is deep mode: mode if there is one.
@@ -63,16 +68,19 @@ public interface State<TStateMachine extends StateMachine<TState, TEvent>, TStat
 	 *            the event context.
 	 * @return the active state.
 	 */
-	State<TStateMachine, TState, TEvent> enterDeep(StateContext<TStateMachine, TState, TEvent> stateContext);
+	State<TStateMachine, TState, TEvent> enterDeep(
+			StateContext<TStateMachine, TState, TEvent> stateContext);
 
 	/**
-	 * Enters this state is shallow mode: The entry action is executed and the initial state is entered in shallow mode if there is one.
+	 * Enters this state is shallow mode: The entry action is executed and the
+	 * initial state is entered in shallow mode if there is one.
 	 * 
 	 * @param stateContext
 	 *            the event context.
 	 * @return the active state.
 	 */
-	State<TStateMachine, TState, TEvent> enterShallow(StateContext<TStateMachine, TState, TEvent> stateContext);
+	State<TStateMachine, TState, TEvent> enterShallow(
+			StateContext<TStateMachine, TState, TEvent> stateContext);
 
 	/**
 	 * Enters this state.
@@ -97,7 +105,8 @@ public interface State<TStateMachine extends StateMachine<TState, TEvent>, TStat
 	 *            the event context.
 	 * @return the result of the transition.
 	 */
-	TransitionResult<TStateMachine, TState, TEvent> fire(TransitionContext<TStateMachine, TState, TEvent> context);
+	TransitionResult<TStateMachine, TState, TEvent> fire(
+			TransitionContext<TStateMachine, TState, TEvent> context);
 
 	/**
 	 * Returns the entry action.
@@ -211,5 +220,13 @@ public interface State<TStateMachine extends StateMachine<TState, TEvent>, TStat
 	 *            the super-state.
 	 */
 	void setSuperState(State<TStateMachine, TState, TEvent> superState);
+
+	/**
+	 * Accepts a {@link #Visitor}.
+	 * 
+	 * @param visitor
+	 *            the visitor.
+	 */
+	void accept(final Visitor<TStateMachine, TState, TEvent> visitor);
 
 }
