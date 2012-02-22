@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 import ch.bbv.fsm.StateMachine;
 import ch.bbv.fsm.action.Action;
 import ch.bbv.fsm.guard.Function;
-import ch.bbv.fsm.impl.internal.statemachine.state.State;
+import ch.bbv.fsm.impl.internal.statemachine.state.InternalState;
 import ch.bbv.fsm.impl.internal.statemachine.state.StateContext;
 
 import com.google.common.collect.Lists;
@@ -51,9 +51,9 @@ public class TransitionImpl<TStateMachine extends StateMachine<TState, TEvent>, 
 	 */
 	private final List<Action<TStateMachine, TState, TEvent>> actions;
 
-	private State<TStateMachine, TState, TEvent> source;
+	private InternalState<TStateMachine, TState, TEvent> source;
 
-	private State<TStateMachine, TState, TEvent> target;
+	private InternalState<TStateMachine, TState, TEvent> target;
 
 	private Function<TStateMachine, TState, TEvent, Object[], Boolean> guard;
 
@@ -96,7 +96,7 @@ public class TransitionImpl<TStateMachine extends StateMachine<TState, TEvent>, 
 	 * @param context
 	 *            the state context
 	 */
-	private void fire(final State<TStateMachine, TState, TEvent> source, final State<TStateMachine, TState, TEvent> target,
+	private void fire(final InternalState<TStateMachine, TState, TEvent> source, final InternalState<TStateMachine, TState, TEvent> target,
 			final Object[] eventArguments, final TransitionContext<TStateMachine, TState, TEvent> context) {
 		if (source == this.getTarget()) {
 			// Handles 1.
@@ -149,7 +149,7 @@ public class TransitionImpl<TStateMachine extends StateMachine<TState, TEvent>, 
 
 		context.getNotifier().onTransitionBegin(context);
 
-		State<TStateMachine, TState, TEvent> newState = context.getState();
+		InternalState<TStateMachine, TState, TEvent> newState = context.getState();
 
 		if (!this.isInternalTransition()) {
 			this.unwindSubStates(context.getState(), context);
@@ -175,12 +175,12 @@ public class TransitionImpl<TStateMachine extends StateMachine<TState, TEvent>, 
 	}
 
 	@Override
-	public State<TStateMachine, TState, TEvent> getSource() {
+	public InternalState<TStateMachine, TState, TEvent> getSource() {
 		return this.source;
 	}
 
 	@Override
-	public State<TStateMachine, TState, TEvent> getTarget() {
+	public InternalState<TStateMachine, TState, TEvent> getTarget() {
 		return this.target;
 	}
 
@@ -229,17 +229,17 @@ public class TransitionImpl<TStateMachine extends StateMachine<TState, TEvent>, 
 	}
 
 	@Override
-	public void setSource(final State<TStateMachine, TState, TEvent> source) {
+	public void setSource(final InternalState<TStateMachine, TState, TEvent> source) {
 		this.source = source;
 	}
 
 	@Override
-	public void setTarget(final State<TStateMachine, TState, TEvent> target) {
+	public void setTarget(final InternalState<TStateMachine, TState, TEvent> target) {
 		this.target = target;
 	}
 
 	@Override
-	public void setTargetState(final State<TStateMachine, TState, TEvent> targetState) {
+	public void setTargetState(final InternalState<TStateMachine, TState, TEvent> targetState) {
 		this.target = targetState;
 	}
 
@@ -280,9 +280,9 @@ public class TransitionImpl<TStateMachine extends StateMachine<TState, TEvent>, 
 	 * @param stateContext
 	 *            the state context
 	 */
-	private void unwindSubStates(final State<TStateMachine, TState, TEvent> origin,
+	private void unwindSubStates(final InternalState<TStateMachine, TState, TEvent> origin,
 			final StateContext<TStateMachine, TState, TEvent> stateContext) {
-		for (State<TStateMachine, TState, TEvent> o = origin; o != this.getSource(); o = o.getSuperState()) {
+		for (InternalState<TStateMachine, TState, TEvent> o = origin; o != this.getSource(); o = o.getSuperState()) {
 			o.exit(stateContext);
 		}
 	}

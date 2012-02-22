@@ -62,7 +62,7 @@ abstract class AbstractStateMachineDriver<TStateMachine extends StateMachine<TSt
 	public void start() {
 		if (RunningState.Created != getRunningState()) {
 			throw new IllegalStateException(
-					"Starting the statemachine is not allowed in this state. State is "
+					"Starting the statemachine is not allowed in this state. InternalState is "
 							+ getRunningState().name());
 		}
 		runningState = RunningState.Running;

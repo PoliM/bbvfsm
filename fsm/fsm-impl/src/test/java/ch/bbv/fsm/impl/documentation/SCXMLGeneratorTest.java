@@ -15,7 +15,7 @@ import ch.bbv.fsm.impl.SimpleStateMachine;
 import ch.bbv.fsm.impl.SimpleStateMachineDefinition;
 import ch.bbv.fsm.impl.StatesAndEvents.Events;
 import ch.bbv.fsm.impl.StatesAndEvents.States;
-import ch.bbv.fsm.impl.documentation.scxml.SCXMLGenerator;
+import ch.bbv.fsm.impl.documentation.scxml.SCXMLVisitor;
 
 public class SCXMLGeneratorTest {
 
@@ -37,7 +37,7 @@ public class SCXMLGeneratorTest {
 	//
 	// System.out.println(result);
 	//
-	// State state_A = (State) parsedObject.getChildren().get(
+	// InternalState state_A = (InternalState) parsedObject.getChildren().get(
 	// States.A.toString());
 	// Transition transition_A_B = (Transition) state_A.getTransitionsList()
 	// .get(0);
@@ -65,15 +65,17 @@ public class SCXMLGeneratorTest {
 				States.D, States.E);
 
 		// Action
-		StringBuffer result = definition
-				.generateDocumentation(new SCXMLGenerator<SimpleStateMachine<States, Events>, States, Events>());
+		SCXMLVisitor<SimpleStateMachine<States, Events>, States, Events> visitor = new SCXMLVisitor<SimpleStateMachine<States, Events>, States, Events>();
+		definition.traverseModel(visitor);
+		StringBuffer result = visitor.getScxml();
+
 		SCXML parsedObject = (SCXML) SCXMLParser.newInstance().parse(
 				new StringReader(result.toString()));
 
 		State state_C = (State) parsedObject.getChildren().get(
 				States.C.toString());
 		Assert.assertEquals(
-				"Invalid number of States in the Root State/Scope.", 3,
+				"Invalid number of States in the Root InternalState/Scope.", 3,
 				parsedObject.getChildren().size());
 		Assert.assertEquals("Invalid number of States in the SuperScope_C", 2,
 				state_C.getChildren().size());
@@ -104,8 +106,10 @@ public class SCXMLGeneratorTest {
 				States.C1, States.C2);
 
 		// Action
-		StringBuffer result = definition
-				.generateDocumentation(new SCXMLGenerator<SimpleStateMachine<States, Events>, States, Events>());
+		SCXMLVisitor<SimpleStateMachine<States, Events>, States, Events> visitor = new SCXMLVisitor<SimpleStateMachine<States, Events>, States, Events>();
+		definition.traverseModel(visitor);
+		StringBuffer result = visitor.getScxml();
+
 		SCXML parsedObject = (SCXML) SCXMLParser.newInstance().parse(
 				new StringReader(result.toString()));
 

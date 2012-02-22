@@ -21,10 +21,11 @@ package ch.bbv.fsm.impl.internal.statemachine.state;
 import ch.bbv.fsm.HistoryType;
 import ch.bbv.fsm.StateMachine;
 import ch.bbv.fsm.impl.internal.action.ActionHolder;
-import ch.bbv.fsm.impl.internal.model.visitor.Visitor;
 import ch.bbv.fsm.impl.internal.statemachine.transition.TransitionContext;
 import ch.bbv.fsm.impl.internal.statemachine.transition.TransitionDictionary;
 import ch.bbv.fsm.impl.internal.statemachine.transition.TransitionResult;
+import ch.bbv.fsm.model.State;
+import ch.bbv.fsm.model.visitor.Visitor;
 
 /**
  * Represents a state of the state machine.
@@ -38,7 +39,8 @@ import ch.bbv.fsm.impl.internal.statemachine.transition.TransitionResult;
  * @param <TEvent>
  *            the type of the events
  */
-public interface State<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>> {
+public interface InternalState<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>>
+		extends State<TStateMachine, TState, TEvent> {
 
 	/**
 	 * Adds a sub state.
@@ -46,7 +48,7 @@ public interface State<TStateMachine extends StateMachine<TState, TEvent>, TStat
 	 * @param state
 	 *            a sub state.
 	 */
-	void addSubState(State<TStateMachine, TState, TEvent> state);
+	void addSubState(InternalState<TStateMachine, TState, TEvent> state);
 
 	/**
 	 * Enters this state by its history depending on its
@@ -58,7 +60,7 @@ public interface State<TStateMachine extends StateMachine<TState, TEvent>, TStat
 	 * @return the active state. (depends on this states
 	 *         <code>HistoryType</code>)
 	 */
-	State<TStateMachine, TState, TEvent> enterByHistory(
+	InternalState<TStateMachine, TState, TEvent> enterByHistory(
 			StateContext<TStateMachine, TState, TEvent> stateContext);
 
 	/**
@@ -68,7 +70,7 @@ public interface State<TStateMachine extends StateMachine<TState, TEvent>, TStat
 	 *            the event context.
 	 * @return the active state.
 	 */
-	State<TStateMachine, TState, TEvent> enterDeep(
+	InternalState<TStateMachine, TState, TEvent> enterDeep(
 			StateContext<TStateMachine, TState, TEvent> stateContext);
 
 	/**
@@ -79,7 +81,7 @@ public interface State<TStateMachine extends StateMachine<TState, TEvent>, TStat
 	 *            the event context.
 	 * @return the active state.
 	 */
-	State<TStateMachine, TState, TEvent> enterShallow(
+	InternalState<TStateMachine, TState, TEvent> enterShallow(
 			StateContext<TStateMachine, TState, TEvent> stateContext);
 
 	/**
@@ -130,18 +132,11 @@ public interface State<TStateMachine extends StateMachine<TState, TEvent>, TStat
 	HistoryType getHistoryType();
 
 	/**
-	 * Gets the id of this state.
-	 * 
-	 * @return the id of this state.
-	 */
-	TState getId();
-
-	/**
 	 * Returns the initial sub-state.
 	 * 
 	 * @return the initial sub-state or Null if this state has no sub-states.
 	 */
-	State<TStateMachine, TState, TEvent> getInitialState();
+	InternalState<TStateMachine, TState, TEvent> getInitialState();
 
 	/**
 	 * Returns the level in the hierarchy.
@@ -155,14 +150,14 @@ public interface State<TStateMachine extends StateMachine<TState, TEvent>, TStat
 	 * 
 	 * @return the sub-states.
 	 */
-	Iterable<State<TStateMachine, TState, TEvent>> getSubStates();
+	Iterable<InternalState<TStateMachine, TState, TEvent>> getSubStates();
 
 	/**
 	 * Returns the super-state. Null if this is a root state.
 	 * 
 	 * @return the super-state.
 	 */
-	State<TStateMachine, TState, TEvent> getSuperState();
+	InternalState<TStateMachine, TState, TEvent> getSuperState();
 
 	/**
 	 * Returns the transitions.
@@ -203,7 +198,7 @@ public interface State<TStateMachine extends StateMachine<TState, TEvent>, TStat
 	 * @param initialState
 	 *            the initial sub-state.
 	 */
-	void setInitialState(State<TStateMachine, TState, TEvent> initialState);
+	void setInitialState(InternalState<TStateMachine, TState, TEvent> initialState);
 
 	/**
 	 * Sets the level in the hierarchy.
@@ -219,7 +214,7 @@ public interface State<TStateMachine extends StateMachine<TState, TEvent>, TStat
 	 * @param superState
 	 *            the super-state.
 	 */
-	void setSuperState(State<TStateMachine, TState, TEvent> superState);
+	void setSuperState(InternalState<TStateMachine, TState, TEvent> superState);
 
 	/**
 	 * Accepts a {@link #Visitor}.
@@ -227,6 +222,7 @@ public interface State<TStateMachine extends StateMachine<TState, TEvent>, TStat
 	 * @param visitor
 	 *            the visitor.
 	 */
+	@Override
 	void accept(final Visitor<TStateMachine, TState, TEvent> visitor);
 
 }

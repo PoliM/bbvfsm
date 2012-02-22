@@ -16,18 +16,13 @@
  * Contributors:
  *     bbv Software Services AG (http://www.bbv.ch), Mario Martinez
  *******************************************************************************/
-package ch.bbv.fsm.documentation;
+package ch.bbv.fsm.model;
 
 import ch.bbv.fsm.StateMachine;
-import ch.bbv.fsm.StateMachineDefinition;
 
 /**
- * Generates Documentation for a {@link StateMachineDefinition}.
- * 
  * @author Mario Martinez (bbv Software Services AG)
  * 
- * @param <TDocumentationFormat>
- *            the format of the generated documentation.
  * @param <TStateMachine>
  *            the type of state machine
  * @param <TState>
@@ -35,27 +30,12 @@ import ch.bbv.fsm.StateMachineDefinition;
  * @param <TEvent>
  *            the type of the events
  */
-public interface DocumentationGenerator<TDocumentationFormat, TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>> {
+public interface StateMachineModel<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>>
+		extends ModelObject<TStateMachine, TState, TEvent> {
 
 	/**
-	 * Generates a documentation for a {@link StateMachineDefinition}.
-	 * 
-	 * @param stateMachineDefinition
-	 *            the StateMachineDefinition that the documentation is generated for.
-	 * 
-	 * @return the format of the generated documentation.
+	 * @return the initial state.
 	 */
-	TDocumentationFormat generateDocumentation(
-			final StateMachineDefinition<TStateMachine, TState, TEvent> stateMachineDefinition);
-
-	/**
-	 * Generates a decision tables for a {@link StateMachineDefinition}.
-	 * 
-	 * @param stateMachineDefinition
-	 *            the StateMachineDefinition that the documentation is generated for.
-	 * @return the format of the generated decision tables.
-	 */
-	TDocumentationFormat generateDecisionTables(
-			final StateMachineDefinition<TStateMachine, TState, TEvent> stateMachineDefinition);
+	TState getInitialState();
 
 }

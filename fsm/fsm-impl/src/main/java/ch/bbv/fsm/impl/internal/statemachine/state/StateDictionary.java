@@ -40,7 +40,7 @@ import com.google.common.collect.MapMaker;
  */
 public class StateDictionary<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>> {
 
-	private final ConcurrentMap<TState, State<TStateMachine, TState, TEvent>> dictionary;
+	private final ConcurrentMap<TState, InternalState<TStateMachine, TState, TEvent>> dictionary;
 
 	/**
 	 * Creates a new instance of the state dictionary.
@@ -56,10 +56,10 @@ public class StateDictionary<TStateMachine extends StateMachine<TState, TEvent>,
 	 *            the state id.
 	 * @return the state instance.
 	 */
-	public State<TStateMachine, TState, TEvent> getState(final TState stateId) {
+	public InternalState<TStateMachine, TState, TEvent> getState(final TState stateId) {
 		if (!this.dictionary.containsKey(stateId)) {
 			this.dictionary.putIfAbsent(stateId,
-					new StateImpl<TStateMachine, TState, TEvent>(stateId));
+					new InternalStateImpl<TStateMachine, TState, TEvent>(stateId));
 		}
 
 		return this.dictionary.get(stateId);
@@ -70,7 +70,7 @@ public class StateDictionary<TStateMachine extends StateMachine<TState, TEvent>,
 	 * 
 	 * @return a list of all defined states.
 	 */
-	public List<State<TStateMachine, TState, TEvent>> getStates() {
+	public List<InternalState<TStateMachine, TState, TEvent>> getStates() {
 		return Lists.newArrayList(this.dictionary.values());
 	}
 

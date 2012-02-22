@@ -19,7 +19,7 @@
 package ch.bbv.fsm.impl.internal.statemachine.transition;
 
 import ch.bbv.fsm.StateMachine;
-import ch.bbv.fsm.impl.internal.statemachine.state.State;
+import ch.bbv.fsm.impl.internal.statemachine.state.InternalState;
 
 /**
  * The result of a transition.
@@ -38,7 +38,7 @@ public interface TransitionResult<TStateMachine extends StateMachine<TState, TEv
 	 * 
 	 * @return the new state.
 	 */
-	State<TStateMachine, TState, TEvent> getNewState();
+	InternalState<TStateMachine, TState, TEvent> getNewState();
 
 	/**
 	 * Gets a value indicating whether this transition is fired.

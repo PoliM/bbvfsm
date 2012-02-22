@@ -31,7 +31,7 @@ import ch.bbv.fsm.impl.internal.statemachine.events.ExceptionEventArgsImpl;
 import ch.bbv.fsm.impl.internal.statemachine.events.TransitionCompletedEventArgsImpl;
 import ch.bbv.fsm.impl.internal.statemachine.events.TransitionEventArgsImpl;
 import ch.bbv.fsm.impl.internal.statemachine.events.TransitionExceptionEventArgsImpl;
-import ch.bbv.fsm.impl.internal.statemachine.state.State;
+import ch.bbv.fsm.impl.internal.statemachine.state.InternalState;
 import ch.bbv.fsm.impl.internal.statemachine.state.StateContext;
 import ch.bbv.fsm.impl.internal.statemachine.state.StateDictionary;
 import ch.bbv.fsm.impl.internal.statemachine.transition.TransitionContext;
@@ -41,7 +41,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
- * State Machine Implementation.
+ * InternalState Machine Implementation.
  * 
  * @author Ueli Kurmann (bbv Software Services AG)
  * 
@@ -67,9 +67,9 @@ public class StateMachineInterpreter<TStateMachine extends StateMachine<TState, 
 	/**
 	 * The current state.
 	 */
-	private State<TStateMachine, TState, TEvent> currentState;
+	private InternalState<TStateMachine, TState, TEvent> currentState;
 
-	private final Map<State<TStateMachine, TState, TEvent>, State<TStateMachine, TState, TEvent>> superToSubState = Maps.newHashMap();
+	private final Map<InternalState<TStateMachine, TState, TEvent>, InternalState<TStateMachine, TState, TEvent>> superToSubState = Maps.newHashMap();
 
 	private final TState initialStateId;
 
@@ -137,7 +137,7 @@ public class StateMachineInterpreter<TStateMachine extends StateMachine<TState, 
 
 		this.setCurrentState(result.getNewState());
 
-		LOG.debug("State machine {} performed {}.", this, context.getRecords());
+		LOG.debug("InternalState machine {} performed {}.", this, context.getRecords());
 
 		this.onTransitionCompleted(context);
 	}
@@ -147,7 +147,7 @@ public class StateMachineInterpreter<TStateMachine extends StateMachine<TState, 
 	 * 
 	 * @return the current state.
 	 */
-	private State<TStateMachine, TState, TEvent> getCurrentState() {
+	private InternalState<TStateMachine, TState, TEvent> getCurrentState() {
 		return this.currentState;
 	}
 
@@ -181,7 +181,7 @@ public class StateMachineInterpreter<TStateMachine extends StateMachine<TState, 
 	 * @param stateContext
 	 *            the state context
 	 */
-	private void initialize(final State<TStateMachine, TState, TEvent> initialState,
+	private void initialize(final InternalState<TStateMachine, TState, TEvent> initialState,
 			final StateContext<TStateMachine, TState, TEvent> stateContext) {
 		if (initialState == null) {
 			throw new IllegalArgumentException("initialState; The initial state must not be null.");
@@ -196,11 +196,11 @@ public class StateMachineInterpreter<TStateMachine extends StateMachine<TState, 
 	 * Initializes the state machine.
 	 */
 	public void initialize() {
-		LOG.info("State machine {} initializes to state {}.", this, initialStateId);
+		LOG.info("InternalState machine {} initializes to state {}.", this, initialStateId);
 		final StateContext<TStateMachine, TState, TEvent> stateContext = new StateContext<TStateMachine, TState, TEvent>(stateMachine,
 				null, this, this);
 		this.initialize(this.states.getState(initialStateId), stateContext);
-		LOG.info("State machine {} performed {}.", this, stateContext.getRecords());
+		LOG.info("InternalState machine {} performed {}.", this, stateContext.getRecords());
 	}
 
 	/**
@@ -209,7 +209,7 @@ public class StateMachineInterpreter<TStateMachine extends StateMachine<TState, 
 	public void terminate() {
 		final StateContext<TStateMachine, TState, TEvent> stateContext = new StateContext<TStateMachine, TState, TEvent>(stateMachine,
 				null, this, this);
-		State<TStateMachine, TState, TEvent> o = getCurrentState();
+		InternalState<TStateMachine, TState, TEvent> o = getCurrentState();
 		while (o != null) {
 			o.exit(stateContext);
 			o = o.getSuperState();
@@ -302,8 +302,8 @@ public class StateMachineInterpreter<TStateMachine extends StateMachine<TState, 
 	 * @param state
 	 *            the current state.
 	 */
-	private void setCurrentState(final State<TStateMachine, TState, TEvent> state) {
-		LOG.info("State machine {} switched to state {}.", this.getName(), state.getId());
+	private void setCurrentState(final InternalState<TStateMachine, TState, TEvent> state) {
+		LOG.info("InternalState machine {} switched to state {}.", this.getName(), state.getId());
 		this.currentState = state;
 	}
 
@@ -313,7 +313,7 @@ public class StateMachineInterpreter<TStateMachine extends StateMachine<TState, 
 	 * @param superState
 	 *            the super state
 	 */
-	public State<TStateMachine, TState, TEvent> getLastActiveSubState(final State<TStateMachine, TState, TEvent> superState) {
+	public InternalState<TStateMachine, TState, TEvent> getLastActiveSubState(final InternalState<TStateMachine, TState, TEvent> superState) {
 		return superToSubState.get(superState);
 	}
 
@@ -325,8 +325,8 @@ public class StateMachineInterpreter<TStateMachine extends StateMachine<TState, 
 	 * @param subState
 	 *            the last active sub state
 	 */
-	public void setLastActiveSubState(final State<TStateMachine, TState, TEvent> superState,
-			final State<TStateMachine, TState, TEvent> subState) {
+	public void setLastActiveSubState(final InternalState<TStateMachine, TState, TEvent> superState,
+			final InternalState<TStateMachine, TState, TEvent> subState) {
 		superToSubState.put(superState, subState);
 	}
 

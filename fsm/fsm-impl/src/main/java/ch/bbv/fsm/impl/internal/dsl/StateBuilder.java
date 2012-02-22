@@ -43,18 +43,18 @@ import ch.bbv.fsm.impl.internal.action.MethodCallAction;
 import ch.bbv.fsm.impl.internal.action.MethodCallFunction;
 import ch.bbv.fsm.impl.internal.aop.CallInterceptorBuilder;
 import ch.bbv.fsm.impl.internal.aop.MethodCall;
-import ch.bbv.fsm.impl.internal.statemachine.state.State;
+import ch.bbv.fsm.impl.internal.statemachine.state.InternalState;
 import ch.bbv.fsm.impl.internal.statemachine.state.StateDictionary;
 import ch.bbv.fsm.impl.internal.statemachine.transition.Transition;
 import ch.bbv.fsm.impl.internal.statemachine.transition.TransitionImpl;
 
 /**
- * State Builder.
+ * InternalState Builder.
  * 
  * @author Ueli Kurmann (bbv Software Services AG) (bbv Software Services AG).
  * 
  * @param <TStateMachine>
- *            the type of state machine
+ *            the type of internalState machine
  * @param <TState>
  *            the type of the states.
  * @param <TEvent>
@@ -69,7 +69,7 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 	private static final Logger LOG = LoggerFactory
 			.getLogger(StateBuilder.class);
 
-	private final State<TStateMachine, TState, TEvent> state;
+	private final InternalState<TStateMachine, TState, TEvent> internalState;
 	private final StateDictionary<TStateMachine, TState, TEvent> stateDictionary;
 	private Transition<TStateMachine, TState, TEvent> currentTransition;
 
@@ -77,13 +77,14 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 	 * Creates a new instance.
 	 * 
 	 * @param state
-	 *            the state
+	 *            the internalState
 	 * @param stateDictionary
-	 *            the state dictionary
+	 *            the internalState dictionary
 	 */
-	public StateBuilder(final State<TStateMachine, TState, TEvent> state,
+	public StateBuilder(
+			final InternalState<TStateMachine, TState, TEvent> state,
 			final StateDictionary<TStateMachine, TState, TEvent> stateDictionary) {
-		this.state = state;
+		this.internalState = state;
 		this.stateDictionary = stateDictionary;
 	}
 
@@ -115,7 +116,7 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 
 		checkClassDefinition(action);
 
-		this.state
+		this.internalState
 				.setEntryAction(new ActionHolderNoParameter<TStateMachine, TState, TEvent>(
 						new ActionClassCallAction<TStateMachine, TState, TEvent>(
 								action)));
@@ -130,7 +131,7 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 
 		checkClassDefinition(actionClass);
 
-		this.state
+		this.internalState
 				.setEntryAction(new ActionHolderParameter<TStateMachine, TState, TEvent, T>(
 						new ActionClassCallAction<TStateMachine, TState, TEvent>(
 								actionClass), parameter));
@@ -141,7 +142,7 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 	public ExitActionSyntax<TStateMachine, TState, TEvent> executeOnEntry(
 			final Void action) {
 		MethodCall<TStateMachine> call = CallInterceptorBuilder.pop();
-		this.state
+		this.internalState
 				.setEntryAction(new ActionHolderMethodCall<TStateMachine, TState, TEvent>(
 						call));
 		return this;
@@ -151,7 +152,7 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 	public ExitActionSyntax<TStateMachine, TState, TEvent> executeOnExit(
 			final Object action) {
 		MethodCall<TStateMachine> call = CallInterceptorBuilder.pop();
-		this.state
+		this.internalState
 				.setExitAction(new ActionHolderMethodCall<TStateMachine, TState, TEvent>(
 						call));
 		return this;
@@ -163,7 +164,7 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 
 		checkClassDefinition(actionClass);
 
-		this.state
+		this.internalState
 				.setExitAction(new ActionHolderNoParameter<TStateMachine, TState, TEvent>(
 						new ActionClassCallAction<TStateMachine, TState, TEvent>(
 								actionClass)));
@@ -178,7 +179,7 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 
 		checkClassDefinition(actionClass);
 
-		this.state
+		this.internalState
 				.setExitAction(new ActionHolderParameter<TStateMachine, TState, TEvent, T>(
 						new ActionClassCallAction<TStateMachine, TState, TEvent>(
 								actionClass), parameter));
@@ -195,7 +196,8 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 	public EventActionSyntax<TStateMachine, TState, TEvent> on(
 			final TEvent eventId) {
 		this.currentTransition = new TransitionImpl<TStateMachine, TState, TEvent>();
-		this.state.getTransitions().add(eventId, this.currentTransition);
+		this.internalState.getTransitions()
+				.add(eventId, this.currentTransition);
 		return this;
 	}
 

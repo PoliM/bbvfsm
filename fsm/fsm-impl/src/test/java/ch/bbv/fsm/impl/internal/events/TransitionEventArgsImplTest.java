@@ -27,14 +27,14 @@ import ch.bbv.fsm.impl.SimpleStateMachine;
 import ch.bbv.fsm.impl.StatesAndEvents.Events;
 import ch.bbv.fsm.impl.StatesAndEvents.States;
 import ch.bbv.fsm.impl.internal.statemachine.events.TransitionEventArgsImpl;
-import ch.bbv.fsm.impl.internal.statemachine.state.State;
+import ch.bbv.fsm.impl.internal.statemachine.state.InternalState;
 import ch.bbv.fsm.impl.internal.statemachine.transition.TransitionContext;
 
 public class TransitionEventArgsImplTest {
 	@Test
 	public void toStringExpectInformationAboutTheTransitionEvent() {
 		@SuppressWarnings("unchecked")
-		final State<SimpleStateMachine<States, Events>, States, Events> stateMock = Mockito.mock(State.class);
+		final InternalState<SimpleStateMachine<States, Events>, States, Events> stateMock = Mockito.mock(InternalState.class);
 		Mockito.when(stateMock.getId()).thenReturn(States.A);
 		@SuppressWarnings("unchecked")
 		final TransitionContext<SimpleStateMachine<States, Events>, States, Events> contextMock = Mockito.mock(TransitionContext.class);

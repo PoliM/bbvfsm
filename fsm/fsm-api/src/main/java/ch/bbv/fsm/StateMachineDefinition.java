@@ -18,9 +18,10 @@
  *******************************************************************************/
 package ch.bbv.fsm;
 
-import ch.bbv.fsm.documentation.DocumentationGenerator;
 import ch.bbv.fsm.dsl.EntryActionSyntax;
 import ch.bbv.fsm.events.StateMachineEventHandler;
+import ch.bbv.fsm.model.ModelObject;
+import ch.bbv.fsm.model.visitor.Visitor;
 
 /**
  * Defines the interface of a state machine.
@@ -40,6 +41,11 @@ public interface StateMachineDefinition<TStateMachine extends StateMachine<TStat
 	 * is created using {@link #createActiveStateMachine(String)} or {@link #createPassiveStateMachine(String)}.
 	 */
 	TState getInitialState();
+
+	/**
+	 * Returns the state machine's Data Model.
+	 */
+	ModelObject<TStateMachine, TState, TEvent> getModel();
 
 	/**
 	 * Defines behavior of a state.
@@ -121,29 +127,13 @@ public interface StateMachineDefinition<TStateMachine extends StateMachine<TStat
 	 */
 	TStateMachine createPassiveStateMachine(String name);
 
-	/**
-	 * Generates the documentation for the StateMachineDefinition.
-	 * 
-	 * @param documentGenerator
-	 *            the generator in charge of creating the documentation.
-	 * @param <TDocumentationFormat>
-	 *            the format of the Documentation.
-	 * @return TDocumentationFormat the format of the Documentation.
-	 */
-	<TDocumentationFormat> TDocumentationFormat generateDocumentation(
-			final DocumentationGenerator<TDocumentationFormat, TStateMachine, TState, TEvent> documentGenerator);
 
 	/**
-	 * Generates the decision table documentation for the StateMachineDefinition.
+	 * Traverses the StateMachine Model.
 	 * 
-	 * @param documentGenerator
-	 *            the generator in charge of creating the documentation.
-	 * @param <TDocumentationFormat>
-	 *            the format of the Documentation.
-	 * 
-	 * @return TDocumentationFormat the format of the Documentation.
+	 * @param visitor
+	 *            the Visitor.
 	 */
-	<TDocumentationFormat> TDocumentationFormat generateDecisionTableDocumentation(
-			final DocumentationGenerator<TDocumentationFormat, TStateMachine, TState, TEvent> documentGenerator);
+	void traverseModel(final Visitor<TStateMachine, TState, TEvent> visitor);
 
 }

@@ -20,10 +20,10 @@
 package ch.bbv.fsm.impl.documentation.scxml;
 
 import ch.bbv.fsm.StateMachine;
-import ch.bbv.fsm.StateMachineDefinition;
-import ch.bbv.fsm.impl.internal.model.visitor.Visitor;
-import ch.bbv.fsm.impl.internal.statemachine.state.State;
-import ch.bbv.fsm.impl.internal.statemachine.transition.TransitionInfo;
+import ch.bbv.fsm.model.State;
+import ch.bbv.fsm.model.StateMachineModel;
+import ch.bbv.fsm.model.TransitionInfo;
+import ch.bbv.fsm.model.visitor.Visitor;
 
 /**
  * @author Mario Martinez (bbv Software Services AG)
@@ -50,7 +50,7 @@ public class SCXMLVisitor<TStateMachine extends StateMachine<TState, TEvent>, TS
 
 	@Override
 	public void visitOnEntry(
-			final StateMachineDefinition<TStateMachine, TState, TEvent> visitable) {
+			final StateMachineModel<TStateMachine, TState, TEvent> visitable) {
 
 		write("<scxml xmlns=\"http://www.w3.org/2005/07/scxml\" initial="
 				+ adaptName(visitable.getInitialState().toString()));
@@ -59,7 +59,7 @@ public class SCXMLVisitor<TStateMachine extends StateMachine<TState, TEvent>, TS
 
 	@Override
 	public void visitOnExit(
-			final StateMachineDefinition<TStateMachine, TState, TEvent> visitable) {
+			final StateMachineModel<TStateMachine, TState, TEvent> visitable) {
 
 		write("</scxml>");
 	}
@@ -72,7 +72,8 @@ public class SCXMLVisitor<TStateMachine extends StateMachine<TState, TEvent>, TS
 	}
 
 	@Override
-	public void visitOnExit(final State<TStateMachine, TState, TEvent> visitable) {
+	public void visitOnExit(
+			final State<TStateMachine, TState, TEvent> visitable) {
 
 		write("</state>");
 	}

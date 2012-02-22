@@ -26,15 +26,15 @@ import org.slf4j.LoggerFactory;
 import ch.bbv.fsm.HistoryType;
 import ch.bbv.fsm.StateMachine;
 import ch.bbv.fsm.impl.internal.action.ActionHolder;
-import ch.bbv.fsm.impl.internal.model.visitor.Visitor;
 import ch.bbv.fsm.impl.internal.statemachine.state.StateContext.RecordType;
 import ch.bbv.fsm.impl.internal.statemachine.transition.Transition;
 import ch.bbv.fsm.impl.internal.statemachine.transition.TransitionContext;
 import ch.bbv.fsm.impl.internal.statemachine.transition.TransitionDictionary;
 import ch.bbv.fsm.impl.internal.statemachine.transition.TransitionDictionaryImpl;
-import ch.bbv.fsm.impl.internal.statemachine.transition.TransitionInfo;
 import ch.bbv.fsm.impl.internal.statemachine.transition.TransitionResult;
 import ch.bbv.fsm.impl.internal.statemachine.transition.TransitionResultImpl;
+import ch.bbv.fsm.model.TransitionInfo;
+import ch.bbv.fsm.model.visitor.Visitor;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -51,23 +51,23 @@ import com.google.common.collect.Lists;
  * @param <TEvent>
  *            the type of the events
  */
-public class StateImpl<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>>
-		implements State<TStateMachine, TState, TEvent> {
+public class InternalStateImpl<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>>
+		implements InternalState<TStateMachine, TState, TEvent> {
 
-	private static final Logger LOG = LoggerFactory.getLogger(StateImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(InternalStateImpl.class);
 
 	/**
 	 * The level of this state within the state hierarchy [1..maxLevel].
 	 */
 	private int level;
 
-	private final List<State<TStateMachine, TState, TEvent>> subStates;
+	private final List<InternalState<TStateMachine, TState, TEvent>> subStates;
 
 	/**
 	 * The super-state of this state. Null for states with <code>level</code>
 	 * equal to 1.
 	 */
-	private State<TStateMachine, TState, TEvent> superState;
+	private InternalState<TStateMachine, TState, TEvent> superState;
 
 	/**
 	 * Collection of transitions that start in this .
@@ -78,7 +78,7 @@ public class StateImpl<TStateMachine extends StateMachine<TState, TEvent>, TStat
 	/**
 	 * The initial sub-state of this state.
 	 */
-	private State<TStateMachine, TState, TEvent> initialState;
+	private InternalState<TStateMachine, TState, TEvent> initialState;
 
 	/**
 	 * The HistoryType of this state.
@@ -106,7 +106,7 @@ public class StateImpl<TStateMachine extends StateMachine<TState, TEvent>, TStat
 	 * @param id
 	 *            the unique id of the state.
 	 */
-	public StateImpl(final TState id) {
+	public InternalStateImpl(final TState id) {
 		this.id = id;
 		this.level = 1;
 
@@ -116,7 +116,7 @@ public class StateImpl<TStateMachine extends StateMachine<TState, TEvent>, TStat
 	}
 
 	@Override
-	public void addSubState(final State<TStateMachine, TState, TEvent> state) {
+	public void addSubState(final InternalState<TStateMachine, TState, TEvent> state) {
 		this.subStates.add(state);
 
 	}
@@ -130,7 +130,7 @@ public class StateImpl<TStateMachine extends StateMachine<TState, TEvent>, TStat
 				.getTransitions().getTransitions()) {
 			transition.accept(visitor);
 		}
-		for (State<TStateMachine, TState, TEvent> subState : this
+		for (InternalState<TStateMachine, TState, TEvent> subState : this
 				.getSubStates()) {
 			subState.accept(visitor);
 		}
@@ -145,11 +145,11 @@ public class StateImpl<TStateMachine extends StateMachine<TState, TEvent>, TStat
 	 * @param value
 	 */
 	private void checkInitialStateIsASubState(
-			final State<TStateMachine, TState, TEvent> value) {
+			final InternalState<TStateMachine, TState, TEvent> value) {
 		if (value.getSuperState() != this) {
 			throw new IllegalArgumentException(
 					String.format(
-							"State {0} cannot be the initial state of super state {1} because it is not a direct sub-state.",
+							"InternalState {0} cannot be the initial state of super state {1} because it is not a direct sub-state.",
 							value, this));
 		}
 	}
@@ -161,10 +161,10 @@ public class StateImpl<TStateMachine extends StateMachine<TState, TEvent>, TStat
 	 *            the new initial state.
 	 */
 	private void checkInitialStateIsNotThisInstance(
-			final State<TStateMachine, TState, TEvent> newInitialState) {
+			final InternalState<TStateMachine, TState, TEvent> newInitialState) {
 		if (this == newInitialState) {
 			throw new IllegalArgumentException(String.format(
-					"State {0} cannot be the initial sub-state to itself.",
+					"InternalState {0} cannot be the initial sub-state to itself.",
 					this));
 		}
 	}
@@ -176,19 +176,19 @@ public class StateImpl<TStateMachine extends StateMachine<TState, TEvent>, TStat
 	 *            the super state.
 	 */
 	private void checkSuperStateIsNotThisInstance(
-			final State<TStateMachine, TState, TEvent> newSuperState) {
+			final InternalState<TStateMachine, TState, TEvent> newSuperState) {
 		if (this == newSuperState) {
 			throw new IllegalArgumentException(String.format(
 
-			"State {0} cannot be its own super-state.", this));
+			"InternalState {0} cannot be its own super-state.", this));
 		}
 	}
 
 	@Override
-	public State<TStateMachine, TState, TEvent> enterByHistory(
+	public InternalState<TStateMachine, TState, TEvent> enterByHistory(
 			final StateContext<TStateMachine, TState, TEvent> stateContext) {
 
-		State<TStateMachine, TState, TEvent> result = this;
+		InternalState<TStateMachine, TState, TEvent> result = this;
 
 		switch (this.historyType) {
 		case NONE:
@@ -209,10 +209,10 @@ public class StateImpl<TStateMachine extends StateMachine<TState, TEvent>, TStat
 	}
 
 	@Override
-	public State<TStateMachine, TState, TEvent> enterDeep(
+	public InternalState<TStateMachine, TState, TEvent> enterDeep(
 			final StateContext<TStateMachine, TState, TEvent> stateContext) {
 		this.entry(stateContext);
-		final State<TStateMachine, TState, TEvent> lastActiveState = stateContext
+		final InternalState<TStateMachine, TState, TEvent> lastActiveState = stateContext
 				.getLastActiveSubState(this);
 		return lastActiveState == null ? this : lastActiveState
 				.enterDeep(stateContext);
@@ -225,9 +225,9 @@ public class StateImpl<TStateMachine extends StateMachine<TState, TEvent>, TStat
 	 *            the state context.
 	 * @return the state
 	 */
-	private State<TStateMachine, TState, TEvent> enterHistoryDeep(
+	private InternalState<TStateMachine, TState, TEvent> enterHistoryDeep(
 			final StateContext<TStateMachine, TState, TEvent> stateContext) {
-		final State<TStateMachine, TState, TEvent> lastActiveState = stateContext
+		final InternalState<TStateMachine, TState, TEvent> lastActiveState = stateContext
 				.getLastActiveSubState(this);
 		return lastActiveState != null ? lastActiveState
 				.enterDeep(stateContext) : this;
@@ -240,7 +240,7 @@ public class StateImpl<TStateMachine extends StateMachine<TState, TEvent>, TStat
 	 *            state context
 	 * @return the entered state.
 	 */
-	private State<TStateMachine, TState, TEvent> enterHistoryNone(
+	private InternalState<TStateMachine, TState, TEvent> enterHistoryNone(
 			final StateContext<TStateMachine, TState, TEvent> stateContext) {
 		return this.initialState != null ? this.getInitialState().enterShallow(
 				stateContext) : this;
@@ -253,16 +253,16 @@ public class StateImpl<TStateMachine extends StateMachine<TState, TEvent>, TStat
 	 *            state context
 	 * @return the entered state
 	 */
-	private State<TStateMachine, TState, TEvent> enterHistoryShallow(
+	private InternalState<TStateMachine, TState, TEvent> enterHistoryShallow(
 			final StateContext<TStateMachine, TState, TEvent> stateContext) {
-		final State<TStateMachine, TState, TEvent> lastActiveState = stateContext
+		final InternalState<TStateMachine, TState, TEvent> lastActiveState = stateContext
 				.getLastActiveSubState(this);
 		return lastActiveState != null ? lastActiveState
 				.enterShallow(stateContext) : this;
 	}
 
 	@Override
-	public State<TStateMachine, TState, TEvent> enterShallow(
+	public InternalState<TStateMachine, TState, TEvent> enterShallow(
 			final StateContext<TStateMachine, TState, TEvent> stateContext) {
 		this.entry(stateContext);
 
@@ -355,7 +355,7 @@ public class StateImpl<TStateMachine extends StateMachine<TState, TEvent>, TStat
 	}
 
 	@Override
-	public State<TStateMachine, TState, TEvent> getInitialState() {
+	public InternalState<TStateMachine, TState, TEvent> getInitialState() {
 		return this.initialState;
 	}
 
@@ -365,12 +365,12 @@ public class StateImpl<TStateMachine extends StateMachine<TState, TEvent>, TStat
 	}
 
 	@Override
-	public List<State<TStateMachine, TState, TEvent>> getSubStates() {
+	public List<InternalState<TStateMachine, TState, TEvent>> getSubStates() {
 		return ImmutableList.copyOf(this.subStates);
 	}
 
 	@Override
-	public State<TStateMachine, TState, TEvent> getSuperState() {
+	public InternalState<TStateMachine, TState, TEvent> getSuperState() {
 		return this.superState;
 	}
 
@@ -424,7 +424,7 @@ public class StateImpl<TStateMachine extends StateMachine<TState, TEvent>, TStat
 
 	@Override
 	public void setInitialState(
-			final State<TStateMachine, TState, TEvent> initialState) {
+			final InternalState<TStateMachine, TState, TEvent> initialState) {
 		this.checkInitialStateIsNotThisInstance(initialState);
 		this.checkInitialStateIsASubState(initialState);
 		this.initialState = initialState;
@@ -440,7 +440,7 @@ public class StateImpl<TStateMachine extends StateMachine<TState, TEvent>, TStat
 	 * Sets the level of all sub states.
 	 */
 	private void setLevelOfSubStates() {
-		for (final State<TStateMachine, TState, TEvent> state : this
+		for (final InternalState<TStateMachine, TState, TEvent> state : this
 				.getSubStates()) {
 			state.setLevel(this.level + 1);
 		}
@@ -448,7 +448,7 @@ public class StateImpl<TStateMachine extends StateMachine<TState, TEvent>, TStat
 
 	@Override
 	public void setSuperState(
-			final State<TStateMachine, TState, TEvent> superState) {
+			final InternalState<TStateMachine, TState, TEvent> superState) {
 		this.checkSuperStateIsNotThisInstance(superState);
 		this.superState = superState;
 		this.setInitialLevel();

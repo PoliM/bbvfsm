@@ -108,7 +108,7 @@ public class ActionDefinitionTest {
 		final SimpleStateMachine testee = simpleStateMachineDefinition
 				.createPassiveStateMachine("sample", State.state_init);
 
-		// State Machine Behavior
+		// InternalState Machine Behavior
 		simpleStateMachineDefinition.in(State.state_init).on(Event.move)
 				.execute(ActionDefinition.class);
 
@@ -125,7 +125,7 @@ public class ActionDefinitionTest {
 
 		final SimpleStateMachineDefinition simpleStateMachineDefinition = new SimpleStateMachineDefinition();
 
-		// State Machine Behavior
+		// InternalState Machine Behavior
 		simpleStateMachineDefinition.in(State.state_init).executeOnEntry(
 				ActionDefinition.ActionDefinitionInnerStatic.class);
 
@@ -147,7 +147,7 @@ public class ActionDefinitionTest {
 
 		final SimpleStateMachineDefinition simpleStateMachineDefinition = new SimpleStateMachineDefinition();
 
-		// State Machine Behavior
+		// InternalState Machine Behavior
 		simpleStateMachineDefinition.in(State.state_init).executeOnEntry(
 				ActionDefinition.ActionDefinitionEntryWithParameter.class,
 				"parameter1");
@@ -170,7 +170,7 @@ public class ActionDefinitionTest {
 
 		final SimpleStateMachineDefinition simpleStateMachineDefinition = new SimpleStateMachineDefinition();
 
-		// State Machine Behavior
+		// InternalState Machine Behavior
 		simpleStateMachineDefinition.in(State.state_init).executeOnExit(
 				ActionDefinition.ActionDefinitionInnerStatic.class);
 		simpleStateMachineDefinition.in(State.state_init).on(Event.move)
@@ -194,7 +194,7 @@ public class ActionDefinitionTest {
 
 		final SimpleStateMachineDefinition simpleStateMachineDefinition = new SimpleStateMachineDefinition();
 
-		// State Machine Behavior
+		// InternalState Machine Behavior
 		simpleStateMachineDefinition.in(State.state_init).executeOnExit(
 				ActionDefinition.ActionDefinitionEntryWithParameter.class,
 				"parameter1");
@@ -213,7 +213,7 @@ public class ActionDefinitionTest {
 				testee.consumeLog());
 	}
 
-	// Test multiple State Machine instances
+	// Test multiple InternalState Machine instances
 
 	@Test
 	public void multipleActionWhenMultipleStateMachinesWithSameDefinitionThenDifferentActionInstancesAreExecuted() {

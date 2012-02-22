@@ -16,13 +16,9 @@
  * Contributors:
  *     bbv Software Services AG (http://www.bbv.ch), Mario Martinez
  *******************************************************************************/
-package ch.bbv.fsm.impl.documentation.scxml;
+package ch.bbv.fsm.model;
 
 import ch.bbv.fsm.StateMachine;
-import ch.bbv.fsm.StateMachineDefinition;
-import ch.bbv.fsm.documentation.DocumentationGenerator;
-import ch.bbv.fsm.impl.AbstractStateMachineDefinition;
-import ch.bbv.fsm.impl.SimpleStateMachine;
 
 /**
  * @author Mario Martinez (bbv Software Services AG)
@@ -34,27 +30,28 @@ import ch.bbv.fsm.impl.SimpleStateMachine;
  * @param <TEvent>
  *            the type of the events
  */
-public class SCXMLGenerator<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>>
-		implements
-		DocumentationGenerator<StringBuffer, TStateMachine, TState, TEvent> {
+public interface TransitionInfo<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>>
+		extends ModelObject<TStateMachine, TState, TEvent> {
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Override
-	public StringBuffer generateDocumentation(
-			final StateMachineDefinition<TStateMachine, TState, TEvent> stateMachineDefinition) {
+	/**
+	 * Returns true if this transition has a guard.
+	 * 
+	 * @return true if this transition has a guard.
+	 */
+	State<TStateMachine, TState, TEvent> getTarget();
 
-		SCXMLVisitor<SimpleStateMachine<TState, TEvent>, TState, TEvent> visitor = new SCXMLVisitor<SimpleStateMachine<TState, TEvent>, TState, TEvent>();
+	/**
+	 * Returns the source state.
+	 * 
+	 * @return the source state.
+	 */
+	State<TStateMachine, TState, TEvent> getSource();
 
-		((AbstractStateMachineDefinition) stateMachineDefinition)
-				.accept(visitor);
+	/**
+	 * Returns the event id.
+	 * 
+	 * @return the event id.
+	 */
+	TEvent getEventId();
 
-		return visitor.getScxml();
-	}
-
-	@Override
-	public StringBuffer generateDecisionTables(
-			final StateMachineDefinition<TStateMachine, TState, TEvent> stateMachineDefinition) {
-
-		throw new RuntimeException("Operation not implemented.");
-	}
 }

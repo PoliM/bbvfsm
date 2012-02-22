@@ -140,7 +140,7 @@ public class FunctionDefinitionTest {
 
 	}
 
-	// Test multiple State Machine instances
+	// Test multiple InternalState Machine instances
 
 	@Test
 	public void multipleFunctionWhenMultipleStateMachinesWithSameDefinitionThenDifferentFunctionInstancesAreExecuted() {

@@ -51,7 +51,7 @@ public interface TransitionDictionary<TStateMachine extends StateMachine<TState,
 	 * 
 	 * @return all transitions.
 	 */
-	List<TransitionInfo<TStateMachine, TState, TEvent>> getTransitions();
+	List<InternalTransitionInfo<TStateMachine, TState, TEvent>> getTransitions();
 
 	/**
 	 * Returns a list of transitions for the given event.

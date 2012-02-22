@@ -16,12 +16,12 @@
  * Contributors:
  *     bbv Software Services AG (http://www.bbv.ch), Mario Martinez
  *******************************************************************************/
-package ch.bbv.fsm.impl.internal.model.visitor;
+package ch.bbv.fsm.model.visitor;
 
 import ch.bbv.fsm.StateMachine;
-import ch.bbv.fsm.StateMachineDefinition;
-import ch.bbv.fsm.impl.internal.statemachine.state.State;
-import ch.bbv.fsm.impl.internal.statemachine.transition.TransitionInfo;
+import ch.bbv.fsm.model.State;
+import ch.bbv.fsm.model.StateMachineModel;
+import ch.bbv.fsm.model.TransitionInfo;
 
 /**
  * @author Mario Martinez (bbv Software Services AG)
@@ -39,15 +39,13 @@ public interface Visitor<TStateMachine extends StateMachine<TState, TEvent>, TSt
 	 * @param visitable
 	 *            the element to be visited.
 	 */
-	void visitOnEntry(
-			StateMachineDefinition<TStateMachine, TState, TEvent> visitable);
+	void visitOnEntry(StateMachineModel<TStateMachine, TState, TEvent> visitable);
 
 	/**
 	 * @param visitable
 	 *            the element to be visited.
 	 */
-	void visitOnExit(
-			StateMachineDefinition<TStateMachine, TState, TEvent> visitable);
+	void visitOnExit(StateMachineModel<TStateMachine, TState, TEvent> visitable);
 
 	/**
 	 * @param visitable

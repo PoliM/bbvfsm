@@ -140,7 +140,7 @@ public class StateMachineTest {
 		 */
 		@Override
 		public String getMessage() {
-			return "State " + this.getState() + " not entered.";
+			return "InternalState " + this.getState() + " not entered.";
 		}
 	}
 
@@ -153,7 +153,7 @@ public class StateMachineTest {
 		 */
 		@Override
 		public String getMessage() {
-			return "State " + this.getState() + " not exited.";
+			return "InternalState " + this.getState() + " not exited.";
 		}
 	}
 

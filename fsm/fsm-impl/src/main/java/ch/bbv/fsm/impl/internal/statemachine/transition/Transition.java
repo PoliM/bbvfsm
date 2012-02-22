@@ -23,7 +23,7 @@ import java.util.List;
 import ch.bbv.fsm.StateMachine;
 import ch.bbv.fsm.action.Action;
 import ch.bbv.fsm.guard.Function;
-import ch.bbv.fsm.impl.internal.statemachine.state.State;
+import ch.bbv.fsm.impl.internal.statemachine.state.InternalState;
 
 /**
  * The transition between two states.
@@ -67,7 +67,7 @@ public interface Transition<TStateMachine extends StateMachine<TState, TEvent>, 
 	 * 
 	 * @return the source state of the transition.
 	 */
-	State<TStateMachine, TState, TEvent> getSource();
+	InternalState<TStateMachine, TState, TEvent> getSource();
 
 	/**
 	 * Gets the target state of the transition.
@@ -75,7 +75,7 @@ public interface Transition<TStateMachine extends StateMachine<TState, TEvent>, 
 	 * @return the target state of the transition.
 	 */
 
-	State<TStateMachine, TState, TEvent> getTarget();
+	InternalState<TStateMachine, TState, TEvent> getTarget();
 
 	/**
 	 * Sets the guard function.
@@ -91,7 +91,7 @@ public interface Transition<TStateMachine extends StateMachine<TState, TEvent>, 
 	 * @param sourceState
 	 *            the source state of the transition.
 	 */
-	void setSource(State<TStateMachine, TState, TEvent> sourceState);
+	void setSource(InternalState<TStateMachine, TState, TEvent> sourceState);
 
 	/**
 	 * Sets the target state.
@@ -99,7 +99,7 @@ public interface Transition<TStateMachine extends StateMachine<TState, TEvent>, 
 	 * @param target
 	 *            the target state.
 	 */
-	void setTarget(State<TStateMachine, TState, TEvent> target);
+	void setTarget(InternalState<TStateMachine, TState, TEvent> target);
 
 	/**
 	 * Sets the target state of the transition.
@@ -107,6 +107,6 @@ public interface Transition<TStateMachine extends StateMachine<TState, TEvent>, 
 	 * @param targetState
 	 *            the target state of the transition.
 	 */
-	void setTargetState(State<TStateMachine, TState, TEvent> targetState);
+	void setTargetState(InternalState<TStateMachine, TState, TEvent> targetState);
 
 }

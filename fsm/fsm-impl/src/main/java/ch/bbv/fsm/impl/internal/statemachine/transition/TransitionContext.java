@@ -21,7 +21,7 @@ package ch.bbv.fsm.impl.internal.statemachine.transition;
 import ch.bbv.fsm.StateMachine;
 import ch.bbv.fsm.impl.internal.driver.Notifier;
 import ch.bbv.fsm.impl.internal.statemachine.StateMachineInterpreter;
-import ch.bbv.fsm.impl.internal.statemachine.state.State;
+import ch.bbv.fsm.impl.internal.statemachine.state.InternalState;
 import ch.bbv.fsm.impl.internal.statemachine.state.StateContext;
 
 /**
@@ -63,7 +63,7 @@ public class TransitionContext<TStateMachine extends StateMachine<TState, TEvent
 	 * @param notifier
 	 *            the notifier
 	 */
-	public TransitionContext(final TStateMachine stateMachine, final State<TStateMachine, TState, TEvent> state, final TEvent eventId,
+	public TransitionContext(final TStateMachine stateMachine, final InternalState<TStateMachine, TState, TEvent> state, final TEvent eventId,
 			final Object[] eventArguments, final StateMachineInterpreter<TStateMachine, TState, TEvent> stateMachineInterpreter,
 			final Notifier<TStateMachine, TState, TEvent> notifier) {
 		super(stateMachine, state, stateMachineInterpreter, notifier);

@@ -21,7 +21,7 @@ package ch.bbv.fsm.impl.internal.statemachine.transition;
 import java.util.List;
 
 import ch.bbv.fsm.StateMachine;
-import ch.bbv.fsm.impl.internal.statemachine.state.State;
+import ch.bbv.fsm.impl.internal.statemachine.state.InternalState;
 
 /**
  * The implementation of {@link TransitionResult}.
@@ -40,7 +40,7 @@ public class TransitionResultImpl<TStateMachine extends StateMachine<TState, TEv
 	 * This value represents that no transition was fired.
 	 */
 	private final boolean fired;
-	private final State<TStateMachine, TState, TEvent> newState;
+	private final InternalState<TStateMachine, TState, TEvent> newState;
 	private final List<? extends Throwable> exceptions;
 
 	/**
@@ -53,7 +53,7 @@ public class TransitionResultImpl<TStateMachine extends StateMachine<TState, TEv
 	 * @param exceptions
 	 *            the exceptions
 	 */
-	public TransitionResultImpl(final boolean fired, final State<TStateMachine, TState, TEvent> newState,
+	public TransitionResultImpl(final boolean fired, final InternalState<TStateMachine, TState, TEvent> newState,
 			final List<? extends Throwable> exceptions) {
 		this.fired = fired;
 		this.newState = newState;
@@ -70,7 +70,7 @@ public class TransitionResultImpl<TStateMachine extends StateMachine<TState, TEv
 	}
 
 	@Override
-	public State<TStateMachine, TState, TEvent> getNewState() {
+	public InternalState<TStateMachine, TState, TEvent> getNewState() {
 		return this.newState;
 	}
 

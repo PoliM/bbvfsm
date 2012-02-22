@@ -27,7 +27,7 @@ import ch.bbv.fsm.impl.internal.statemachine.StateMachineInterpreter;
 import com.google.common.collect.Lists;
 
 /**
- * State Context.
+ * InternalState Context.
  * 
  * @author Ueli Kurmann (bbv Software Services AG) (bbv Software Services AG)
  * 
@@ -120,7 +120,7 @@ public class StateContext<TStateMachine extends StateMachine<TState, TEvent>, TS
 		Exit
 	}
 
-	private final State<TStateMachine, TState, TEvent> sourceState;
+	private final InternalState<TStateMachine, TState, TEvent> sourceState;
 
 	/**
 	 * The exceptions that occurred during performing an operation.
@@ -150,7 +150,7 @@ public class StateContext<TStateMachine extends StateMachine<TState, TEvent>, TS
 	 * @param notifier
 	 *            the notifier
 	 */
-	public StateContext(final TStateMachine stateMachine, final State<TStateMachine, TState, TEvent> sourceState,
+	public StateContext(final TStateMachine stateMachine, final InternalState<TStateMachine, TState, TEvent> sourceState,
 			final StateMachineInterpreter<TStateMachine, TState, TEvent> stateMachineImpl,
 			final Notifier<TStateMachine, TState, TEvent> notifier) {
 		this.sourceState = sourceState;
@@ -202,7 +202,7 @@ public class StateContext<TStateMachine extends StateMachine<TState, TEvent>, TS
 	 * 
 	 * @return the source state of the transition.
 	 */
-	public State<TStateMachine, TState, TEvent> getState() {
+	public InternalState<TStateMachine, TState, TEvent> getState() {
 		return this.sourceState;
 	}
 
@@ -226,8 +226,8 @@ public class StateContext<TStateMachine extends StateMachine<TState, TEvent>, TS
 	 * @param superState
 	 *            the super state
 	 */
-	public State<TStateMachine, TState, TEvent> getLastActiveSubState(final State<TStateMachine, TState, TEvent> superState) {
-		State<TStateMachine, TState, TEvent> result = null;
+	public InternalState<TStateMachine, TState, TEvent> getLastActiveSubState(final InternalState<TStateMachine, TState, TEvent> superState) {
+		InternalState<TStateMachine, TState, TEvent> result = null;
 		if (superState != null) {
 			result = stateMachineInterpreter.getLastActiveSubState(superState);
 			if (result == null) {
@@ -245,8 +245,8 @@ public class StateContext<TStateMachine extends StateMachine<TState, TEvent>, TS
 	 * @param subState
 	 *            the last active sub state
 	 */
-	public void setLastActiveSubState(final State<TStateMachine, TState, TEvent> superState,
-			final State<TStateMachine, TState, TEvent> subState) {
+	public void setLastActiveSubState(final InternalState<TStateMachine, TState, TEvent> superState,
+			final InternalState<TStateMachine, TState, TEvent> subState) {
 		stateMachineInterpreter.setLastActiveSubState(superState, subState);
 	}
 

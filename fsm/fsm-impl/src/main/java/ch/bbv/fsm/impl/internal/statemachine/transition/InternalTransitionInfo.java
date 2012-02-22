@@ -19,8 +19,9 @@
 package ch.bbv.fsm.impl.internal.statemachine.transition;
 
 import ch.bbv.fsm.StateMachine;
-import ch.bbv.fsm.impl.internal.model.visitor.Visitor;
-import ch.bbv.fsm.impl.internal.statemachine.state.State;
+import ch.bbv.fsm.impl.internal.statemachine.state.InternalState;
+import ch.bbv.fsm.model.TransitionInfo;
+import ch.bbv.fsm.model.visitor.Visitor;
 
 /**
  * Describes a transition.
@@ -34,10 +35,12 @@ import ch.bbv.fsm.impl.internal.statemachine.state.State;
  * @param <TEvent>
  *            the type of the events
  */
-public class TransitionInfo<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>> {
+public class InternalTransitionInfo<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>>
+		implements TransitionInfo<TStateMachine, TState, TEvent> {
+
 	private TEvent eventId;
-	private State<TStateMachine, TState, TEvent> source;
-	private State<TStateMachine, TState, TEvent> target;
+	private InternalState<TStateMachine, TState, TEvent> source;
+	private InternalState<TStateMachine, TState, TEvent> target;
 	private boolean hasGuard;
 	private int actions;
 
@@ -55,9 +58,9 @@ public class TransitionInfo<TStateMachine extends StateMachine<TState, TEvent>, 
 	 * @param actions
 	 *            the number of actions
 	 */
-	public TransitionInfo(final TEvent eventId,
-			final State<TStateMachine, TState, TEvent> source,
-			final State<TStateMachine, TState, TEvent> target,
+	public InternalTransitionInfo(final TEvent eventId,
+			final InternalState<TStateMachine, TState, TEvent> source,
+			final InternalState<TStateMachine, TState, TEvent> target,
 			final boolean hasGuard, final int actions) {
 		this.eventId = eventId;
 		this.source = source;
@@ -80,6 +83,7 @@ public class TransitionInfo<TStateMachine extends StateMachine<TState, TEvent>, 
 	 * 
 	 * @return the event id.
 	 */
+	@Override
 	public TEvent getEventId() {
 		return this.eventId;
 	}
@@ -89,7 +93,8 @@ public class TransitionInfo<TStateMachine extends StateMachine<TState, TEvent>, 
 	 * 
 	 * @return the source state.
 	 */
-	public State<TStateMachine, TState, TEvent> getSource() {
+	@Override
+	public InternalState<TStateMachine, TState, TEvent> getSource() {
 		return this.source;
 	}
 
@@ -98,7 +103,8 @@ public class TransitionInfo<TStateMachine extends StateMachine<TState, TEvent>, 
 	 * 
 	 * @return the target state.
 	 */
-	public State<TStateMachine, TState, TEvent> getTarget() {
+	@Override
+	public InternalState<TStateMachine, TState, TEvent> getTarget() {
 		return this.target;
 	}
 
@@ -147,7 +153,7 @@ public class TransitionInfo<TStateMachine extends StateMachine<TState, TEvent>, 
 	 * @param source
 	 *            the source state.
 	 */
-	public void setSource(final State<TStateMachine, TState, TEvent> source) {
+	public void setSource(final InternalState<TStateMachine, TState, TEvent> source) {
 		this.source = source;
 	}
 
@@ -157,7 +163,7 @@ public class TransitionInfo<TStateMachine extends StateMachine<TState, TEvent>, 
 	 * @param target
 	 *            the target state.
 	 */
-	public void setTarget(final State<TStateMachine, TState, TEvent> target) {
+	public void setTarget(final InternalState<TStateMachine, TState, TEvent> target) {
 		this.target = target;
 	}
 
@@ -167,6 +173,7 @@ public class TransitionInfo<TStateMachine extends StateMachine<TState, TEvent>, 
 	 * @param visitor
 	 *            the visitor.
 	 */
+	@Override
 	public void accept(final Visitor<TStateMachine, TState, TEvent> visitor) {
 
 		visitor.visitOnEntry(this);
