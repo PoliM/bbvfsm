@@ -22,7 +22,7 @@ import ch.bbv.fsm.impl.internal.statemachine.state.InternalState;
 import ch.bbv.fsm.impl.internal.statemachine.state.StateContext;
 import ch.bbv.fsm.impl.internal.statemachine.state.StateDictionary;
 import ch.bbv.fsm.impl.internal.statemachine.transition.TransitionContext;
-import ch.bbv.fsm.model.ModelObject;
+import ch.bbv.fsm.model.StateMachineModel;
 import ch.bbv.fsm.model.visitor.Visitor;
 
 import com.google.common.collect.Lists;
@@ -94,7 +94,7 @@ public abstract class AbstractStateMachineDefinition<TStateMachine extends Abstr
 	}
 
 	@Override
-	public ModelObject<TStateMachine, TState, TEvent> getModel() {
+	public StateMachineModel<TStateMachine, TState, TEvent> getModel() {
 
 		return this.simpleStateMachineModel;
 	}
@@ -114,8 +114,8 @@ public abstract class AbstractStateMachineDefinition<TStateMachine extends Abstr
 			superState.addSubState(subState);
 		}
 
-		superState.setInitialState(this.simpleStateMachineModel.getStates().getState(
-				initialSubStateId));
+		superState.setInitialState(this.simpleStateMachineModel.getStates()
+				.getState(initialSubStateId));
 	}
 
 	@Override
@@ -150,7 +150,8 @@ public abstract class AbstractStateMachineDefinition<TStateMachine extends Abstr
 		final ActiveStateMachineDriver<TStateMachine, TState, TEvent> activeStateMachine = new ActiveStateMachineDriver<TStateMachine, TState, TEvent>();
 		final TStateMachine stateMachine = createStateMachine(activeStateMachine);
 		activeStateMachine.initialize(stateMachine, name,
-				this.simpleStateMachineModel.getStates(), initialState, eventHandler);
+				this.simpleStateMachineModel.getStates(), initialState,
+				eventHandler);
 		return stateMachine;
 	}
 
@@ -170,7 +171,8 @@ public abstract class AbstractStateMachineDefinition<TStateMachine extends Abstr
 		final PassiveStateMachineDriver<TStateMachine, TState, TEvent> passiveStateMachine = new PassiveStateMachineDriver<TStateMachine, TState, TEvent>();
 		final TStateMachine stateMachine = createStateMachine(passiveStateMachine);
 		passiveStateMachine.initialize(stateMachine, name,
-				this.simpleStateMachineModel.getStates(), initialState, eventHandler);
+				this.simpleStateMachineModel.getStates(), initialState,
+				eventHandler);
 		return stateMachine;
 	}
 

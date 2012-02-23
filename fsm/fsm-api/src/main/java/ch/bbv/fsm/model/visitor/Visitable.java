@@ -16,10 +16,9 @@
  * Contributors:
  *     bbv Software Services AG (http://www.bbv.ch), Mario Martinez
  *******************************************************************************/
-package ch.bbv.fsm.model;
+package ch.bbv.fsm.model.visitor;
 
 import ch.bbv.fsm.StateMachine;
-import ch.bbv.fsm.model.visitor.Visitable;
 
 /**
  * @author Mario Martinez (bbv Software Services AG)
@@ -31,28 +30,14 @@ import ch.bbv.fsm.model.visitor.Visitable;
  * @param <TEvent>
  *            the type of the events
  */
-public interface TransitionInfo<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>>
-		extends Visitable<TStateMachine, TState, TEvent> {
+public interface Visitable<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>> {
 
 	/**
-	 * Returns true if this transition has a guard.
+	 * Accepts a {@link #Visitor}.
 	 * 
-	 * @return true if this transition has a guard.
+	 * @param visitor
+	 *            the visitor.
 	 */
-	State<TStateMachine, TState, TEvent> getTarget();
-
-	/**
-	 * Returns the source state.
-	 * 
-	 * @return the source state.
-	 */
-	State<TStateMachine, TState, TEvent> getSource();
-
-	/**
-	 * Returns the event id.
-	 * 
-	 * @return the event id.
-	 */
-	TEvent getEventId();
+	void accept(final Visitor<TStateMachine, TState, TEvent> visitor);
 
 }

@@ -21,14 +21,17 @@ package ch.bbv.fsm.model;
 import ch.bbv.fsm.StateMachine;
 
 /**
- * @author Mario Martinez (bbv Software Services AG)
+ * Represents a FSM Model Object. This model is a hierarchical(tree) representation of the scopes contained in the FSM.
  * 
+ * 
+ * @author Mario Martinez (bbv Software Services AG)
+ * @param <TState>
+ *            the enumeration type of the states.
+ * @param <TEvent>
+ *            the enumeration type of the events.
  * @param <TStateMachine>
  *            the type of state machine
- * @param <TState>
- *            the type of the states
- * @param <TEvent>
- *            the type of the events
+ * 
  */
 public interface State<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>>
 		extends ModelObject<TStateMachine, TState, TEvent> {
@@ -39,5 +42,20 @@ public interface State<TStateMachine extends StateMachine<TState, TEvent>, TStat
 	 * @return the id of this state.
 	 */
 	TState getId();
+
+	/**
+	 * Returns the level in the hierarchy.
+	 * 
+	 * @return the level in the hierarchy.
+	 */
+	int getLevel();
+
+	/**
+	 * Sets the level in the hierarchy.
+	 * 
+	 * @param level
+	 *            the level
+	 */
+	void setLevel(int level);
 
 }

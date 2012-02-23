@@ -20,7 +20,7 @@ package ch.bbv.fsm;
 
 import ch.bbv.fsm.dsl.EntryActionSyntax;
 import ch.bbv.fsm.events.StateMachineEventHandler;
-import ch.bbv.fsm.model.ModelObject;
+import ch.bbv.fsm.model.StateMachineModel;
 import ch.bbv.fsm.model.visitor.Visitor;
 
 /**
@@ -45,7 +45,7 @@ public interface StateMachineDefinition<TStateMachine extends StateMachine<TStat
 	/**
 	 * Returns the state machine's Data Model.
 	 */
-	ModelObject<TStateMachine, TState, TEvent> getModel();
+	StateMachineModel<TStateMachine, TState, TEvent> getModel();
 
 	/**
 	 * Defines behavior of a state.
@@ -126,7 +126,6 @@ public interface StateMachineDefinition<TStateMachine extends StateMachine<TStat
 	 *            the state machine's name
 	 */
 	TStateMachine createPassiveStateMachine(String name);
-
 
 	/**
 	 * Traverses the StateMachine Model.

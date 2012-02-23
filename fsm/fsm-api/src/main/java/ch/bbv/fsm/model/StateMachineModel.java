@@ -19,6 +19,7 @@
 package ch.bbv.fsm.model;
 
 import ch.bbv.fsm.StateMachine;
+import ch.bbv.fsm.model.visitor.Visitable;
 
 /**
  * @author Mario Martinez (bbv Software Services AG)
@@ -31,7 +32,7 @@ import ch.bbv.fsm.StateMachine;
  *            the type of the events
  */
 public interface StateMachineModel<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>>
-		extends ModelObject<TStateMachine, TState, TEvent> {
+		extends Visitable<TStateMachine, TState, TEvent> {
 
 	/**
 	 * @return the initial state.

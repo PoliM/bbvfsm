@@ -139,18 +139,11 @@ public interface InternalState<TStateMachine extends StateMachine<TState, TEvent
 	InternalState<TStateMachine, TState, TEvent> getInitialState();
 
 	/**
-	 * Returns the level in the hierarchy.
-	 * 
-	 * @return the level in the hierarchy.
-	 */
-	int getLevel();
-
-	/**
 	 * Returns the sub-states.
 	 * 
 	 * @return the sub-states.
 	 */
-	Iterable<InternalState<TStateMachine, TState, TEvent>> getSubStates();
+	Iterable<State<TStateMachine, TState, TEvent>> getSubStates();
 
 	/**
 	 * Returns the super-state. Null if this is a root state.
@@ -198,15 +191,8 @@ public interface InternalState<TStateMachine extends StateMachine<TState, TEvent
 	 * @param initialState
 	 *            the initial sub-state.
 	 */
-	void setInitialState(InternalState<TStateMachine, TState, TEvent> initialState);
-
-	/**
-	 * Sets the level in the hierarchy.
-	 * 
-	 * @param level
-	 *            the level
-	 */
-	void setLevel(int level);
+	void setInitialState(
+			InternalState<TStateMachine, TState, TEvent> initialState);
 
 	/**
 	 * Sets the super-state.

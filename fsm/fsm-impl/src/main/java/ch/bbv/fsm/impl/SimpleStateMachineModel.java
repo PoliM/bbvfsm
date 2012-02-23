@@ -6,7 +6,7 @@ import java.util.List;
 import ch.bbv.fsm.StateMachine;
 import ch.bbv.fsm.impl.internal.statemachine.state.InternalState;
 import ch.bbv.fsm.impl.internal.statemachine.state.StateDictionary;
-import ch.bbv.fsm.model.ModelObject;
+import ch.bbv.fsm.model.State;
 import ch.bbv.fsm.model.StateMachineModel;
 import ch.bbv.fsm.model.visitor.Visitor;
 
@@ -21,8 +21,7 @@ import ch.bbv.fsm.model.visitor.Visitor;
  *            the type of the state machine
  */
 public class SimpleStateMachineModel<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>>
-		implements ModelObject<TStateMachine, TState, TEvent>,
-		StateMachineModel<TStateMachine, TState, TEvent> {
+		implements StateMachineModel<TStateMachine, TState, TEvent> {
 
 	/**
 	 * The dictionary of all states.
@@ -42,7 +41,7 @@ public class SimpleStateMachineModel<TStateMachine extends StateMachine<TState, 
 
 		visitor.visitOnEntry(this);
 
-		for (ModelObject<TStateMachine, TState, TEvent> state : this
+		for (State<TStateMachine, TState, TEvent> state : this
 				.getRootStates()) {
 			state.accept(visitor);
 		}
@@ -79,9 +78,9 @@ public class SimpleStateMachineModel<TStateMachine extends StateMachine<TState, 
 	/**
 	 * @return
 	 */
-	private List<ModelObject<TStateMachine, TState, TEvent>> getRootStates() {
+	private List<State<TStateMachine, TState, TEvent>> getRootStates() {
 
-		List<ModelObject<TStateMachine, TState, TEvent>> rootStates = new LinkedList<ModelObject<TStateMachine, TState, TEvent>>();
+		List<State<TStateMachine, TState, TEvent>> rootStates = new LinkedList<State<TStateMachine, TState, TEvent>>();
 
 		for (InternalState<TStateMachine, TState, TEvent> state : this.states
 				.getStates()) {

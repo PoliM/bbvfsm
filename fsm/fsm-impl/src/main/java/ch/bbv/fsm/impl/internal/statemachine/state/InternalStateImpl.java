@@ -33,6 +33,7 @@ import ch.bbv.fsm.impl.internal.statemachine.transition.TransitionDictionary;
 import ch.bbv.fsm.impl.internal.statemachine.transition.TransitionDictionaryImpl;
 import ch.bbv.fsm.impl.internal.statemachine.transition.TransitionResult;
 import ch.bbv.fsm.impl.internal.statemachine.transition.TransitionResultImpl;
+import ch.bbv.fsm.model.State;
 import ch.bbv.fsm.model.TransitionInfo;
 import ch.bbv.fsm.model.visitor.Visitor;
 
@@ -54,14 +55,15 @@ import com.google.common.collect.Lists;
 public class InternalStateImpl<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>>
 		implements InternalState<TStateMachine, TState, TEvent> {
 
-	private static final Logger LOG = LoggerFactory.getLogger(InternalStateImpl.class);
+	private static final Logger LOG = LoggerFactory
+			.getLogger(InternalStateImpl.class);
 
 	/**
 	 * The level of this state within the state hierarchy [1..maxLevel].
 	 */
 	private int level;
 
-	private final List<InternalState<TStateMachine, TState, TEvent>> subStates;
+	private final List<State<TStateMachine, TState, TEvent>> subStates;
 
 	/**
 	 * The super-state of this state. Null for states with <code>level</code>
@@ -116,7 +118,8 @@ public class InternalStateImpl<TStateMachine extends StateMachine<TState, TEvent
 	}
 
 	@Override
-	public void addSubState(final InternalState<TStateMachine, TState, TEvent> state) {
+	public void addSubState(
+			final InternalState<TStateMachine, TState, TEvent> state) {
 		this.subStates.add(state);
 
 	}
@@ -130,7 +133,7 @@ public class InternalStateImpl<TStateMachine extends StateMachine<TState, TEvent
 				.getTransitions().getTransitions()) {
 			transition.accept(visitor);
 		}
-		for (InternalState<TStateMachine, TState, TEvent> subState : this
+		for (State<TStateMachine, TState, TEvent> subState : this
 				.getSubStates()) {
 			subState.accept(visitor);
 		}
@@ -163,9 +166,10 @@ public class InternalStateImpl<TStateMachine extends StateMachine<TState, TEvent
 	private void checkInitialStateIsNotThisInstance(
 			final InternalState<TStateMachine, TState, TEvent> newInitialState) {
 		if (this == newInitialState) {
-			throw new IllegalArgumentException(String.format(
-					"InternalState {0} cannot be the initial sub-state to itself.",
-					this));
+			throw new IllegalArgumentException(
+					String.format(
+							"InternalState {0} cannot be the initial sub-state to itself.",
+							this));
 		}
 	}
 
@@ -365,7 +369,7 @@ public class InternalStateImpl<TStateMachine extends StateMachine<TState, TEvent
 	}
 
 	@Override
-	public List<InternalState<TStateMachine, TState, TEvent>> getSubStates() {
+	public List<State<TStateMachine, TState, TEvent>> getSubStates() {
 		return ImmutableList.copyOf(this.subStates);
 	}
 
@@ -440,7 +444,7 @@ public class InternalStateImpl<TStateMachine extends StateMachine<TState, TEvent
 	 * Sets the level of all sub states.
 	 */
 	private void setLevelOfSubStates() {
-		for (final InternalState<TStateMachine, TState, TEvent> state : this
+		for (final State<TStateMachine, TState, TEvent> state : this
 				.getSubStates()) {
 			state.setLevel(this.level + 1);
 		}
@@ -458,5 +462,25 @@ public class InternalStateImpl<TStateMachine extends StateMachine<TState, TEvent
 	@Override
 	public String toString() {
 		return this.id.toString();
+	}
+
+	@Override
+	public boolean hasParent() {
+		return this.superState != null;
+	}
+
+	@Override
+	public State<TStateMachine, TState, TEvent> getParent() {
+		return this.superState;
+	}
+
+	@Override
+	public boolean hasChildren() {
+		return this.subStates != null && !this.subStates.isEmpty();
+	}
+
+	@Override
+	public List<State<TStateMachine, TState, TEvent>> getChildren() {
+		return this.getSubStates();
 	}
 }
