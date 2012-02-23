@@ -19,11 +19,16 @@
 
 package ch.bbv.fsm.impl.documentation.scxml;
 
+import java.io.FileWriter;
+
 import ch.bbv.fsm.StateMachine;
 import ch.bbv.fsm.model.State;
 import ch.bbv.fsm.model.StateMachineModel;
 import ch.bbv.fsm.model.TransitionInfo;
 import ch.bbv.fsm.model.visitor.Visitor;
+
+import com.mxgraph.examples.swing.SCXMLGraphEditor;
+import com.mxgraph.examples.swing.editor.scxml.SCXMLEditorActions;
 
 /**
  * @author Mario Martinez (bbv Software Services AG)
@@ -46,6 +51,27 @@ public class SCXMLVisitor<TStateMachine extends StateMachine<TState, TEvent>, TS
 	 */
 	public StringBuffer getScxml() {
 		return scxml;
+	}
+
+	/**
+	 * @param filename
+	 *            the file to be generated.
+	 * @throws Exception
+	 *             if a problem occurs.
+	 */
+	public void convertSCXMLFile(final String filename) throws Exception {
+
+		FileWriter file = new FileWriter(filename + ".scxml");
+		file.write(this.scxml.toString());
+		file.close();
+
+		SCXMLGraphEditor editor = SCXMLGraphEditor.startEditor(true);
+		SCXMLGraphEditor.setInput(filename + ".scxml");
+		SCXMLGraphEditor.setOutput(filename + ".jpg");
+		SCXMLGraphEditor.setOutputFormat("jpg");
+		SCXMLGraphEditor.setDoLayout(true);
+
+		SCXMLEditorActions.convertNoGUI(editor);
 	}
 
 	@Override
@@ -72,8 +98,7 @@ public class SCXMLVisitor<TStateMachine extends StateMachine<TState, TEvent>, TS
 	}
 
 	@Override
-	public void visitOnExit(
-			final State<TStateMachine, TState, TEvent> visitable) {
+	public void visitOnExit(final State<TStateMachine, TState, TEvent> visitable) {
 
 		write("</state>");
 	}
@@ -82,7 +107,8 @@ public class SCXMLVisitor<TStateMachine extends StateMachine<TState, TEvent>, TS
 	public void visitOnEntry(
 			final TransitionInfo<TStateMachine, TState, TEvent> visitable) {
 
-		write("<transition event=" + adaptName("fake") + " target="
+		write("<transition event="
+				+ adaptName(visitable.getEventId().toString()) + " target="
 				+ adaptName(visitable.getTarget().getId().toString()) + "/>");
 	}
 
@@ -99,4 +125,5 @@ public class SCXMLVisitor<TStateMachine extends StateMachine<TState, TEvent>, TS
 
 		scxml.append(msg).append("\n");
 	}
+
 }

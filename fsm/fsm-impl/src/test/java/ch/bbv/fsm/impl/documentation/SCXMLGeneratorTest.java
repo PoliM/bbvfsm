@@ -1,6 +1,5 @@
 package ch.bbv.fsm.impl.documentation;
 
-import java.io.IOException;
 import java.io.StringReader;
 
 import org.apache.commons.scxml.io.SCXMLParser;
@@ -8,7 +7,6 @@ import org.apache.commons.scxml.model.SCXML;
 import org.apache.commons.scxml.model.State;
 import org.junit.Assert;
 import org.junit.Test;
-import org.xml.sax.SAXException;
 
 import ch.bbv.fsm.HistoryType;
 import ch.bbv.fsm.impl.SimpleStateMachine;
@@ -51,7 +49,7 @@ public class SCXMLGeneratorTest {
 
 	@Test
 	public void testSCXMLGeneratorWhenSubStatesThenCorrectSubStates()
-			throws IOException, SAXException {
+			throws Exception {
 
 		SimpleStateMachineDefinition<States, Events> definition = new SimpleStateMachineDefinition<States, Events>(
 				"simple", States.A);
@@ -85,7 +83,7 @@ public class SCXMLGeneratorTest {
 
 	@Test
 	public void testSCXMLGeneratorWhenCascadeSubStatesThenCorrectSubStates()
-			throws IOException, SAXException {
+			throws Exception {
 
 		// Arrange)
 		SimpleStateMachineDefinition<States, Events> definition = new SimpleStateMachineDefinition<States, Events>(
@@ -133,5 +131,6 @@ public class SCXMLGeneratorTest {
 
 		Assert.assertEquals("State_B is not the Superstate of State_C.",
 				States.B.toString(), state_C.getParent().getId());
+
 	}
 }
