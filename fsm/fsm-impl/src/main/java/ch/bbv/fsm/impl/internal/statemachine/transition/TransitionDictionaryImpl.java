@@ -24,10 +24,10 @@ import ch.bbv.fsm.StateMachine;
 import ch.bbv.fsm.impl.internal.statemachine.state.InternalState;
 import ch.bbv.fsm.impl.internal.statemachine.state.InternalStateImpl;
 
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap;
 
 /**
  * Mapping between a internalState and its transitions.
@@ -49,7 +49,7 @@ public class TransitionDictionaryImpl<TStateMachine extends StateMachine<TState,
 	 */
 	private final InternalState<TStateMachine, TState, TEvent> internalState;
 
-	private final Multimap<TEvent, Transition<TStateMachine, TState, TEvent>> transitions;
+	private final ListMultimap<TEvent, Transition<TStateMachine, TState, TEvent>> transitions;
 
 	/**
 	 * Creates a new instance.
@@ -59,7 +59,7 @@ public class TransitionDictionaryImpl<TStateMachine extends StateMachine<TState,
 	 */
 	public TransitionDictionaryImpl(final InternalStateImpl<TStateMachine, TState, TEvent> state) {
 		this.internalState = state;
-		this.transitions = HashMultimap.create();
+		this.transitions = LinkedListMultimap.create();
 	}
 
 	@Override

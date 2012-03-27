@@ -101,12 +101,4 @@ public interface Transition<TStateMachine extends StateMachine<TState, TEvent>, 
 	 */
 	void setTarget(InternalState<TStateMachine, TState, TEvent> target);
 
-	/**
-	 * Sets the target state of the transition.
-	 * 
-	 * @param targetState
-	 *            the target state of the transition.
-	 */
-	void setTargetState(InternalState<TStateMachine, TState, TEvent> targetState);
-
 }

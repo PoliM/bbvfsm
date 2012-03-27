@@ -133,10 +133,7 @@ public class ElevatorStateMachineDefinition
 						ElevatorStateMachineDefinition.AnnounceOverloadAction.class)
 				.on(Event.GoDown)
 				.goTo(State.MovingDown)
-				.onlyIf(ElevatorStateMachineDefinition.CheckOverloadFunction.class)
-				.on(Event.GoUp)
-				.execute(
-						ElevatorStateMachineDefinition.AnnounceOverloadAction.class);
+				.onlyIf(ElevatorStateMachineDefinition.CheckOverloadFunction.class);
 
 		in(State.Moving).on(Event.Stop).goTo(State.OnFloor);
 	}

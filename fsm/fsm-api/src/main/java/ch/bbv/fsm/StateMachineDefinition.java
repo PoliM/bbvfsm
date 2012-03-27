@@ -37,8 +37,10 @@ import ch.bbv.fsm.model.visitor.Visitor;
 public interface StateMachineDefinition<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>> {
 
 	/**
-	 * Returns the state machine's default initial state. This state will be used as initial state if the state machine
-	 * is created using {@link #createActiveStateMachine(String)} or {@link #createPassiveStateMachine(String)}.
+	 * Returns the state machine's default initial state. This state will be
+	 * used as initial state if the state machine is created using
+	 * {@link #createActiveStateMachine(String)} or
+	 * {@link #createPassiveStateMachine(String)}.
 	 */
 	TState getInitialState();
 
@@ -67,8 +69,9 @@ public interface StateMachineDefinition<TStateMachine extends StateMachine<TStat
 	 * @param subStateIds
 	 *            the sub state id's.
 	 */
-	void defineHierarchyOn(TState superStateId, TState initialSubStateId, HistoryType historyType,
-			TState... subStateIds);
+	void defineHierarchyOn(TState superStateId, TState initialSubStateId,
+			HistoryType historyType,
+			@SuppressWarnings("unchecked") TState... subStateIds);
 
 	/**
 	 * Returns the name of this state machine.
@@ -81,7 +84,8 @@ public interface StateMachineDefinition<TStateMachine extends StateMachine<TStat
 	 * @param handler
 	 *            the event handler
 	 */
-	void addEventHandler(StateMachineEventHandler<TStateMachine, TState, TEvent> handler);
+	void addEventHandler(
+			StateMachineEventHandler<TStateMachine, TState, TEvent> handler);
 
 	/**
 	 * Removes the given event handler.
@@ -89,7 +93,8 @@ public interface StateMachineDefinition<TStateMachine extends StateMachine<TStat
 	 * @param handler
 	 *            the event handler to be removed.
 	 */
-	void removeEventHandler(StateMachineEventHandler<TStateMachine, TState, TEvent> handler);
+	void removeEventHandler(
+			StateMachineEventHandler<TStateMachine, TState, TEvent> handler);
 
 	/**
 	 * Creates an active state-machine from this definition.
@@ -102,7 +107,8 @@ public interface StateMachineDefinition<TStateMachine extends StateMachine<TStat
 	TStateMachine createActiveStateMachine(String name, TState initialState);
 
 	/**
-	 * Creates an active state-machine from this definition with the default initial state.
+	 * Creates an active state-machine from this definition with the default
+	 * initial state.
 	 * 
 	 * @param name
 	 *            the state machine's name
@@ -120,7 +126,8 @@ public interface StateMachineDefinition<TStateMachine extends StateMachine<TStat
 	TStateMachine createPassiveStateMachine(String name, TState initialState);
 
 	/**
-	 * Creates an passive state-machine from this definition with the default initial state.
+	 * Creates an passive state-machine from this definition with the default
+	 * initial state.
 	 * 
 	 * @param name
 	 *            the state machine's name

@@ -238,11 +238,6 @@ public class TransitionImpl<TStateMachine extends StateMachine<TState, TEvent>, 
 		this.target = target;
 	}
 
-	@Override
-	public void setTargetState(final InternalState<TStateMachine, TState, TEvent> targetState) {
-		this.target = targetState;
-	}
-
 	/**
 	 * Returns true if the transition should fire.
 	 * 

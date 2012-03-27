@@ -102,7 +102,7 @@ public abstract class AbstractStateMachineDefinition<TStateMachine extends Abstr
 	@Override
 	public void defineHierarchyOn(final TState superStateId,
 			final TState initialSubStateId, final HistoryType historyType,
-			final TState... subStateIds) {
+			@SuppressWarnings("unchecked") final TState... subStateIds) {
 		final InternalState<TStateMachine, TState, TEvent> superState = this.simpleStateMachineModel
 				.getStates().getState(superStateId);
 		superState.setHistoryType(historyType);

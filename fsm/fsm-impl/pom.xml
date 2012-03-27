@@ -10,17 +10,24 @@
 	<artifactId>fsm-impl</artifactId>
 	<name>bbvfsm - Statemachine Implementation</name>
 
+	<properties>
+		<coverage.reports.dir>${basedir}/target/coverage-reports</coverage.reports.dir>
+		<sonar.jacoco.reportPath>${coverage.reports.dir}/jacoco-unit.exec</sonar.jacoco.reportPath>
+		<sonar.jacoco.itReportPath>${coverage.reports.dir}/jacoco-it.exec</sonar.jacoco.itReportPath>
+		<sonar.jacoco.jar>${basedir}/lib/jacocoagent.jar</sonar.jacoco.jar>
+	</properties>
+
 	<dependencies>
 
 		<!-- System -->
 		<dependency>
-	    	<groupId>fsm-editor</groupId>
-	    	<artifactId>fsm-editor</artifactId>
-	    	<version>${project.version}</version>
-	    	<scope>system</scope>
-	    	<systemPath>${project.basedir}/lib/fsm-editor.jar</systemPath>
+			<groupId>fsm-editor</groupId>
+			<artifactId>fsm-editor</artifactId>
+			<version>${project.version}</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/fsm-editor.jar</systemPath>
 		</dependency>
-	
+
 		<!-- Internal -->
 		<dependency>
 			<groupId>ch.bbv.fsm</groupId>
@@ -43,26 +50,26 @@
 		</dependency>
 
 		<!-- Test -->
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit-dep</artifactId>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.hamcrest</groupId>
-				<artifactId>hamcrest-library</artifactId>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.hamcrest</groupId>
-				<artifactId>hamcrest-core</artifactId>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.mockito</groupId>
-				<artifactId>mockito-core</artifactId>
-				<scope>test</scope>
-			</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit-dep</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-library</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
@@ -72,8 +79,6 @@
 			<artifactId>commons-scxml</artifactId>
 		</dependency>
 	</dependencies>
-
-
 	<build>
 		<plugins>
 			<plugin>
@@ -96,31 +101,62 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>cobertura-maven-plugin</artifactId>
-				<version>2.5.1</version>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.5.5.201112152213</version>
+				<configuration>
+					<destfile>${basedir}/target/coverage-reports/jacoco-unit.exec</destfile>
+					<datafile>${basedir}/target/coverage-reports/jacoco-unit.exec</datafile>
+				</configuration>
 				<executions>
 					<execution>
-						<phase>verify</phase>
+						<id>jacoco-initialize</id>
 						<goals>
-							<goal>clean</goal>
-							<goal>cobertura</goal>
-							<goal>check</goal>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>jacoco-site</id>
+						<phase>package</phase>
+						<goals>
+							<goal>report</goal>
 						</goals>
 					</execution>
 				</executions>
-				<configuration>
-					<check>
-						<haltOnFailure>true</haltOnFailure>
-						<totalLineRate>75</totalLineRate>
-					</check>
-					<formats>
-						<format>html</format>
-						<format>xml</format>
-					</formats>
-				</configuration>
 			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.jacoco</groupId>
+										<artifactId>
+											jacoco-maven-plugin
+										</artifactId>
+										<versionRange>
+											[0.5.5.201112152213,)
+										</versionRange>
+										<goals>
+											<goal>prepare-agent</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
-
 </project>
