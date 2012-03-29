@@ -6,6 +6,7 @@ import ch.bbv.fsm.StateMachine;
 import ch.bbv.fsm.events.StateMachineEventHandler;
 import ch.bbv.fsm.impl.internal.statemachine.StateMachineInterpreter;
 import ch.bbv.fsm.impl.internal.statemachine.state.StateDictionary;
+import ch.bbv.fsm.memento.StateMachineMemento;
 
 /**
  * Base implementation for all state machine drivers.
@@ -48,7 +49,7 @@ abstract class AbstractStateMachineDriver<TStateMachine extends StateMachine<TSt
 			final List<StateMachineEventHandler<TStateMachine, TState, TEvent>> eventHandlers) {
 		this.stateMachineInterpreter = new StateMachineInterpreter<TStateMachine, TState, TEvent>(
 				stateMachine, name, states, initialState);
-		for (StateMachineEventHandler<TStateMachine, TState, TEvent> eventHandler : eventHandlers) {
+		for (final StateMachineEventHandler<TStateMachine, TState, TEvent> eventHandler : eventHandlers) {
 			stateMachineInterpreter.addEventHandler(eventHandler);
 		}
 	}
@@ -98,6 +99,20 @@ abstract class AbstractStateMachineDriver<TStateMachine extends StateMachine<TSt
 	 */
 	protected void fireEventOnStateMachine(final EventInformation<TEvent> e) {
 		stateMachineInterpreter.fire(e.getEventId(), e.getEventArguments());
+	}
+
+	@Override
+	public void activate(
+			final StateMachineMemento<TState, TEvent> stateMachineMemento) {
+		stateMachineInterpreter.activate(stateMachineMemento);
+		runningState = RunningState.Running;
+	}
+
+	@Override
+	public void passivate(
+			final StateMachineMemento<TState, TEvent> stateMachineMemento) {
+		runningState = RunningState.Terminated;
+		stateMachineInterpreter.passivate(stateMachineMemento);
 	}
 
 }

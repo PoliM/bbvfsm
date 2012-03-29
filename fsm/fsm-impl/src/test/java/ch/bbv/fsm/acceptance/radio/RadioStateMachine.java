@@ -5,7 +5,8 @@ import ch.bbv.fsm.acceptance.radio.RadioStateMachineDefinion.Event;
 import ch.bbv.fsm.acceptance.radio.RadioStateMachineDefinion.State;
 import ch.bbv.fsm.impl.AbstractStateMachine;
 
-public class RadioStateMachine extends AbstractStateMachine<RadioStateMachine, State, Event> {
+public class RadioStateMachine extends
+		AbstractStateMachine<RadioStateMachine, State, Event> {
 
 	private StringBuilder log = new StringBuilder();
 	private boolean maintenance = false;

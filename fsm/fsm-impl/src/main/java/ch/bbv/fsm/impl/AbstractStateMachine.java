@@ -1,6 +1,7 @@
 package ch.bbv.fsm.impl;
 
 import ch.bbv.fsm.StateMachine;
+import ch.bbv.fsm.memento.StateMachineMemento;
 
 /**
  * Base class for finite state machine implementations.
@@ -68,4 +69,15 @@ public class AbstractStateMachine<TStateMachine extends StateMachine<TState, TEv
 		return driver.getRunningState();
 	}
 
+	@Override
+	public void passivate(
+			final StateMachineMemento<TState, TEvent> stateMachineMemento) {
+		driver.passivate(stateMachineMemento);
+	}
+
+	@Override
+	public void activate(
+			final StateMachineMemento<TState, TEvent> stateMachineMemento) {
+		driver.activate(stateMachineMemento);
+	}
 }

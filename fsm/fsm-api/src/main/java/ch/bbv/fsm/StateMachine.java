@@ -18,6 +18,8 @@
  *******************************************************************************/
 package ch.bbv.fsm;
 
+import ch.bbv.fsm.memento.StateMachineMemento;
+
 /**
  * Interface for all finite state machines.
  * 
@@ -47,7 +49,8 @@ public interface StateMachine<TState extends Enum<?>, TEvent extends Enum<?>> {
 	void fire(TEvent eventId, Object... eventArguments);
 
 	/**
-	 * Fires the specified priority event. The event will be handled before any already queued event.
+	 * Fires the specified priority event. The event will be handled before any
+	 * already queued event.
 	 * 
 	 * @param eventId
 	 *            the event.
@@ -69,19 +72,22 @@ public interface StateMachine<TState extends Enum<?>, TEvent extends Enum<?>> {
 	int numberOfQueuedEvents();
 
 	/**
-	 * Returns <code>true</code> if the state machine is running and all events are processed.
+	 * Returns <code>true</code> if the state machine is running and all events
+	 * are processed.
 	 */
 	boolean isIdle();
 
 	/**
-	 * Starts the state machine. Events will be processed. If the state machine is not started then the events will be
-	 * queued until the state machine is started. Already queued events are processed. If there is an entry action
+	 * Starts the state machine. Events will be processed. If the state machine
+	 * is not started then the events will be queued until the state machine is
+	 * started. Already queued events are processed. If there is an entry action
 	 * defined on the initial state, this entry action will be executed.
 	 */
 	void start();
 
 	/**
-	 * Terminates the state machine. The state machine can not be used any longer.
+	 * Terminates the state machine. The state machine can not be used any
+	 * longer.
 	 */
 	void terminate();
 
@@ -90,4 +96,22 @@ public interface StateMachine<TState extends Enum<?>, TEvent extends Enum<?>> {
 	 */
 	TState getCurrentState();
 
+	/**
+	 * Reactivates the state machine with all its states and its history.
+	 * Implementor may override this for restoring additional state information.
+	 * 
+	 * @param stateMachineMemento
+	 *            the memento where the state is stored to
+	 */
+	void activate(StateMachineMemento<TState, TEvent> stateMachineMemento);
+
+	/**
+	 * Passivates the state machine and store its current state to the
+	 * {@link StateMachineMemento}. Implementor may override this for storing
+	 * additional state information.
+	 * 
+	 * @param stateMachineMemento
+	 *            the memento where the state is restored from
+	 */
+	void passivate(StateMachineMemento<TState, TEvent> stateMachineMemento);
 }
