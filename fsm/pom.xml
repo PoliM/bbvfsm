@@ -222,7 +222,7 @@
 	</distributionManagement>
 
 	<scm>
-		<url>https://bbvfsm.googlecode.com/svn/trunk/fsm</url>
-		<connection>scm:svn:https://bbvfsm.googlecode.com/svn/trunk/fsm</connection>
+		<url>https://bbvfsm.googlecode.com/svn/</url>
+		<connection>scm:svn:https://bbvfsm.googlecode.com/svn/</connection>
 	</scm>
 </project>
