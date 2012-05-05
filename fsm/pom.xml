@@ -215,9 +215,9 @@
 
 	<distributionManagement>
 		<repository>
-			<id>nexus-bbv</id>
+			<id>oss-sonatype</id>
 			<name>Nexus Staging Repo</name>
-			<url>http://javabuild.bbv.ch/nexus/content/repositories/snapshots</url>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</repository>
 	</distributionManagement>
 

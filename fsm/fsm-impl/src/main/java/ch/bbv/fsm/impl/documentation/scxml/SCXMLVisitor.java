@@ -27,9 +27,6 @@ import ch.bbv.fsm.model.StateMachineModel;
 import ch.bbv.fsm.model.TransitionInfo;
 import ch.bbv.fsm.model.visitor.Visitor;
 
-import com.mxgraph.examples.swing.SCXMLGraphEditor;
-import com.mxgraph.examples.swing.editor.scxml.SCXMLEditorActions;
-
 /**
  * @author Mario Martinez (bbv Software Services AG)
  * 
@@ -61,17 +58,9 @@ public class SCXMLVisitor<TStateMachine extends StateMachine<TState, TEvent>, TS
 	 */
 	public void convertSCXMLFile(final String filename) throws Exception {
 
-		FileWriter file = new FileWriter(filename + ".scxml");
+		final FileWriter file = new FileWriter(filename + ".scxml");
 		file.write(this.scxml.toString());
 		file.close();
-
-		SCXMLGraphEditor editor = SCXMLGraphEditor.startEditor(true);
-		SCXMLGraphEditor.setInput(filename + ".scxml");
-		SCXMLGraphEditor.setOutput(filename + ".jpg");
-		SCXMLGraphEditor.setOutputFormat("jpg");
-		SCXMLGraphEditor.setDoLayout(true);
-
-		SCXMLEditorActions.convertNoGUI(editor);
 	}
 
 	@Override
