@@ -46,6 +46,10 @@ public class RegionModel {
 		states.add(new PseudoStateModel(guid, name, kind));
 	}
 
+	public void addNewFinalState(String guid, String name) {
+		states.add(new FinalStateModel(guid, name));
+	}
+
 	public List<StateModel> getOrderedStates() {
 		List<StateModel> orderedList = Lists.newArrayList(states);
 		Collections.sort(orderedList);

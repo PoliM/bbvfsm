@@ -16,4 +16,8 @@ public class SimpleFsm extends AbstractStateMachine<SimpleFsm, States, Events> {
 	public Void turnOff() {
 		return null;
 	}
+
+	public boolean notRecentlyUsed() {
+		return false;
+	}
 }

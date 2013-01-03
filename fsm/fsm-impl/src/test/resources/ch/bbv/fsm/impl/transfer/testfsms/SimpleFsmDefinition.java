@@ -27,6 +27,7 @@ public class SimpleFsmDefinition extends AbstractStateMachineDefinition<SimpleFs
 		;
 		in(States.On).on(Events.toggle).goTo(States.Off) //
 				.execute(proto.turnOff()) //
+				.onlyIf(proto.notRecentlyUsed()) //
 		;
 	}
 

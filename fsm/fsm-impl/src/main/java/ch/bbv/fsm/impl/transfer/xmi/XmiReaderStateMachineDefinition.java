@@ -8,7 +8,7 @@ enum Events {
 }
 
 enum States {
-	WaitingForPackage, InPackage, InSM, InRegion, InTransition, End, InTrigger
+	WaitingForPackage, InPackage, InSM, InRegion, InTransition, End, InTrigger, InGuard
 }
 
 class XmiReaderStateMachineDefinition extends AbstractStateMachineDefinition<XmiReaderStateMachine, States, Events> {
@@ -41,6 +41,9 @@ class XmiReaderStateMachineDefinition extends AbstractStateMachineDefinition<Xmi
 		in(States.InRegion).on(Events.StartElement).goTo(States.InRegion) //
 				.execute(proto.addPseudoStateModel(null, null)) //
 				.onlyIf(proto.isPseudoStateStartElement(null, null));
+		in(States.InRegion).on(Events.StartElement).goTo(States.InRegion) //
+				.execute(proto.addFinalStateModel(null, null)) //
+				.onlyIf(proto.isFinalStateStartElement(null, null));
 		in(States.InRegion).on(Events.StartElement).goTo(States.InTransition) //
 				.execute(proto.addTransitionModel(null, null)) //
 				.onlyIf(proto.isTransitionStartElement(null, null));
@@ -56,6 +59,13 @@ class XmiReaderStateMachineDefinition extends AbstractStateMachineDefinition<Xmi
 		in(States.InTransition).on(Events.StartElement).goTo(States.InTransition) //
 				.execute(proto.setTriggerGuidToTransition(null, null)) //
 				.onlyIf(proto.isTransitionTriggerElement(null, null));
+		in(States.InTransition).on(Events.StartElement).goTo(States.InGuard) //
+				.onlyIf(proto.isGuardStartElement(null, null));
+		in(States.InGuard).on(Events.EndElement).goTo(States.InTransition) //
+				.onlyIf(proto.isGuardEndElement(null));
+		in(States.InGuard).on(Events.StartElement).goTo(States.InGuard) //
+				.execute(proto.setTransitionGuard(null, null)) //
+				.onlyIf(proto.isSpecificationStartElement(null, null));
 	}
 
 	@Override

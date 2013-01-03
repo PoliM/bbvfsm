@@ -106,6 +106,15 @@ public class XmiReaderStateMachine extends AbstractStateMachine<XmiReaderStateMa
 		return checkElement(qName, attributes, "subvertex", "uml:Pseudostate", null);
 	}
 
+	public Void addFinalStateModel(String qName, Attributes attributes) {
+		currentRegion.addNewFinalState(attributes.getValue("xmi:id"), attributes.getValue("name"));
+		return null;
+	}
+
+	public boolean isFinalStateStartElement(String qName, Attributes attributes) {
+		return checkElement(qName, attributes, "subvertex", "uml:FinalState", null);
+	}
+
 	public Void addTransitionModel(String qName, Attributes attributes) {
 		currentTransition = currentRegion.addNewTransition(attributes.getValue("xmi:id"),
 				attributes.getValue("source"), attributes.getValue("target"));
@@ -141,6 +150,23 @@ public class XmiReaderStateMachine extends AbstractStateMachine<XmiReaderStateMa
 
 	public boolean isTransitionTriggerElement(String qName, Attributes attributes) {
 		return checkElement(qName, attributes, "trigger", null, null);
+	}
+
+	public boolean isGuardStartElement(String qName, Attributes attributes) {
+		return checkElement(qName, attributes, "guard", "uml:Constraint", null);
+	}
+
+	public boolean isGuardEndElement(String qName) {
+		return checkElement(qName, null, "guard", null, null);
+	}
+
+	public boolean isSpecificationStartElement(String qName, Attributes attributes) {
+		return checkElement(qName, attributes, "specification", "uml:OpaqueExpression", null);
+	}
+
+	public Void setTransitionGuard(String qName, Attributes attributes) {
+		currentTransition.setGuard(attributes.getValue("body"));
+		return null;
 	}
 
 	private boolean checkElement(String qName, Attributes attributes, String expectedQName, String expectedType,

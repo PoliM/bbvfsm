@@ -63,6 +63,9 @@ public class SingleFsmGenerator {
 
 			for (TransitionModel trans : transitions) {
 				StateModel targetState = region.getState(trans.getTarget());
+				if (targetState.isFinalState()) {
+					continue;
+				}
 
 				// source->target transition
 				str.append("\t\tin(States.").append(sourceState.getName());
@@ -74,10 +77,13 @@ public class SingleFsmGenerator {
 				str.append(").goTo(States.").append(targetState.getName()).append(") //\n");
 
 				// execute
-				str.append("\t\t\t.execute(proto.").append(trans.getEffect()).append(") //\n");
-
+				if (trans.getEffect() != null) {
+					str.append("\t\t\t.execute(proto.").append(trans.getEffect()).append(") //\n");
+				}
 				// guard
-				// .onlyIf(proto.isStateMachineStartElement(null, null));
+				if (trans.getGuard() != null) {
+					str.append("\t\t\t.onlyIf(proto.").append(trans.getGuard()).append(") //\n");
+				}
 
 				str.append("\t\t\t;\n");
 			}

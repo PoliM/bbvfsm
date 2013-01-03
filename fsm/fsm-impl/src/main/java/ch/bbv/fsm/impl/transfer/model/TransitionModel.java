@@ -12,6 +12,8 @@ public class TransitionModel {
 
 	private String triggerGuid;
 
+	private String guard;
+
 	public TransitionModel(String guid, String source, String target) {
 		this.guid = guid;
 		this.source = source;
@@ -26,6 +28,9 @@ public class TransitionModel {
 		if (triggerGuid != null) {
 			str.append(indent).append('\t').append("Trigger: ")
 					.append(stateMachineModel.triggerFor(triggerGuid).getName()).append('\n');
+		}
+		if (guard != null) {
+			str.append(indent).append('\t').append("Guard: ").append(guard).append('\n');
 		}
 	}
 
@@ -55,5 +60,13 @@ public class TransitionModel {
 
 	public String getEffect() {
 		return effect;
+	}
+
+	public void setGuard(String value) {
+		guard = value;
+	}
+
+	public String getGuard() {
+		return guard;
 	}
 }

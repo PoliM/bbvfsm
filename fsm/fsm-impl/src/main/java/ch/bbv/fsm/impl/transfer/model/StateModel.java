@@ -31,4 +31,8 @@ public class StateModel implements Comparable<StateModel> {
 	public boolean isInitialState() {
 		return false;
 	}
+
+	public boolean isFinalState() {
+		return false;
+	}
 }
