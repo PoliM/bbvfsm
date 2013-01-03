@@ -54,7 +54,7 @@ public class SingleFsmGeneratorTest {
 		StateMachineModel stateMachineModel = XmiModelReader.readFromUrl(
 				this.getClass().getResource("/StateDiagramTests.xmi"), "XmiModelReader");
 		String javaCode = SingleFsmGenerator.model2Java(stateMachineModel, "ch.bbv.fsm.impl.transfer.testfsms",
-				"SimpleFsm");
+				"XmiReaderStateMachine");
 		System.out.println(javaCode);
 		if ("marcopoli".equals(System.getProperty("user.name"))) {
 			Files.write(

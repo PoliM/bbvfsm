@@ -63,9 +63,6 @@ public class SingleFsmGenerator {
 
 			for (TransitionModel trans : transitions) {
 				StateModel targetState = region.getState(trans.getTarget());
-				if (targetState.isFinalState()) {
-					continue;
-				}
 
 				// source->target transition
 				str.append("\t\tin(States.").append(sourceState.getName());

@@ -43,7 +43,7 @@ public class XmiReaderStateMachine extends AbstractStateMachine<XmiReaderStateMa
 		return checkElement(qName, null, "packagedElement", null, null);
 	}
 
-	public Void createTriggerModel(String qName, Attributes attributes) {
+	public Void addTrigger(String qName, Attributes attributes) {
 		stateMachine.addNewTrigger(attributes.getValue("xmi:id"), attributes.getValue("name"));
 		return null;
 	}
@@ -64,12 +64,12 @@ public class XmiReaderStateMachine extends AbstractStateMachine<XmiReaderStateMa
 		return checkElement(qName, null, "packagedElement", null, null);
 	}
 
-	public Void createStateMachineModel(String qName, Attributes attributes) {
+	public Void addStateMachine(String qName, Attributes attributes) {
 		stateMachine = new StateMachineModel(attributes.getValue("xmi:id"), attributes.getValue("name"));
 		return null;
 	}
 
-	public Void addAndEnterRegionModel(String qName, Attributes attributes) {
+	public Void addRegion(String qName, Attributes attributes) {
 		currentRegion = stateMachine.addNewRegion(attributes.getValue("xmi:id"), attributes.getValue("name"));
 		return null;
 	}
@@ -78,7 +78,7 @@ public class XmiReaderStateMachine extends AbstractStateMachine<XmiReaderStateMa
 		return checkElement(qName, attributes, "region", "uml:Region", null);
 	}
 
-	public Void exitRegionModel(String qName) {
+	public Void exitRegion(String qName) {
 		currentRegion = null;
 		return null;
 	}
@@ -87,7 +87,7 @@ public class XmiReaderStateMachine extends AbstractStateMachine<XmiReaderStateMa
 		return checkElement(qName, null, "region", null, null);
 	}
 
-	public Void addStateModel(String qName, Attributes attributes) {
+	public Void addState(String qName, Attributes attributes) {
 		currentRegion.addNewState(attributes.getValue("xmi:id"), attributes.getValue("name"));
 		return null;
 	}
@@ -115,7 +115,7 @@ public class XmiReaderStateMachine extends AbstractStateMachine<XmiReaderStateMa
 		return checkElement(qName, attributes, "subvertex", "uml:FinalState", null);
 	}
 
-	public Void addTransitionModel(String qName, Attributes attributes) {
+	public Void addTransition(String qName, Attributes attributes) {
 		currentTransition = currentRegion.addNewTransition(attributes.getValue("xmi:id"),
 				attributes.getValue("source"), attributes.getValue("target"));
 		return null;
@@ -125,7 +125,7 @@ public class XmiReaderStateMachine extends AbstractStateMachine<XmiReaderStateMa
 		return checkElement(qName, attributes, "transition", "uml:Transition", null);
 	}
 
-	public Void exitTransitionModel(String qName) {
+	public Void exitTransition(String qName) {
 		currentTransition = null;
 		return null;
 	}
@@ -134,12 +134,12 @@ public class XmiReaderStateMachine extends AbstractStateMachine<XmiReaderStateMa
 		return checkElement(qName, null, "transition", null, null);
 	}
 
-	public Void addEffectToTransition(String qName, Attributes attributes) {
+	public Void setEffectToTransition(String qName, Attributes attributes) {
 		currentTransition.setEffect(attributes.getValue("body"));
 		return null;
 	}
 
-	public boolean isTransitionEffectElement(String qName, Attributes attributes) {
+	public boolean isTransitionEffectStartElement(String qName, Attributes attributes) {
 		return checkElement(qName, attributes, "effect", "uml:OpaqueBehavior", null);
 	}
 
@@ -148,7 +148,7 @@ public class XmiReaderStateMachine extends AbstractStateMachine<XmiReaderStateMa
 		return null;
 	}
 
-	public boolean isTransitionTriggerElement(String qName, Attributes attributes) {
+	public boolean isTransitionTriggerStartElement(String qName, Attributes attributes) {
 		return checkElement(qName, attributes, "trigger", null, null);
 	}
 
