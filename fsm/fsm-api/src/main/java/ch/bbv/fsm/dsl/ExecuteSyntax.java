@@ -40,8 +40,7 @@ public interface ExecuteSyntax<TStateMachine extends StateMachine<TState, TEvent
 	 * @param action
 	 *            The action class.
 	 */
-	ExecuteSyntax<TStateMachine, TState, TEvent> execute(
-			Class<? extends Action<TStateMachine, TState, TEvent>> action);
+	ExecuteSyntax<TStateMachine, TState, TEvent> execute(Action<TStateMachine, TState, TEvent> action);
 
 	/**
 	 * Defines the actions to execute on a transition.

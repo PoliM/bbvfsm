@@ -50,8 +50,7 @@ public interface ExitActionSyntax<TStateMachine extends StateMachine<TState, TEv
 	 *            the {@link Action} Class
 	 * @return the EventSyntax
 	 */
-	EventSyntax<TStateMachine, TState, TEvent> executeOnExit(
-			Class<? extends Action<TStateMachine, TState, TEvent>> actionClass);
+	EventSyntax<TStateMachine, TState, TEvent> executeOnExit(Action<TStateMachine, TState, TEvent> actionClass);
 
 	/**
 	 * Defines an entry action.
@@ -64,7 +63,6 @@ public interface ExitActionSyntax<TStateMachine extends StateMachine<TState, TEv
 	 *            (necessary?)
 	 * @return the EventSyntax
 	 */
-	<T> EventSyntax<TStateMachine, TState, TEvent> executeOnExit(
-			Class<? extends Action<TStateMachine, TState, TEvent>> actionClass, T parameter);
+	<T> EventSyntax<TStateMachine, TState, TEvent> executeOnExit(Action<TStateMachine, TState, TEvent> actionClass, T parameter);
 
 }

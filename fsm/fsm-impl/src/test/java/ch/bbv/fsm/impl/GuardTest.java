@@ -126,8 +126,8 @@ public class GuardTest {
 		stateMachineDefinition.addEventHandler(new Handler());
 
 		stateMachineDefinition.in(States.A).on(Events.A).goTo(States.B)
-				.onlyIf(GuardTest.FunctionFalse.class).on(Events.A)
-				.goTo(States.C).onlyIf(GuardTest.FunctionFalse.class);
+				.onlyIf(new GuardTest.FunctionFalse()).on(Events.A)
+				.goTo(States.C).onlyIf(new GuardTest.FunctionFalse());
 
 		final StateMachine<States, Events> fsm = stateMachineDefinition
 				.createPassiveStateMachine("allGuardsReturnFalse", States.A);
@@ -151,7 +151,7 @@ public class GuardTest {
 				"eventArgumentsArePassedToTheGuard", States.A);
 
 		stateMachineDefinition.in(States.A).on(Events.A).goTo(States.B)
-				.onlyIf(GuardTest.FunctionTrueWithArgs.class);
+				.onlyIf(new GuardTest.FunctionTrueWithArgs());
 
 		final GuardTestStateMachine fsm = stateMachineDefinition
 				.createPassiveStateMachine("allGuardsReturnFalse", States.A);
@@ -173,8 +173,8 @@ public class GuardTest {
 				"transitionWithGuardReturningTrueIsExecuted", States.A);
 
 		stateMachineDefinition.in(States.A).on(Events.A).goTo(States.B)
-				.onlyIf(GuardTest.FunctionFalse.class).on(Events.A)
-				.goTo(States.C).onlyIf(GuardTest.FunctionTrue.class);
+				.onlyIf(new GuardTest.FunctionFalse()).on(Events.A)
+				.goTo(States.C).onlyIf(new GuardTest.FunctionTrue());
 
 		final StateMachine<States, Events> fsm = stateMachineDefinition
 				.createPassiveStateMachine("allGuardsReturnFalse", States.A);

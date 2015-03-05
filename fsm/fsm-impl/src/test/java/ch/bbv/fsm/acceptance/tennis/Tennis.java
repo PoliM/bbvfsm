@@ -98,99 +98,99 @@ public class Tennis {
 	public void setup() {
 		this.scorer = new TennisTestStateMachineDefinition();
 
-		this.scorer.in(States._0_0).executeOnEntry(SimpleActionClass.class,
+		this.scorer.in(States._0_0).executeOnEntry(new SimpleActionClass(),
 				States._0_0);
 		this.scorer.in(States._0_0).on(Events.A_Scores).goTo(States._15_0);
 		this.scorer.in(States._0_0).on(Events.B_Scores).goTo(States._0_15);
 
-		this.scorer.in(States._0_15).executeOnEntry(SimpleActionClass.class,
+		this.scorer.in(States._0_15).executeOnEntry(new SimpleActionClass(),
 				States._0_15);
 		this.scorer.in(States._0_15).on(Events.A_Scores).goTo(States._15_15);
 		this.scorer.in(States._0_15).on(Events.B_Scores).goTo(States._0_30);
 
-		this.scorer.in(States._0_30).executeOnEntry(SimpleActionClass.class,
+		this.scorer.in(States._0_30).executeOnEntry(new SimpleActionClass(),
 				States._0_30);
 		this.scorer.in(States._0_30).on(Events.A_Scores).goTo(States._15_30);
 		this.scorer.in(States._0_30).on(Events.B_Scores).goTo(States._0_40);
 
-		this.scorer.in(States._0_40).executeOnEntry(SimpleActionClass.class,
+		this.scorer.in(States._0_40).executeOnEntry(new SimpleActionClass(),
 				States._0_40);
 		this.scorer.in(States._0_40).on(Events.A_Scores).goTo(States._15_40);
 		this.scorer.in(States._0_40).on(Events.B_Scores).goTo(States._B_GAME);
 
-		this.scorer.in(States._15_0).executeOnEntry(SimpleActionClass.class,
+		this.scorer.in(States._15_0).executeOnEntry(new SimpleActionClass(),
 				States._15_0);
 		this.scorer.in(States._15_0).on(Events.A_Scores).goTo(States._30_0);
 		this.scorer.in(States._15_0).on(Events.B_Scores).goTo(States._15_15);
 
-		this.scorer.in(States._15_15).executeOnEntry(SimpleActionClass.class,
+		this.scorer.in(States._15_15).executeOnEntry(new SimpleActionClass(),
 				States._15_15);
 		this.scorer.in(States._15_15).on(Events.A_Scores).goTo(States._30_15);
 		this.scorer.in(States._15_15).on(Events.B_Scores).goTo(States._15_30);
 
-		this.scorer.in(States._15_30).executeOnEntry(SimpleActionClass.class,
+		this.scorer.in(States._15_30).executeOnEntry(new SimpleActionClass(),
 				States._15_30);
 		this.scorer.in(States._15_30).on(Events.A_Scores).goTo(States._30_30);
 		this.scorer.in(States._15_30).on(Events.B_Scores).goTo(States._15_40);
 
-		this.scorer.in(States._15_40).executeOnEntry(SimpleActionClass.class,
+		this.scorer.in(States._15_40).executeOnEntry(new SimpleActionClass(),
 				States._15_40);
 		this.scorer.in(States._15_40).on(Events.A_Scores).goTo(States._30_40);
 		this.scorer.in(States._15_40).on(Events.B_Scores).goTo(States._B_GAME);
 
-		this.scorer.in(States._30_0).executeOnEntry(SimpleActionClass.class,
+		this.scorer.in(States._30_0).executeOnEntry(new SimpleActionClass(),
 				States._30_0);
 		this.scorer.in(States._30_0).on(Events.A_Scores).goTo(States._40_0);
 		this.scorer.in(States._30_0).on(Events.B_Scores).goTo(States._30_15);
 
-		this.scorer.in(States._30_15).executeOnEntry(SimpleActionClass.class,
+		this.scorer.in(States._30_15).executeOnEntry(new SimpleActionClass(),
 				States._30_15);
 		this.scorer.in(States._30_15).on(Events.A_Scores).goTo(States._40_15);
 		this.scorer.in(States._30_15).on(Events.B_Scores).goTo(States._30_30);
 
-		this.scorer.in(States._30_30).executeOnEntry(SimpleActionClass.class,
+		this.scorer.in(States._30_30).executeOnEntry(new SimpleActionClass(),
 				States._30_30);
 		this.scorer.in(States._30_30).on(Events.A_Scores).goTo(States._40_30);
 		this.scorer.in(States._30_30).on(Events.B_Scores).goTo(States._30_40);
 
-		this.scorer.in(States._30_40).executeOnEntry(SimpleActionClass.class,
+		this.scorer.in(States._30_40).executeOnEntry(new SimpleActionClass(),
 				States._30_40);
 		this.scorer.in(States._30_40).on(Events.A_Scores).goTo(States._DEUCE);
 		this.scorer.in(States._30_40).on(Events.B_Scores).goTo(States._B_GAME);
 
-		this.scorer.in(States._40_0).executeOnEntry(SimpleActionClass.class,
+		this.scorer.in(States._40_0).executeOnEntry(new SimpleActionClass(),
 				States._40_0);
 		this.scorer.in(States._40_0).on(Events.A_Scores).goTo(States._A_GAME);
 		this.scorer.in(States._40_0).on(Events.B_Scores).goTo(States._40_15);
 
-		this.scorer.in(States._40_15).executeOnEntry(SimpleActionClass.class,
+		this.scorer.in(States._40_15).executeOnEntry(new SimpleActionClass(),
 				States._40_15);
 		this.scorer.in(States._40_15).on(Events.A_Scores).goTo(States._A_GAME);
 		this.scorer.in(States._40_15).on(Events.B_Scores).goTo(States._40_30);
 
-		this.scorer.in(States._40_30).executeOnEntry(SimpleActionClass.class,
+		this.scorer.in(States._40_30).executeOnEntry(new SimpleActionClass(),
 				States._40_30);
 		this.scorer.in(States._40_30).on(Events.A_Scores).goTo(States._A_GAME);
 		this.scorer.in(States._40_30).on(Events.B_Scores).goTo(States._DEUCE);
 
-		this.scorer.in(States._DEUCE).executeOnEntry(SimpleActionClass.class,
+		this.scorer.in(States._DEUCE).executeOnEntry(new SimpleActionClass(),
 				States._DEUCE);
 		this.scorer.in(States._DEUCE).on(Events.A_Scores).goTo(States._A_ADV);
 		this.scorer.in(States._DEUCE).on(Events.B_Scores).goTo(States._B_ADV);
 
-		this.scorer.in(States._A_ADV).executeOnEntry(SimpleActionClass.class,
+		this.scorer.in(States._A_ADV).executeOnEntry(new SimpleActionClass(),
 				States._A_ADV);
 		this.scorer.in(States._A_ADV).on(Events.A_Scores).goTo(States._A_GAME);
 		this.scorer.in(States._A_ADV).on(Events.B_Scores).goTo(States._DEUCE);
 
-		this.scorer.in(States._B_ADV).executeOnEntry(SimpleActionClass.class,
+		this.scorer.in(States._B_ADV).executeOnEntry(new SimpleActionClass(),
 				States._B_ADV);
 		this.scorer.in(States._B_ADV).on(Events.A_Scores).goTo(States._DEUCE);
 		this.scorer.in(States._B_ADV).on(Events.B_Scores).goTo(States._B_GAME);
 
-		this.scorer.in(States._A_GAME).executeOnEntry(SimpleActionClass.class,
+		this.scorer.in(States._A_GAME).executeOnEntry(new SimpleActionClass(),
 				States._A_GAME);
-		this.scorer.in(States._B_GAME).executeOnEntry(SimpleActionClass.class,
+		this.scorer.in(States._B_GAME).executeOnEntry(new SimpleActionClass(),
 				States._B_GAME);
 	}
 

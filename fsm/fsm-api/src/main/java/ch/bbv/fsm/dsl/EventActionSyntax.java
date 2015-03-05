@@ -49,7 +49,6 @@ public interface EventActionSyntax<TStateMachine extends StateMachine<TState, TE
 	 * @param action
 	 *            The actions to be executed.
 	 */
-	GuardSyntax<TStateMachine, TState, TEvent> execute(
-			Class<? extends Action<TStateMachine, TState, TEvent>> action);
+	GuardSyntax<TStateMachine, TState, TEvent> execute(Action<TStateMachine, TState, TEvent> action);
 
 }

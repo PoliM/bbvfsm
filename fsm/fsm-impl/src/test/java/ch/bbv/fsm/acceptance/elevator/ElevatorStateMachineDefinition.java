@@ -120,20 +120,20 @@ public class ElevatorStateMachineDefinition
 		in(State.Error).on(Event.Reset).goTo(State.Healthy);
 		in(State.OnFloor)
 				.executeOnEntry(
-						ElevatorStateMachineDefinition.AnnounceFloorAction.class)
+						new ElevatorStateMachineDefinition.AnnounceFloorAction())
 				.on(Event.CloseDoor)
 				.goTo(State.DoorClosed)
 				.on(Event.OpenDoor)
 				.goTo(State.DoorOpen)
 				.on(Event.GoUp)
 				.goTo(State.MovingUp)
-				.onlyIf(ElevatorStateMachineDefinition.CheckOverloadFunction.class)
+				.onlyIf(new ElevatorStateMachineDefinition.CheckOverloadFunction())
 				.on(Event.GoUp)
 				.execute(
-						ElevatorStateMachineDefinition.AnnounceOverloadAction.class)
+						new ElevatorStateMachineDefinition.AnnounceOverloadAction())
 				.on(Event.GoDown)
 				.goTo(State.MovingDown)
-				.onlyIf(ElevatorStateMachineDefinition.CheckOverloadFunction.class);
+				.onlyIf(new ElevatorStateMachineDefinition.CheckOverloadFunction());
 
 		in(State.Moving).on(Event.Stop).goTo(State.OnFloor);
 	}

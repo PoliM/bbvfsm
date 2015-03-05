@@ -87,7 +87,7 @@ public abstract class BaseStateMachineTest {
 		}
 	}
 
-	private final Class<FireAction> fireAction = FireAction.class;
+	private final FireAction fireAction = new FireAction();
 
 	/**
 	 * The state machine under test.

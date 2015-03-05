@@ -75,9 +75,9 @@ public class TransitionsTest {
 
 		public TransitionTestStateMachineDefinition() {
 			super("TransitionTestStateMachineDefinition", States.A);
-			in(States.A).on(Events.A).execute(Action3.class);
-			in(States.A).on(Events.B).goTo(States.B).execute(Action1.class)
-					.execute(Action2.class);
+			in(States.A).on(Events.A).execute(new Action3());
+			in(States.A).on(Events.B).goTo(States.B).execute(new Action1())
+					.execute(new Action2());
 		}
 
 		@Override
@@ -164,7 +164,7 @@ public class TransitionsTest {
 	public void internalTransition() {
 
 		final TransitionTestStateMachineDefinition stateMachineDefinition = new TransitionTestStateMachineDefinition();
-		stateMachineDefinition.in(States.A).on(Events.A).execute(Action3.class);
+		stateMachineDefinition.in(States.A).on(Events.A).execute(new Action3());
 		final TransitionTestStateMachine fsm = stateMachineDefinition
 				.createPassiveStateMachine("transitionTest", States.A);
 		fsm.start();

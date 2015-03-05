@@ -100,41 +100,30 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 
 	@Override
 	public ExecuteSyntax<TStateMachine, TState, TEvent> execute(
-			final Class<? extends Action<TStateMachine, TState, TEvent>> embeddedAction) {
+			Action<TStateMachine, TState, TEvent> embeddedAction) {
 
-		checkClassDefinition(embeddedAction);
-
-		this.currentTransition.getActions().add(
-				new ActionClassCallAction<TStateMachine, TState, TEvent>(
-						embeddedAction));
+		this.currentTransition.getActions().add(embeddedAction);
 		return this;
 	}
 
 	@Override
 	public ExitActionSyntax<TStateMachine, TState, TEvent> executeOnEntry(
-			final Class<? extends Action<TStateMachine, TState, TEvent>> action) {
-
-		checkClassDefinition(action);
+			Action<TStateMachine, TState, TEvent> action) {
 
 		this.internalState
 				.setEntryAction(new ActionHolderNoParameter<TStateMachine, TState, TEvent>(
-						new ActionClassCallAction<TStateMachine, TState, TEvent>(
-								action)));
+						action));
 
 		return this;
 	}
 
 	@Override
 	public <T> ExitActionSyntax<TStateMachine, TState, TEvent> executeOnEntry(
-			final Class<? extends Action<TStateMachine, TState, TEvent>> actionClass,
-			final T parameter) {
-
-		checkClassDefinition(actionClass);
+			Action<TStateMachine, TState, TEvent> actionClass, final T parameter) {
 
 		this.internalState
 				.setEntryAction(new ActionHolderParameter<TStateMachine, TState, TEvent, T>(
-						new ActionClassCallAction<TStateMachine, TState, TEvent>(
-								actionClass), parameter));
+						actionClass, parameter));
 		return this;
 	}
 
@@ -160,29 +149,23 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 
 	@Override
 	public ExitActionSyntax<TStateMachine, TState, TEvent> executeOnExit(
-			final Class<? extends Action<TStateMachine, TState, TEvent>> actionClass) {
-
-		checkClassDefinition(actionClass);
+			Action<TStateMachine, TState, TEvent> actionClass) {
 
 		this.internalState
 				.setExitAction(new ActionHolderNoParameter<TStateMachine, TState, TEvent>(
-						new ActionClassCallAction<TStateMachine, TState, TEvent>(
-								actionClass)));
+						actionClass));
 
 		return this;
 	}
 
 	@Override
 	public <T> EventSyntax<TStateMachine, TState, TEvent> executeOnExit(
-			final Class<? extends Action<TStateMachine, TState, TEvent>> actionClass,
-			final T parameter) {
-
-		checkClassDefinition(actionClass);
+			Action<TStateMachine, TState, TEvent> actionClass, final T parameter) {
 
 		this.internalState
 				.setExitAction(new ActionHolderParameter<TStateMachine, TState, TEvent, T>(
-						new ActionClassCallAction<TStateMachine, TState, TEvent>(
-								actionClass), parameter));
+
+				actionClass, parameter));
 		return this;
 	}
 
@@ -214,71 +197,12 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 
 	@Override
 	public EventSyntax<TStateMachine, TState, TEvent> onlyIf(
-			final Class<? extends Function<TStateMachine, TState, TEvent, Object[], Boolean>> guard) {
+			final Function<TStateMachine, TState, TEvent, Object[], Boolean> guard) {
 
-		checkClassDefinition(guard);
-
-		this.currentTransition
-				.setGuard(new FunctionClassCallFunction<TStateMachine, TState, TEvent, Object[], Boolean>(
-						guard));
+		this.currentTransition.setGuard(guard);
 
 		return this;
 
-	}
-
-	/**
-	 * @param action
-	 *            the action class
-	 * @throws IllegalActionClassDefinitionException
-	 *             if the action definition is not valid
-	 */
-	private <TClassType> void checkClassDefinition(final Class<?> action) {
-
-		if (!isValidActionDefinition(action)) {
-			throw new IllegalActionClassDefinitionException(
-					" class "
-							+ action.getName()
-							+ " must be either static or not have a declaring class. The default constructor must also be accesible.",
-					null);
-		}
-	}
-
-	/**
-	 * @param <TClassType>
-	 * @param action
-	 * @return
-	 */
-	private <TClassType> boolean isValidActionDefinition(final Class<?> action) {
-		try {
-
-			return isRegularOrStaticClass(action)
-					&& hasDefaultConstructor(action) && isInstanciable(action);
-
-		} catch (Exception e) {
-			// In case of no default constructor.
-			return false;
-		}
-	}
-
-	/**
-	 * @param action
-	 * @return
-	 */
-	private boolean isRegularOrStaticClass(final Class<?> action) {
-
-		return Modifier.isStatic(action.getModifiers())
-				|| action.getDeclaringClass() == null;
-	}
-
-	/**
-	 * @param action
-	 * @return
-	 * @throws NoSuchMethodException
-	 */
-	private boolean hasDefaultConstructor(final Class<?> action)
-			throws NoSuchMethodException {
-
-		return action.getConstructor(new Class[0]) != null;
 	}
 
 	/**

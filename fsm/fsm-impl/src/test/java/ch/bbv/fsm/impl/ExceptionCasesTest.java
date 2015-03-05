@@ -155,7 +155,7 @@ public class ExceptionCasesTest {
 
 	private boolean transitionDeclined;
 
-	private final Class<ThrowExceptionAction> throwException = ThrowExceptionAction.class;
+	private final ThrowExceptionAction throwException = new ThrowExceptionAction();
 
 	public static class ThrowExceptionFunction
 			implements
@@ -275,7 +275,7 @@ public class ExceptionCasesTest {
 		final ExceptionCasesTestStateMachineDefinition def = new ExceptionCasesTestStateMachineDefinition(
 				"exceptionThrowingGuard", States.A);
 		def.in(States.A).on(Events.B).goTo(States.B)
-				.onlyIf(ExceptionCasesTest.ThrowExceptionFunction.class);
+				.onlyIf(new ExceptionCasesTest.ThrowExceptionFunction());
 
 		def.addEventHandler(new Handler());
 

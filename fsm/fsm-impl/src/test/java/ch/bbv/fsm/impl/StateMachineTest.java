@@ -521,67 +521,67 @@ public class StateMachineTest {
 				HistoryType.DEEP, States.D1a, States.D1b);
 
 		stateMachineDefinition.in(States.A)
-				.executeOnEntry(RecordEntryActionClass.class, States.A)
-				.executeOnExit(RecordExitActionClass.class, States.A)
+				.executeOnEntry(new RecordEntryActionClass(), States.A)
+				.executeOnExit(new RecordExitActionClass(), States.A)
 				.on(Events.B).goTo(States.B).on(Events.C).goTo(States.C)
 				.on(Events.D).goTo(States.D).on(Events.A);
 
 		stateMachineDefinition.in(States.B)
-				.executeOnEntry(RecordEntryActionClass.class, States.B)
-				.executeOnExit(RecordExitActionClass.class, States.B);
+				.executeOnEntry(new RecordEntryActionClass(), States.B)
+				.executeOnExit(new RecordExitActionClass(), States.B);
 
 		stateMachineDefinition.in(States.B1)
-				.executeOnEntry(RecordEntryActionClass.class, States.B1)
-				.executeOnExit(RecordExitActionClass.class, States.B1)
+				.executeOnEntry(new RecordEntryActionClass(), States.B1)
+				.executeOnExit(new RecordExitActionClass(), States.B1)
 				.on(Events.B2).goTo(States.B2);
 
 		stateMachineDefinition.in(States.B2)
-				.executeOnEntry(RecordEntryActionClass.class, States.B2)
-				.executeOnExit(RecordExitActionClass.class, States.B2)
+				.executeOnEntry(new RecordEntryActionClass(), States.B2)
+				.executeOnExit(new RecordExitActionClass(), States.B2)
 				.on(Events.A).goTo(States.A).on(Events.C1b).goTo(States.C1b);
 
 		stateMachineDefinition.in(States.C)
-				.executeOnEntry(RecordEntryActionClass.class, States.C)
-				.executeOnExit(RecordExitActionClass.class, States.C)
+				.executeOnEntry(new RecordEntryActionClass(), States.C)
+				.executeOnExit(new RecordExitActionClass(), States.C)
 				.on(Events.A).goTo(States.A);
 
 		stateMachineDefinition.in(States.C1)
-				.executeOnEntry(RecordEntryActionClass.class, States.C1)
-				.executeOnExit(RecordExitActionClass.class, States.C1);
+				.executeOnEntry(new RecordEntryActionClass(), States.C1)
+				.executeOnExit(new RecordExitActionClass(), States.C1);
 
 		stateMachineDefinition.in(States.C2)
-				.executeOnEntry(RecordEntryActionClass.class, States.C2)
-				.executeOnExit(RecordExitActionClass.class, States.C2);
+				.executeOnEntry(new RecordEntryActionClass(), States.C2)
+				.executeOnExit(new RecordExitActionClass(), States.C2);
 
 		stateMachineDefinition.in(States.C1a)
-				.executeOnEntry(RecordEntryActionClass.class, States.C1a)
-				.executeOnExit(RecordExitActionClass.class, States.C1a);
+				.executeOnEntry(new RecordEntryActionClass(), States.C1a)
+				.executeOnExit(new RecordExitActionClass(), States.C1a);
 
 		stateMachineDefinition.in(States.C1b)
-				.executeOnEntry(RecordEntryActionClass.class, States.C1b)
-				.executeOnExit(RecordExitActionClass.class, States.C1b)
+				.executeOnEntry(new RecordEntryActionClass(), States.C1b)
+				.executeOnExit(new RecordExitActionClass(), States.C1b)
 				.on(Events.A).goTo(States.A);
 
 		stateMachineDefinition.in(States.D)
-				.executeOnEntry(RecordEntryActionClass.class, States.D)
-				.executeOnExit(RecordExitActionClass.class, States.D);
+				.executeOnEntry(new RecordEntryActionClass(), States.D)
+				.executeOnExit(new RecordExitActionClass(), States.D);
 
 		stateMachineDefinition.in(States.D1)
-				.executeOnEntry(RecordEntryActionClass.class, States.D1)
-				.executeOnExit(RecordExitActionClass.class, States.D1);
+				.executeOnEntry(new RecordEntryActionClass(), States.D1)
+				.executeOnExit(new RecordExitActionClass(), States.D1);
 
 		stateMachineDefinition.in(States.D1a)
-				.executeOnEntry(RecordEntryActionClass.class, States.D1a)
-				.executeOnExit(RecordExitActionClass.class, States.D1a);
+				.executeOnEntry(new RecordEntryActionClass(), States.D1a)
+				.executeOnExit(new RecordExitActionClass(), States.D1a);
 
 		stateMachineDefinition.in(States.D1b)
-				.executeOnEntry(RecordEntryActionClass.class, States.D1b)
-				.executeOnExit(RecordExitActionClass.class, States.D1b)
+				.executeOnEntry(new RecordEntryActionClass(), States.D1b)
+				.executeOnExit(new RecordExitActionClass(), States.D1b)
 				.on(Events.A).goTo(States.A).on(Events.B1).goTo(States.B1);
 
 		stateMachineDefinition.in(States.E)
-				.executeOnEntry(RecordEntryActionClass.class, States.E)
-				.executeOnExit(RecordExitActionClass.class, States.E)
+				.executeOnEntry(new RecordEntryActionClass(), States.E)
+				.executeOnExit(new RecordExitActionClass(), States.E)
 				.on(Events.A).goTo(States.A);
 
 	}

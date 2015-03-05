@@ -22,10 +22,12 @@ import ch.bbv.fsm.acceptance.action.definition.SimpleStateMachineDefinition.Even
 import ch.bbv.fsm.acceptance.action.definition.SimpleStateMachineDefinition.State;
 import ch.bbv.fsm.action.Action;
 
-public class ActionDefinition implements Action<SimpleStateMachine, State, Event> {
+public class ActionDefinition implements
+		Action<SimpleStateMachine, State, Event> {
 
 	@Override
-	public void execute(final SimpleStateMachine stateMachine, final Object... arguments) {
+	public void execute(final SimpleStateMachine stateMachine,
+			final Object... arguments) {
 
 		stateMachine.addCallingAction(this);
 		stateMachine.log("execute: ActionDefinition.execute()");
@@ -34,12 +36,15 @@ public class ActionDefinition implements Action<SimpleStateMachine, State, Event
 	/*
 	 * CLASS
 	 */
-	public static class ActionDefinitionInnerStatic implements Action<SimpleStateMachine, State, Event> {
+	public static class ActionDefinitionInnerStatic implements
+			Action<SimpleStateMachine, State, Event> {
 
 		@Override
-		public void execute(final SimpleStateMachine stateMachine, final Object... arguments) {
+		public void execute(final SimpleStateMachine stateMachine,
+				final Object... arguments) {
 
-			stateMachine.log("execute: ActionDefinition$ActionDefinitionInnerStatic.execute()");
+			stateMachine
+					.log("execute: ActionDefinition$ActionDefinitionInnerStatic.execute()");
 		}
 
 		/*
@@ -49,7 +54,8 @@ public class ActionDefinition implements Action<SimpleStateMachine, State, Event
 				Action<SimpleStateMachine, State, Event> {
 
 			@Override
-			public void execute(final SimpleStateMachine stateMachine, final Object... arguments) {
+			public void execute(final SimpleStateMachine stateMachine,
+					final Object... arguments) {
 
 				stateMachine
 						.log("execute: ActionDefinition$ActionDefinitionInner$ActionDefinitionInnerSecondLevel.execute()");
@@ -61,49 +67,59 @@ public class ActionDefinition implements Action<SimpleStateMachine, State, Event
 	/*
 	 * CLASS
 	 */
-	public class ActionDefinitionInner implements Action<SimpleStateMachine, State, Event> {
+	public static class ActionDefinitionInner implements
+			Action<SimpleStateMachine, State, Event> {
 
 		@Override
-		public void execute(final SimpleStateMachine stateMachine, final Object... arguments) {
+		public void execute(final SimpleStateMachine stateMachine,
+				final Object... arguments) {
 
-			stateMachine.log("execute: ActionDefinition$ActionDefinitionInner.execute()");
+			stateMachine
+					.log("execute: ActionDefinition$ActionDefinitionInner.execute()");
 		}
 
 	}
 
-	public final class ActionDefinitionInnerWithoutDefaultConstructor implements
-			Action<SimpleStateMachine, State, Event> {
+	public final static class ActionDefinitionInnerWithoutDefaultConstructor
+			implements Action<SimpleStateMachine, State, Event> {
 
 		@Override
-		public void execute(final SimpleStateMachine stateMachine, final Object... arguments) {
+		public void execute(final SimpleStateMachine stateMachine,
+				final Object... arguments) {
 
 		}
 
-		private ActionDefinitionInnerWithoutDefaultConstructor() {
+		public ActionDefinitionInnerWithoutDefaultConstructor() {
 		}
 	}
 
 	/*
 	 * CLASS
 	 */
-	public static class ActionDefinitionEntry implements Action<SimpleStateMachine, State, Event> {
+	public static class ActionDefinitionEntry implements
+			Action<SimpleStateMachine, State, Event> {
 
 		@Override
-		public void execute(final SimpleStateMachine stateMachine, final Object... arguments) {
+		public void execute(final SimpleStateMachine stateMachine,
+				final Object... arguments) {
 
 			stateMachine.addCallingAction(this);
 
-			stateMachine.log("execute: ActionDefinition$ActionDefinitionEntry.execute()");
+			stateMachine
+					.log("execute: ActionDefinition$ActionDefinitionEntry.execute()");
 		}
 	}
 
-	public static class ActionDefinitionEntryWithParameter implements Action<SimpleStateMachine, State, Event> {
+	public static class ActionDefinitionEntryWithParameter implements
+			Action<SimpleStateMachine, State, Event> {
 
 		@Override
-		public void execute(final SimpleStateMachine stateMachine, final Object... arguments) {
+		public void execute(final SimpleStateMachine stateMachine,
+				final Object... arguments) {
 
-			stateMachine.log("execute: ActionDefinition$ActionDefinitionEntryWithParameter.execute(" + arguments[0]
-					+ ")");
+			stateMachine
+					.log("execute: ActionDefinition$ActionDefinitionEntryWithParameter.execute("
+							+ arguments[0] + ")");
 		}
 	}
 

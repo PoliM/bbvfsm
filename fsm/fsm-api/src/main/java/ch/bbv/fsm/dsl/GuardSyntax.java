@@ -35,8 +35,9 @@ public interface GuardSyntax<TStateMachine extends StateMachine<TState, TEvent>,
 		extends EventSyntax<TStateMachine, TState, TEvent> {
 
 	/**
-	 * Defines a guard for a transition. A boolean itself is not valid. There needs to be a function call using
-	 * from(owner).function returning a boolean.
+	 * Defines a guard for a transition. A boolean itself is not valid. There
+	 * needs to be a function call using from(owner).function returning a
+	 * boolean.
 	 * 
 	 * @param guard
 	 *            function call using the from construct.
@@ -52,5 +53,5 @@ public interface GuardSyntax<TStateMachine extends StateMachine<TState, TEvent>,
 	 * @return Event syntax.
 	 */
 	EventSyntax<TStateMachine, TState, TEvent> onlyIf(
-			Class<? extends Function<TStateMachine, TState, TEvent, Object[], Boolean>> guard);
+			Function<TStateMachine, TState, TEvent, Object[], Boolean> guard);
 }

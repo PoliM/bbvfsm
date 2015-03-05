@@ -104,7 +104,7 @@ public class StateActionTest {
 
 		final StateActionTestStateMachineDefinition stateMachineDefinition = new StateActionTestStateMachineDefinition();
 
-		stateMachineDefinition.in(States.A).executeOnEntry(ActionClass.class);
+		stateMachineDefinition.in(States.A).executeOnEntry(new ActionClass());
 
 		final StateActionTestStateMachine fsm = stateMachineDefinition
 				.createPassiveStateMachine("entryAction", States.A);
@@ -121,7 +121,7 @@ public class StateActionTest {
 
 		final StateActionTestStateMachineDefinition stateMachineDefinition = new StateActionTestStateMachineDefinition();
 
-		stateMachineDefinition.in(States.A).executeOnExit(ActionClass.class)
+		stateMachineDefinition.in(States.A).executeOnExit(new ActionClass())
 				.on(Events.B).goTo(States.B);
 
 		final StateActionTestStateMachine fsm = stateMachineDefinition
@@ -141,7 +141,7 @@ public class StateActionTest {
 		final StateActionTestStateMachineDefinition stateMachineDefinition = new StateActionTestStateMachineDefinition();
 
 		stateMachineDefinition.in(States.A).executeOnEntry(
-				ActionWithParameterClass.class, 3);
+				new ActionWithParameterClass(), 3);
 
 		final StateActionTestStateMachine fsm = stateMachineDefinition
 				.createPassiveStateMachine("parameterizedEntryAction", States.A);
@@ -160,7 +160,7 @@ public class StateActionTest {
 		final StateActionTestStateMachineDefinition stateMachineDefinition = new StateActionTestStateMachineDefinition();
 
 		stateMachineDefinition.in(States.A)
-				.executeOnExit(ActionWithParameterClass.class, 3).on(Events.B)
+				.executeOnExit(new ActionWithParameterClass(), 3).on(Events.B)
 				.goTo(States.B);
 
 		final StateActionTestStateMachine fsm = stateMachineDefinition

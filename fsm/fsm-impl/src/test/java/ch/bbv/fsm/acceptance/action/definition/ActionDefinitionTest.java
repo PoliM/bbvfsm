@@ -41,7 +41,7 @@ public class ActionDefinitionTest {
 		final SimpleStateMachineDefinition multipleStateMachineDefinition = new SimpleStateMachineDefinition();
 
 		multipleStateMachineDefinition.in(State.state_init).on(Event.move)
-				.execute(ActionDefinition.class);
+				.execute(new ActionDefinition());
 
 		Assert.assertTrue(true);
 
@@ -53,7 +53,7 @@ public class ActionDefinitionTest {
 		final SimpleStateMachineDefinition multipleStateMachineDefinition = new SimpleStateMachineDefinition();
 
 		multipleStateMachineDefinition.in(State.state_init).on(Event.move)
-				.execute(ActionDefinition.ActionDefinitionInnerStatic.class);
+				.execute(new ActionDefinition.ActionDefinitionInnerStatic());
 
 		Assert.assertTrue(true);
 
@@ -68,34 +68,9 @@ public class ActionDefinitionTest {
 				.in(State.state_init)
 				.on(Event.move)
 				.execute(
-						ActionDefinition.ActionDefinitionInnerStatic.ActionDefinitionInnerStaticSecondLevel.class);
+						new ActionDefinition.ActionDefinitionInnerStatic.ActionDefinitionInnerStaticSecondLevel());
 
 		Assert.assertTrue(true);
-
-	}
-
-	// Test invalid action class definition
-
-	@Test(expected = IllegalActionClassDefinitionException.class)
-	public void actionDefinitionWhenInnerNotStaticClassDefinitionThenException() {
-
-		final SimpleStateMachineDefinition multipleStateMachineDefinition = new SimpleStateMachineDefinition();
-
-		multipleStateMachineDefinition.in(State.state_init).on(Event.move)
-				.execute(ActionDefinition.ActionDefinitionInner.class);
-
-	}
-
-	@Test(expected = IllegalActionClassDefinitionException.class)
-	public void actionDefinitionWhenInnerStaticClassAndNotDefaultConstructorThenException() {
-
-		final SimpleStateMachineDefinition multipleStateMachineDefinition = new SimpleStateMachineDefinition();
-
-		multipleStateMachineDefinition
-				.in(State.state_init)
-				.on(Event.move)
-				.execute(
-						ActionDefinition.ActionDefinitionInnerWithoutDefaultConstructor.class);
 
 	}
 
@@ -110,7 +85,7 @@ public class ActionDefinitionTest {
 
 		// InternalState Machine Behavior
 		simpleStateMachineDefinition.in(State.state_init).on(Event.move)
-				.execute(ActionDefinition.class);
+				.execute(new ActionDefinition());
 
 		testee.start();
 		testee.fire(Event.move);
@@ -127,7 +102,7 @@ public class ActionDefinitionTest {
 
 		// InternalState Machine Behavior
 		simpleStateMachineDefinition.in(State.state_init).executeOnEntry(
-				ActionDefinition.ActionDefinitionInnerStatic.class);
+				new ActionDefinition.ActionDefinitionInnerStatic());
 
 		final SimpleStateMachine testee = simpleStateMachineDefinition
 				.createPassiveStateMachine("sample", State.state_init);
@@ -149,7 +124,7 @@ public class ActionDefinitionTest {
 
 		// InternalState Machine Behavior
 		simpleStateMachineDefinition.in(State.state_init).executeOnEntry(
-				ActionDefinition.ActionDefinitionEntryWithParameter.class,
+				new ActionDefinition.ActionDefinitionEntryWithParameter(),
 				"parameter1");
 
 		final SimpleStateMachine testee = simpleStateMachineDefinition
@@ -172,7 +147,7 @@ public class ActionDefinitionTest {
 
 		// InternalState Machine Behavior
 		simpleStateMachineDefinition.in(State.state_init).executeOnExit(
-				ActionDefinition.ActionDefinitionInnerStatic.class);
+				new ActionDefinition.ActionDefinitionInnerStatic());
 		simpleStateMachineDefinition.in(State.state_init).on(Event.move)
 				.goTo(State.state_entry);
 
@@ -196,7 +171,7 @@ public class ActionDefinitionTest {
 
 		// InternalState Machine Behavior
 		simpleStateMachineDefinition.in(State.state_init).executeOnExit(
-				ActionDefinition.ActionDefinitionEntryWithParameter.class,
+				new ActionDefinition.ActionDefinitionEntryWithParameter(),
 				"parameter1");
 		simpleStateMachineDefinition.in(State.state_init).on(Event.move)
 				.goTo(State.state_entry);
@@ -213,30 +188,4 @@ public class ActionDefinitionTest {
 				testee.consumeLog());
 	}
 
-	// Test multiple InternalState Machine instances
-
-	@Test
-	public void multipleActionWhenMultipleStateMachinesWithSameDefinitionThenDifferentActionInstancesAreExecuted() {
-
-		final SimpleStateMachineDefinition multipleStateMachineDefinition = new SimpleStateMachineDefinition();
-
-		final SimpleStateMachine testee1 = multipleStateMachineDefinition
-				.createPassiveStateMachine("sample", State.state_init);
-		final SimpleStateMachine testee2 = multipleStateMachineDefinition
-				.createPassiveStateMachine("sample", State.state_init);
-
-		multipleStateMachineDefinition.in(State.state_init).executeOnEntry(
-				ActionDefinition.class);
-
-		testee1.start();
-		testee2.start();
-
-		Assert.assertEquals("Invalid size", 1, testee1.getCallingActions()
-				.size());
-		Assert.assertEquals("Invalid size", 1, testee2.getCallingActions()
-				.size());
-		Assert.assertNotSame("Different Action Objects", testee1
-				.getCallingActions().get(0), testee2.getCallingActions().get(0));
-
-	}
 }

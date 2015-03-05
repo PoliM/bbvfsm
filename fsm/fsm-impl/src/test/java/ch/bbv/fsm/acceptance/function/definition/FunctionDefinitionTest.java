@@ -129,8 +129,8 @@ public class FunctionDefinitionTest {
 				.createPassiveStateMachine("simpleFSM", States.A);
 
 		stateMachineDefinition.in(States.A).on(Events.A).goTo(States.B)
-				.execute(FunctionDefinitionTest.DoNothing.class)
-				.onlyIf(FunctionDefinitionTest.WriteLogFunction.class);
+				.execute(new FunctionDefinitionTest.DoNothing())
+				.onlyIf(new FunctionDefinitionTest.WriteLogFunction());
 
 		stateMachine.start();
 		stateMachine.fire(Events.A);
@@ -140,35 +140,5 @@ public class FunctionDefinitionTest {
 
 	}
 
-	// Test multiple InternalState Machine instances
-
-	@Test
-	public void multipleFunctionWhenMultipleStateMachinesWithSameDefinitionThenDifferentFunctionInstancesAreExecuted() {
-
-		final FunctionDefinitionTestStateMachineDefinition multipleStateMachineDefinition = new FunctionDefinitionTestStateMachineDefinition(
-				"sampleDef", States.A);
-
-		final FunctionDefinitionTestStateMachine testee1 = multipleStateMachineDefinition
-				.createPassiveStateMachine("sample", States.A);
-		final FunctionDefinitionTestStateMachine testee2 = multipleStateMachineDefinition
-				.createPassiveStateMachine("sample", States.A);
-
-		multipleStateMachineDefinition.in(States.A).on(Events.A)
-				.execute(FunctionDefinitionTest.DoNothing.class)
-				.onlyIf(FunctionDefinitionTest.WriteLogFunction.class);
-
-		testee1.start();
-		testee2.start();
-
-		testee1.fire(Events.A);
-		testee2.fire(Events.A);
-
-		Assert.assertEquals("Invalid size", 1, testee1.getCallingActions()
-				.size());
-		Assert.assertEquals("Invalid size", 1, testee2.getCallingActions()
-				.size());
-		Assert.assertNotSame("Different Action Objects", testee1
-				.getCallingActions().get(0), testee2.getCallingActions().get(0));
-
-	}
+	
 }
