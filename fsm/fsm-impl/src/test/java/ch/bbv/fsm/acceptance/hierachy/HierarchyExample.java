@@ -34,7 +34,7 @@ public class HierarchyExample {
 
 	public enum Events {
 		toA, toB, toB2, toC, toD, toD2
-	};
+	}
 
 	public enum States {
 		A, B, B_1, B_2, C, D, D_1, D_2

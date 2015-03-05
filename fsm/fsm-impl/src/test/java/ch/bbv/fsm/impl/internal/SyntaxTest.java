@@ -41,7 +41,7 @@ public class SyntaxTest {
 
 	private static final String EXIT_A = "ExitA";
 
-	private static final String ENTRY_A = "EntryA";;
+	private static final String ENTRY_A = "EntryA";
 
 	private static final String ENTRY_B = "EntryB";
 

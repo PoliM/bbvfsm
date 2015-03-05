@@ -100,8 +100,8 @@ public class ElevatorStateMachineDefinition
 		public Boolean execute(final ElevatorStateMachine stateMachine,
 				final Object[] arguments) {
 			return true;
-		};
-	};
+		}
+	}
 
 	public ElevatorStateMachineDefinition() {
 		super(State.Healthy);

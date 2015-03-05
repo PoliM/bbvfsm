@@ -6,6 +6,7 @@ public class FinalStateModel extends StateModel {
 		super(guid, name);
 	}
 
+	@Override
 	public void appendString(String indent, StringBuilder str) {
 		str.append(indent).append("FinalState: ").append(getGuid()).append(" / ").append(name).append('\n');
 	}
