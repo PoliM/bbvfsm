@@ -46,7 +46,7 @@ public class FunctionDefinitionTest {
 
 		private final StringBuffer log = new StringBuffer();
 
-		private final List<Function<FunctionDefinitionTestStateMachine, States, Events, Object[], Boolean>> callingActions = new LinkedList<Function<FunctionDefinitionTestStateMachine, States, Events, Object[], Boolean>>();
+		private final List<Function<FunctionDefinitionTestStateMachine, States, Events, Object[], Boolean>> callingActions = new LinkedList<>();
 
 		public String consumeLog() {
 			return log.toString();

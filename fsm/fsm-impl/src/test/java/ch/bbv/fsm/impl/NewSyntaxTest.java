@@ -38,7 +38,7 @@ public class NewSyntaxTest {
 
 	@Test
 	public void transitionTest() {
-		final SimpleStateMachineDefinition<States, Events> stateMachineDefinition = new SimpleStateMachineDefinition<States, Events>(
+		final SimpleStateMachineDefinition<States, Events> stateMachineDefinition = new SimpleStateMachineDefinition<>(
 				"transitionTest", States.A);
 
 		stateMachineDefinition.in(States.A).on(Events.B).goTo(States.B).execute((sm, p)->this.actionMethod((String)p[0], (int)p[1]));

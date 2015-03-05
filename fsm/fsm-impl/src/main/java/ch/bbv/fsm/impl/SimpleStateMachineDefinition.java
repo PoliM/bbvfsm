@@ -27,7 +27,7 @@ public class SimpleStateMachineDefinition<TState extends Enum<?>, TEvent extends
 
 	@Override
 	protected SimpleStateMachine<TState, TEvent> createStateMachine(final StateMachine<TState, TEvent> driver) {
-		return new SimpleStateMachine<TState, TEvent>(driver);
+		return new SimpleStateMachine<>(driver);
 	}
 
 }

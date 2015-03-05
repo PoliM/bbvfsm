@@ -50,7 +50,7 @@ public class SimpleStateMachine
 		extends
 		AbstractStateMachine<SimpleStateMachine, SimpleStateMachineDefinition.State, SimpleStateMachineDefinition.Event> {
 
-	private final List<Action<SimpleStateMachine, State, Event>> callingActions = new LinkedList<Action<SimpleStateMachine, State, Event>>();
+	private final List<Action<SimpleStateMachine, State, Event>> callingActions = new LinkedList<>();
 
 	private String log = "";
 

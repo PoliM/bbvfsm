@@ -84,7 +84,7 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 			Action<TStateMachine, TState, TEvent> action) {
 
 		this.internalState
-				.setEntryAction(new ActionHolderNoParameter<TStateMachine, TState, TEvent>(
+				.setEntryAction(new ActionHolderNoParameter<>(
 						action));
 
 		return this;
@@ -95,7 +95,7 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 			Action<TStateMachine, TState, TEvent> actionClass, final T parameter) {
 
 		this.internalState
-				.setEntryAction(new ActionHolderParameter<TStateMachine, TState, TEvent, T>(
+				.setEntryAction(new ActionHolderParameter<>(
 						actionClass, parameter));
 		return this;
 	}
@@ -105,7 +105,7 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 			Action<TStateMachine, TState, TEvent> actionClass) {
 
 		this.internalState
-				.setExitAction(new ActionHolderNoParameter<TStateMachine, TState, TEvent>(
+				.setExitAction(new ActionHolderNoParameter<>(
 						actionClass));
 
 		return this;
@@ -116,7 +116,7 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 			Action<TStateMachine, TState, TEvent> actionClass, final T parameter) {
 
 		this.internalState
-				.setExitAction(new ActionHolderParameter<TStateMachine, TState, TEvent, T>(
+				.setExitAction(new ActionHolderParameter<>(
 
 				actionClass, parameter));
 		return this;
@@ -131,7 +131,7 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 	@Override
 	public EventActionSyntax<TStateMachine, TState, TEvent> on(
 			final TEvent eventId) {
-		this.currentTransition = new TransitionImpl<TStateMachine, TState, TEvent>();
+		this.currentTransition = new TransitionImpl<>();
 		this.internalState.getTransitions()
 				.add(eventId, this.currentTransition);
 		return this;

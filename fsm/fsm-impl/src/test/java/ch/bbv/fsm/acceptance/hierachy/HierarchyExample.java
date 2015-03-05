@@ -44,7 +44,7 @@ public class HierarchyExample {
 
 	@Before
 	public void setup() {
-		hierarchyExampleStateMachineDefinition = new SimpleStateMachineDefinition<HierarchyExample.States, HierarchyExample.Events>(
+		hierarchyExampleStateMachineDefinition = new SimpleStateMachineDefinition<>(
 				"hierarchyExampleStateMachine", States.A);
 
 		hierarchyExampleStateMachineDefinition.defineHierarchyOn(States.B, States.B_1, HistoryType.NONE, States.B_1, States.B_2);

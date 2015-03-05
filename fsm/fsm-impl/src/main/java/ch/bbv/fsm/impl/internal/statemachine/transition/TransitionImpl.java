@@ -161,7 +161,7 @@ public class TransitionImpl<TStateMachine extends StateMachine<TState, TEvent>, 
 			this.performActions(context.getEventArguments(), context);
 		}
 
-		return new TransitionResultImpl<TStateMachine, TState, TEvent>(true, newState, context.getExceptions());
+		return new TransitionResultImpl<>(true, newState, context.getExceptions());
 	}
 
 	@Override

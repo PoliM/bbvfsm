@@ -93,7 +93,7 @@ public class TransitionDictionaryImpl<TStateMachine extends StateMachine<TState,
 	 */
 	private void getTransitionsOfEvent(final TEvent eventId, final List<InternalTransitionInfo<TStateMachine, TState, TEvent>> list) {
 		for (final Transition<TStateMachine, TState, TEvent> transition : this.transitions.get(eventId)) {
-			list.add(new InternalTransitionInfo<TStateMachine, TState, TEvent>(eventId, transition.getSource(), transition.getTarget(), transition
+			list.add(new InternalTransitionInfo<>(eventId, transition.getSource(), transition.getTarget(), transition
 					.getGuard() != null, transition.getActions().size()));
 		}
 	}

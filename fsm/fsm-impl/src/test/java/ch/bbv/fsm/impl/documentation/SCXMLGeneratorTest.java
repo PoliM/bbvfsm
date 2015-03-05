@@ -1,6 +1,13 @@
 package ch.bbv.fsm.impl.documentation;
 
+import java.io.File;
 import java.io.StringReader;
+
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.sax.SAXSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.scxml.io.SCXMLParser;
 import org.apache.commons.scxml.model.SCXML;
@@ -51,7 +58,7 @@ public class SCXMLGeneratorTest {
 	public void testSCXMLGeneratorWhenSubStatesThenCorrectSubStates()
 			throws Exception {
 
-		SimpleStateMachineDefinition<States, Events> definition = new SimpleStateMachineDefinition<States, Events>(
+		SimpleStateMachineDefinition<States, Events> definition = new SimpleStateMachineDefinition<>(
 				"simple", States.A);
 		definition.in(States.A).on(Events.B).goTo(States.B);
 		definition.in(States.A).on(Events.C).goTo(States.C);
@@ -63,7 +70,13 @@ public class SCXMLGeneratorTest {
 				States.D, States.E);
 
 		// Action
-		SCXMLVisitor<SimpleStateMachine<States, Events>, States, Events> visitor = new SCXMLVisitor<SimpleStateMachine<States, Events>, States, Events>();
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
+		//		transformer.
+		//		transformer.transform(new SAXSource(reader, inputSource), outputTarget);
+		//		StreamResult result = new StreamResult(new File("C:\\file.xml"
+
+		SCXMLVisitor<SimpleStateMachine<States, Events>, States, Events> visitor = new SCXMLVisitor<>();
 		definition.traverseModel(visitor);
 		StringBuffer result = visitor.getScxml();
 
@@ -86,7 +99,7 @@ public class SCXMLGeneratorTest {
 			throws Exception {
 
 		// Arrange)
-		SimpleStateMachineDefinition<States, Events> definition = new SimpleStateMachineDefinition<States, Events>(
+		SimpleStateMachineDefinition<States, Events> definition = new SimpleStateMachineDefinition<>(
 				"simple", States.A);
 
 		// root scope (A)
@@ -104,7 +117,7 @@ public class SCXMLGeneratorTest {
 				States.C1, States.C2);
 
 		// Action
-		SCXMLVisitor<SimpleStateMachine<States, Events>, States, Events> visitor = new SCXMLVisitor<SimpleStateMachine<States, Events>, States, Events>();
+		SCXMLVisitor<SimpleStateMachine<States, Events>, States, Events> visitor = new SCXMLVisitor<>();
 		definition.traverseModel(visitor);
 		StringBuffer result = visitor.getScxml();
 

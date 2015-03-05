@@ -113,7 +113,7 @@ public class InternalStateImpl<TStateMachine extends StateMachine<TState, TEvent
 		this.level = 1;
 
 		this.subStates = Lists.newArrayList();
-		this.transitions = new TransitionDictionaryImpl<TStateMachine, TState, TEvent>(
+		this.transitions = new TransitionDictionaryImpl<>(
 				this);
 	}
 

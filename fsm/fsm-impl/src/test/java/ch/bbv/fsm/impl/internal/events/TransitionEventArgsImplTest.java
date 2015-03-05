@@ -40,7 +40,7 @@ public class TransitionEventArgsImplTest {
 		final TransitionContext<SimpleStateMachine<States, Events>, States, Events> contextMock = Mockito.mock(TransitionContext.class);
 		Mockito.when(contextMock.getEventId()).thenReturn(Events.A);
 		Mockito.when(contextMock.getState()).thenReturn(stateMock);
-		final TransitionEventArgsImpl<SimpleStateMachine<States, Events>, States, Events> testee = new TransitionEventArgsImpl<SimpleStateMachine<States, Events>, States, Events>(
+		final TransitionEventArgsImpl<SimpleStateMachine<States, Events>, States, Events> testee = new TransitionEventArgsImpl<>(
 				contextMock);
 		Assert.assertEquals("Transition from state A on event A.", testee.toString());
 	}
