@@ -18,9 +18,6 @@
  *******************************************************************************/
 package ch.bbv.fsm.impl;
 
-import static ch.bbv.fsm.impl.Tool.any;
-import static ch.bbv.fsm.impl.Tool.from;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -44,7 +41,7 @@ public class NewSyntaxTest {
 		final SimpleStateMachineDefinition<States, Events> stateMachineDefinition = new SimpleStateMachineDefinition<States, Events>(
 				"transitionTest", States.A);
 
-		stateMachineDefinition.in(States.A).on(Events.B).goTo(States.B).execute(from(this).actionMethod(any(String.class), any(int.class)));
+		stateMachineDefinition.in(States.A).on(Events.B).goTo(States.B).execute((sm, p)->this.actionMethod((String)p[0], (int)p[1]));
 
 		final StateMachine<States, Events> fsm = stateMachineDefinition.createPassiveStateMachine("transitionTest", States.A);
 		fsm.start();

@@ -42,12 +42,4 @@ public interface ExecuteSyntax<TStateMachine extends StateMachine<TState, TEvent
 	 */
 	ExecuteSyntax<TStateMachine, TState, TEvent> execute(Action<TStateMachine, TState, TEvent> action);
 
-	/**
-	 * Defines the actions to execute on a transition.
-	 * 
-	 * @param methodCall
-	 *            The actions.
-	 * @return Guard syntax.
-	 */
-	ExecuteSyntax<TStateMachine, TState, TEvent> execute(Object methodCall);
 }

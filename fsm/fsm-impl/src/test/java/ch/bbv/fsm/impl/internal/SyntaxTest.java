@@ -18,8 +18,6 @@
  *******************************************************************************/
 package ch.bbv.fsm.impl.internal;
 
-import static ch.bbv.fsm.impl.Tool.any;
-import static ch.bbv.fsm.impl.Tool.from;
 import junit.framework.Assert;
 
 import org.junit.Before;
@@ -71,11 +69,11 @@ public class SyntaxTest {
 	public void setup() {
 		this.definition = new SimpleStateMachineDefinition<States, Events>("SimpleExample", States.A);
 
-		this.definition.in(States.A).executeOnEntry(from(this).fooEntry(ENTRY_A)).executeOnExit(from(this).fooExit(EXIT_A)).on(Events.toB)
-				.goTo(States.B).onlyIf(from(this).bar(any(Boolean.class)));
+		this.definition.in(States.A).executeOnEntry((sm, p)->this.fooEntry(ENTRY_A)).executeOnExit((sm, p)->this.fooExit(EXIT_A)).on(Events.toB)
+				.goTo(States.B).onlyIf((sm, p)->this.bar((boolean)p[0]));
 
-		this.definition.in(States.B).executeOnEntry(from(this).fooEntry(ENTRY_B)).on(Events.toB).goTo(States.B)
-				.onlyIf(from(this).bar(any(Boolean.class)));
+		this.definition.in(States.B).executeOnEntry((sm, p)->this.fooEntry(ENTRY_B)).on(Events.toB).goTo(States.B)
+				.onlyIf((sm, p)->this.bar((boolean)p[0]));
 
 		this.definition.in(States.B).on(Events.toD).goTo(States.D);
 		this.definition.in(States.D).on(Events.toA).goTo(States.A);

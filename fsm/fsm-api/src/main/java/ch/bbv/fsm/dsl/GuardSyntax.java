@@ -34,16 +34,6 @@ import ch.bbv.fsm.guard.Function;
 public interface GuardSyntax<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>>
 		extends EventSyntax<TStateMachine, TState, TEvent> {
 
-	/**
-	 * Defines a guard for a transition. A boolean itself is not valid. There
-	 * needs to be a function call using from(owner).function returning a
-	 * boolean.
-	 * 
-	 * @param guard
-	 *            function call using the from construct.
-	 * @return the event syntax.
-	 */
-	EventSyntax<TStateMachine, TState, TEvent> onlyIf(boolean guard);
 
 	/**
 	 * Defines a guard for a transition.

@@ -25,7 +25,6 @@ import org.junit.Test;
 
 import ch.bbv.fsm.acceptance.action.definition.SimpleStateMachineDefinition.Event;
 import ch.bbv.fsm.acceptance.action.definition.SimpleStateMachineDefinition.State;
-import ch.bbv.fsm.dsl.IllegalActionClassDefinitionException;
 
 /**
  * @author Mario Martinez

@@ -4,6 +4,8 @@ package ch.bbv.fsm.impl.transfer.xmi;
 //Generated file. DO NOT TOUCH!
 //=============================
 
+import org.xml.sax.Attributes;
+
 import ch.bbv.fsm.StateMachine;
 import ch.bbv.fsm.impl.AbstractStateMachineDefinition;
 
@@ -29,72 +31,71 @@ public class XmiReaderStateMachineDefinition extends
 
 	public XmiReaderStateMachineDefinition() {
 		super("XmiReaderStateMachineDefinition", States.WaitingForPackage);
-		XmiReaderStateMachine proto = this.getPrototype();
 		in(States.InGuard).on(Events.StartElement).goTo(States.InGuard) //
-				.execute(proto.setTransitionGuard(null, null)) //
-				.onlyIf(proto.isSpecificationStartElement(null, null)) //
+				.execute((sm,p)->sm.setTransitionGuard((String)p[0], (Attributes)p[1])) //
+				.onlyIf((sm,p)->sm.isSpecificationStartElement((String)p[0], (Attributes)p[1])) //
 		;
 		in(States.InGuard).on(Events.EndElement).goTo(States.InTransition) //
-				.onlyIf(proto.isGuardEndElement(null)) //
+				.onlyIf((sm,p)->sm.isGuardEndElement((String)p[0])) //
 		;
 		in(States.InPackage).on(Events.StartElement).goTo(States.InTrigger) //
-				.execute(proto.addTrigger(null, null)) //
-				.onlyIf(proto.isTriggerStartElement(null, null)) //
+				.execute((sm,p)->sm.addTrigger((String)p[0], (Attributes)p[1])) //
+				.onlyIf((sm,p)->sm.isTriggerStartElement((String)p[0], (Attributes)p[1])) //
 		;
 		in(States.InPackage).on(Events.EndElement).goTo(States.Final) //
-				.onlyIf(proto.isPackageEndElement(null)) //
+				.onlyIf((sm,p)->sm.isPackageEndElement((String)p[0])) //
 		;
 		in(States.InPackage).on(Events.StartElement).goTo(States.InSM) //
-				.execute(proto.addStateMachine(null, null)) //
-				.onlyIf(proto.isStateMachineStartElement(null, null)) //
+				.execute((sm,p)->sm.addStateMachine((String)p[0], (Attributes)p[1])) //
+				.onlyIf((sm,p)->sm.isStateMachineStartElement((String)p[0], (Attributes)p[1])) //
 		;
 		in(States.InRegion).on(Events.StartElement).goTo(States.InTransition) //
-				.execute(proto.addTransition(null, null)) //
-				.onlyIf(proto.isTransitionStartElement(null, null)) //
+				.execute((sm,p)->sm.addTransition((String)p[0], (Attributes)p[1])) //
+				.onlyIf((sm,p)->sm.isTransitionStartElement((String)p[0], (Attributes)p[1])) //
 		;
 		in(States.InRegion).on(Events.StartElement).goTo(States.InRegion) //
-				.execute(proto.addPseudoStateModel(null, null)) //
-				.onlyIf(proto.isPseudoStateStartElement(null, null)) //
+				.execute((sm,p)->sm.addPseudoStateModel((String)p[0], (Attributes)p[1])) //
+				.onlyIf((sm,p)->sm.isPseudoStateStartElement((String)p[0], (Attributes)p[1])) //
 		;
 		in(States.InRegion).on(Events.EndElement).goTo(States.InSM) //
-				.execute(proto.exitRegion(null)) //
-				.onlyIf(proto.isRegionEndElement(null)) //
+				.execute((sm,p)->sm.exitRegion((String)p[0])) //
+				.onlyIf((sm,p)->sm.isRegionEndElement((String)p[0])) //
 		;
 		in(States.InRegion).on(Events.StartElement).goTo(States.InRegion) //
-				.execute(proto.addState(null, null)) //
-				.onlyIf(proto.isStateStartElement(null, null)) //
+				.execute((sm,p)->sm.addState((String)p[0], (Attributes)p[1])) //
+				.onlyIf((sm,p)->sm.isStateStartElement((String)p[0], (Attributes)p[1])) //
 		;
 		in(States.InRegion).on(Events.StartElement).goTo(States.InRegion) //
-				.execute(proto.addFinalStateModel(null, null)) //
-				.onlyIf(proto.isFinalStateStartElement(null, null)) //
+				.execute((sm,p)->sm.addFinalStateModel((String)p[0], (Attributes)p[1])) //
+				.onlyIf((sm,p)->sm.isFinalStateStartElement((String)p[0], (Attributes)p[1])) //
 		;
 		in(States.InSM).on(Events.StartElement).goTo(States.InRegion) //
-				.execute(proto.addRegion(null, null)) //
-				.onlyIf(proto.isRegionStartElement(null, null)) //
+				.execute((sm,p)->sm.addRegion((String)p[0], (Attributes)p[1])) //
+				.onlyIf((sm,p)->sm.isRegionStartElement((String)p[0], (Attributes)p[1])) //
 		;
 		in(States.InSM).on(Events.EndElement).goTo(States.InPackage) //
-				.onlyIf(proto.isStateMachineEndElement(null)) //
+				.onlyIf((sm,p)->sm.isStateMachineEndElement((String)p[0])) //
 		;
 		in(States.InTransition).on(Events.StartElement).goTo(States.InTransition) //
-				.execute(proto.setTriggerGuidToTransition(null, null)) //
-				.onlyIf(proto.isTransitionTriggerStartElement(null, null)) //
+				.execute((sm,p)->sm.setTriggerGuidToTransition((String)p[0], (Attributes)p[1])) //
+				.onlyIf((sm,p)->sm.isTransitionTriggerStartElement((String)p[0], (Attributes)p[1])) //
 		;
 		in(States.InTransition).on(Events.StartElement).goTo(States.InGuard) //
-				.onlyIf(proto.isGuardStartElement(null, null)) //
+				.onlyIf((sm,p)->sm.isGuardStartElement((String)p[0], (Attributes)p[1])) //
 		;
 		in(States.InTransition).on(Events.EndElement).goTo(States.InRegion) //
-				.execute(proto.exitTransition(null)) //
-				.onlyIf(proto.isTransitionEndElement(null)) //
+				.execute((sm,p)->sm.exitTransition((String)p[0])) //
+				.onlyIf((sm,p)->sm.isTransitionEndElement((String)p[0])) //
 		;
 		in(States.InTransition).on(Events.StartElement).goTo(States.InTransition) //
-				.execute(proto.setEffectToTransition(null, null)) //
-				.onlyIf(proto.isTransitionEffectStartElement(null, null)) //
+				.execute((sm,p)->sm.setEffectToTransition((String)p[0], (Attributes)p[1])) //
+				.onlyIf((sm,p)->sm.isTransitionEffectStartElement((String)p[0], (Attributes)p[1])) //
 		;
 		in(States.InTrigger).on(Events.EndElement).goTo(States.InPackage) //
-				.onlyIf(proto.isTriggerEndElement(null)) //
+				.onlyIf((sm,p)->sm.isTriggerEndElement((String)p[0])) //
 		;
 		in(States.WaitingForPackage).on(Events.StartElement).goTo(States.InPackage) //
-				.onlyIf(proto.isPackageStartElementWithCorrectName(null, null)) //
+				.onlyIf((sm,p)->sm.isPackageStartElementWithCorrectName((String)p[0], (Attributes)p[1])) //
 		;
 	}
 
