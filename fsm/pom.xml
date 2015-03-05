@@ -26,7 +26,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<junit.version>4.8.2</junit.version>
-		<java.source.version>1.7</java.source.version>
+		<java.source.version>1.8</java.source.version>
 		<slf4j.version>1.6.4</slf4j.version>
 		<logback.version>0.9.29</logback.version>
 		<guava.version>10.0.1</guava.version>
