@@ -34,14 +34,6 @@ import ch.bbv.fsm.action.Action;
 public interface ExitActionSyntax<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>>
 		extends EventSyntax<TStateMachine, TState, TEvent> {
 
-	/**
-	 * Defines an exit action.
-	 * 
-	 * @param method
-	 *            the method to call
-	 * @return Event syntax.
-	 */
-	EventSyntax<TStateMachine, TState, TEvent> executeOnExit(Object method);
 
 	/**
 	 * Defines an exit action.

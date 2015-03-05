@@ -50,59 +50,59 @@ public class RadioStateMachineDefinion
 	}
 
 	private void define() {
-		final RadioStateMachine radioStateMachinePrototype = getPrototype();
+	
 
 		in(State.Off).on(Event.TogglePower).goTo(State.On)
-				.execute(radioStateMachinePrototype.logTransitionFromOffToOn())
-				.onlyIf(radioStateMachinePrototype.isUserMode());
-		in(State.Off).executeOnEntry(radioStateMachinePrototype.logOffEntry());
-		in(State.Off).executeOnExit(radioStateMachinePrototype.logOffExit());
+				.execute((sm, p) -> sm.logTransitionFromOffToOn())
+				.onlyIf((sm, p) -> sm.isUserMode());
+		in(State.Off).executeOnEntry((sm, p) -> sm.logOffEntry());
+		in(State.Off).executeOnExit((sm, p) -> sm.logOffExit());
 
 		in(State.On).on(Event.TogglePower).goTo(State.Off)
-				.execute(radioStateMachinePrototype.logTransitionFromOnToOff());
-		in(State.On).executeOnEntry(radioStateMachinePrototype.logOnEntry());
-		in(State.On).executeOnExit(radioStateMachinePrototype.logOnExit());
+				.execute((sm, p) -> sm.logTransitionFromOnToOff());
+		in(State.On).executeOnEntry((sm, p) -> sm.logOnEntry());
+		in(State.On).executeOnExit((sm, p) -> sm.logOnExit());
 
 		in(State.Off)
 				.on(Event.TogglePower)
 				.goTo(State.Maintenance)
 				.execute(
-						radioStateMachinePrototype
+						(sm, p) -> sm
 								.logTransitionOffToMaintenance())
-				.onlyIf(radioStateMachinePrototype.isMaintenanceMode());
+				.onlyIf((sm, p) -> sm.isMaintenanceMode());
 
 		in(State.Maintenance)
 				.on(Event.TogglePower)
 				.goTo(State.Off)
 				.execute(
-						radioStateMachinePrototype
+						(sm, p) -> sm
 								.logTransitionFromMaintenanceToOff());
 		in(State.Maintenance).executeOnEntry(
-				radioStateMachinePrototype.logMaintenanceEntry());
+				(sm, p) -> sm.logMaintenanceEntry());
 		in(State.Maintenance).executeOnExit(
-				radioStateMachinePrototype.logMaintenanceExit());
+				(sm, p) -> sm.logMaintenanceExit());
 
-		defineOn(radioStateMachinePrototype);
+		defineOnBla();
 	}
 
-	private void defineOn(final RadioStateMachine radioStateMachinePrototype) {
+	private void defineOnBla() {
 		defineHierarchyOn(State.On, State.FM, historyTypeForOn, State.FM,
 				State.AM);
 
 		in(State.FM).on(Event.ToggleMode).goTo(State.AM)
-				.execute(radioStateMachinePrototype.logTransitionFromFMToAM());
-		in(State.FM).executeOnEntry(radioStateMachinePrototype.logFMEntry());
-		in(State.FM).executeOnExit(radioStateMachinePrototype.logFMExit());
+				.execute((sm, p) -> sm.logTransitionFromFMToAM());
+		in(State.FM).executeOnEntry((sm, p) -> sm.logFMEntry());
+		in(State.FM).executeOnExit((sm, p) -> sm.logFMExit());
 
 		in(State.AM).on(Event.ToggleMode).goTo(State.FM)
-				.execute(radioStateMachinePrototype.logTransitionFromAMToFM());
-		in(State.AM).executeOnEntry(radioStateMachinePrototype.logAMEntry());
-		in(State.AM).executeOnExit(radioStateMachinePrototype.logAMExit());
+				.execute((sm, p) -> sm.logTransitionFromAMToFM());
+		in(State.AM).executeOnEntry((sm, p) -> sm.logAMEntry());
+		in(State.AM).executeOnExit((sm, p) -> sm.logAMExit());
 
-		defineAM(radioStateMachinePrototype);
+		defineAM();
 	}
 
-	private void defineAM(final RadioStateMachine radioStateMachinePrototype) {
+	private void defineAM() {
 		defineHierarchyOn(State.AM, State.Play, historyTypeForAM, State.Play,
 				State.AutoTune);
 
@@ -110,21 +110,21 @@ public class RadioStateMachineDefinion
 				.on(Event.StationLost)
 				.goTo(State.AutoTune)
 				.execute(
-						radioStateMachinePrototype
+						(sm, p) -> sm
 								.logTransitionFromPlayToAutoTune());
 		in(State.Play)
-				.executeOnEntry(radioStateMachinePrototype.logPlayEntry());
-		in(State.Play).executeOnExit(radioStateMachinePrototype.logPlayExit());
+				.executeOnEntry((sm, p) -> sm.logPlayEntry());
+		in(State.Play).executeOnExit((sm, p) -> sm.logPlayExit());
 
 		in(State.AutoTune)
 				.on(Event.StationFound)
 				.goTo(State.Play)
 				.execute(
-						radioStateMachinePrototype
+						(sm, p) -> sm
 								.logTransitionFromAutoTuneToPlay());
 		in(State.AutoTune).executeOnEntry(
-				radioStateMachinePrototype.logAutoTuneEntry());
+				(sm, p) -> sm.logAutoTuneEntry());
 		in(State.AutoTune).executeOnExit(
-				radioStateMachinePrototype.logAutoTuneExit());
+				(sm, p) -> sm.logAutoTuneExit());
 	}
 }

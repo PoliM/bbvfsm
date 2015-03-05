@@ -18,12 +18,6 @@
  *******************************************************************************/
 package ch.bbv.fsm.impl.internal.dsl;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import ch.bbv.fsm.StateMachine;
 import ch.bbv.fsm.action.Action;
 import ch.bbv.fsm.dsl.EntryActionSyntax;
@@ -32,17 +26,9 @@ import ch.bbv.fsm.dsl.EventSyntax;
 import ch.bbv.fsm.dsl.ExecuteSyntax;
 import ch.bbv.fsm.dsl.ExitActionSyntax;
 import ch.bbv.fsm.dsl.GotoSyntax;
-import ch.bbv.fsm.dsl.IllegalActionClassDefinitionException;
 import ch.bbv.fsm.guard.Function;
-import ch.bbv.fsm.impl.internal.action.ActionClassCallAction;
-import ch.bbv.fsm.impl.internal.action.ActionHolderMethodCall;
 import ch.bbv.fsm.impl.internal.action.ActionHolderNoParameter;
 import ch.bbv.fsm.impl.internal.action.ActionHolderParameter;
-import ch.bbv.fsm.impl.internal.action.FunctionClassCallFunction;
-import ch.bbv.fsm.impl.internal.action.MethodCallAction;
-import ch.bbv.fsm.impl.internal.action.MethodCallFunction;
-import ch.bbv.fsm.impl.internal.aop.CallInterceptorBuilder;
-import ch.bbv.fsm.impl.internal.aop.MethodCall;
 import ch.bbv.fsm.impl.internal.statemachine.state.InternalState;
 import ch.bbv.fsm.impl.internal.statemachine.state.StateDictionary;
 import ch.bbv.fsm.impl.internal.statemachine.transition.Transition;
@@ -66,9 +52,6 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 		ExecuteSyntax<TStateMachine, TState, TEvent>,
 		GotoSyntax<TStateMachine, TState, TEvent> {
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(StateBuilder.class);
-
 	private final InternalState<TStateMachine, TState, TEvent> internalState;
 	private final StateDictionary<TStateMachine, TState, TEvent> stateDictionary;
 	private Transition<TStateMachine, TState, TEvent> currentTransition;
@@ -86,16 +69,6 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 			final StateDictionary<TStateMachine, TState, TEvent> stateDictionary) {
 		this.internalState = state;
 		this.stateDictionary = stateDictionary;
-	}
-
-	@Override
-	public ExecuteSyntax<TStateMachine, TState, TEvent> execute(
-			final Object methodCall) {
-		final MethodCall<TStateMachine> call = CallInterceptorBuilder.pop();
-		LOG.debug(currentTransition.toString() + " use action " + call);
-		this.currentTransition.getActions().add(
-				new MethodCallAction<TStateMachine, TState, TEvent>(call));
-		return this;
 	}
 
 	@Override
@@ -124,26 +97,6 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 		this.internalState
 				.setEntryAction(new ActionHolderParameter<TStateMachine, TState, TEvent, T>(
 						actionClass, parameter));
-		return this;
-	}
-
-	@Override
-	public ExitActionSyntax<TStateMachine, TState, TEvent> executeOnEntry(
-			final Void action) {
-		MethodCall<TStateMachine> call = CallInterceptorBuilder.pop();
-		this.internalState
-				.setEntryAction(new ActionHolderMethodCall<TStateMachine, TState, TEvent>(
-						call));
-		return this;
-	}
-
-	@Override
-	public ExitActionSyntax<TStateMachine, TState, TEvent> executeOnExit(
-			final Object action) {
-		MethodCall<TStateMachine> call = CallInterceptorBuilder.pop();
-		this.internalState
-				.setExitAction(new ActionHolderMethodCall<TStateMachine, TState, TEvent>(
-						call));
 		return this;
 	}
 
@@ -185,17 +138,6 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 	}
 
 	@Override
-	public EventSyntax<TStateMachine, TState, TEvent> onlyIf(final boolean guard) {
-		final MethodCall<TStateMachine> call = CallInterceptorBuilder.pop();
-		LOG.debug(currentTransition.toString() + " use guard " + call);
-		this.currentTransition
-				.setGuard(new MethodCallFunction<TStateMachine, TState, TEvent>(
-						call));
-		return this;
-
-	}
-
-	@Override
 	public EventSyntax<TStateMachine, TState, TEvent> onlyIf(
 			final Function<TStateMachine, TState, TEvent, Object[], Boolean> guard) {
 
@@ -205,20 +147,4 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
 
 	}
 
-	/**
-	 * @param action
-	 * @return
-	 * @throws InstantiationException
-	 * @throws IllegalAccessException
-	 * @throws IllegalArgumentException
-	 * @throws InvocationTargetException
-	 * @throws NoSuchMethodException
-	 * @throws SecurityException
-	 */
-	private boolean isInstanciable(final Class<?> action)
-			throws InstantiationException, IllegalAccessException,
-			InvocationTargetException, NoSuchMethodException {
-
-		return action.getConstructor(new Class[0]).newInstance() != null;
-	}
 }

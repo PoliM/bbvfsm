@@ -10,7 +10,6 @@ import ch.bbv.fsm.StateMachine;
 import ch.bbv.fsm.StateMachineDefinition;
 import ch.bbv.fsm.dsl.EntryActionSyntax;
 import ch.bbv.fsm.events.StateMachineEventHandler;
-import ch.bbv.fsm.impl.internal.aop.CallInterceptorBuilder;
 import ch.bbv.fsm.impl.internal.driver.ActiveStateMachineDriver;
 import ch.bbv.fsm.impl.internal.driver.Notifier;
 import ch.bbv.fsm.impl.internal.driver.PassiveStateMachineDriver;
@@ -227,12 +226,6 @@ public abstract class AbstractStateMachineDefinition<TStateMachine extends Abstr
 		} catch (final Exception e) {
 			onExceptionThrown(transitionContext, e);
 		}
-	}
-
-	@SuppressWarnings("unchecked")
-	protected TStateMachine getPrototype() {
-		return (TStateMachine) CallInterceptorBuilder.build(createStateMachine(
-				null).getClass());
 	}
 
 	protected abstract TStateMachine createStateMachine(
