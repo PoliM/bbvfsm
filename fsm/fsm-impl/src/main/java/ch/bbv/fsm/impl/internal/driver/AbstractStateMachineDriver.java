@@ -47,7 +47,7 @@ abstract class AbstractStateMachineDriver<TStateMachine extends StateMachine<TSt
 			final StateDictionary<TStateMachine, TState, TEvent> states,
 			final TState initialState,
 			final List<StateMachineEventHandler<TStateMachine, TState, TEvent>> eventHandlers) {
-		this.stateMachineInterpreter = new StateMachineInterpreter<TStateMachine, TState, TEvent>(
+		this.stateMachineInterpreter = new StateMachineInterpreter<>(
 				stateMachine, name, states, initialState);
 		for (final StateMachineEventHandler<TStateMachine, TState, TEvent> eventHandler : eventHandlers) {
 			stateMachineInterpreter.addEventHandler(eventHandler);

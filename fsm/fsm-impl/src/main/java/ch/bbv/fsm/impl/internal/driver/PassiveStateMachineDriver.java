@@ -51,18 +51,18 @@ public class PassiveStateMachineDriver<TStateMachine extends StateMachine<TState
 	 * Creates the state machine.
 	 */
 	public PassiveStateMachineDriver() {
-		this.events = new LinkedList<EventInformation<TEvent>>();
+		this.events = new LinkedList<>();
 	}
 
 	@Override
 	public synchronized void fire(final TEvent eventId, final Object... eventArguments) {
-		this.events.addLast(new EventInformation<TEvent>(eventId, eventArguments));
+		this.events.addLast(new EventInformation<>(eventId, eventArguments));
 		this.execute();
 	}
 
 	@Override
 	public synchronized void firePriority(final TEvent eventId, final Object... eventArguments) {
-		this.events.addFirst(new EventInformation<TEvent>(eventId, eventArguments));
+		this.events.addFirst(new EventInformation<>(eventId, eventArguments));
 		this.execute();
 	}
 

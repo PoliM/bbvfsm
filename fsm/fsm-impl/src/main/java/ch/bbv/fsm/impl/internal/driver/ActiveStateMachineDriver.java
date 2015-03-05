@@ -70,7 +70,7 @@ public class ActiveStateMachineDriver<TStateMachine extends StateMachine<TState,
 	 * Create an active state machine.
 	 */
 	public ActiveStateMachineDriver() {
-		this.events = new LinkedBlockingDeque<EventInformation<TEvent>>();
+		this.events = new LinkedBlockingDeque<>();
 		this.executorService = Executors.newFixedThreadPool(1);
 	}
 
@@ -108,12 +108,12 @@ public class ActiveStateMachineDriver<TStateMachine extends StateMachine<TState,
 
 	@Override
 	public void fire(final TEvent eventId, final Object... eventArguments) {
-		this.events.addLast(new EventInformation<TEvent>(eventId, eventArguments));
+		this.events.addLast(new EventInformation<>(eventId, eventArguments));
 	}
 
 	@Override
 	public void firePriority(final TEvent eventId, final Object... eventArguments) {
-		this.events.addFirst(new EventInformation<TEvent>(eventId, eventArguments));
+		this.events.addFirst(new EventInformation<>(eventId, eventArguments));
 	}
 
 	/**

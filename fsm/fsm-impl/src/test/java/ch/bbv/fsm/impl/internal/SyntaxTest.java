@@ -67,7 +67,7 @@ public class SyntaxTest {
 
 	@Before
 	public void setup() {
-		this.definition = new SimpleStateMachineDefinition<States, Events>("SimpleExample", States.A);
+		this.definition = new SimpleStateMachineDefinition<>("SimpleExample", States.A);
 
 		this.definition.in(States.A).executeOnEntry((sm, p)->this.fooEntry(ENTRY_A)).executeOnExit((sm, p)->this.fooExit(EXIT_A)).on(Events.toB)
 				.goTo(States.B).onlyIf((sm, p)->this.bar((boolean)p[0]));

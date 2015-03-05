@@ -182,7 +182,7 @@ public abstract class BaseStateMachineTest {
 	 */
 	@Test
 	public void fireEvent() {
-		final SimpleStateMachineDefinition<States, Events> definition = new SimpleStateMachineDefinition<States, Events>(
+		final SimpleStateMachineDefinition<States, Events> definition = new SimpleStateMachineDefinition<>(
 				"fireEvent", States.A);
 
 		definition.defineHierarchyOn(States.B, States.B1, HistoryType.NONE,
@@ -222,7 +222,7 @@ public abstract class BaseStateMachineTest {
 	public void priorityFire() {
 		final int transitions = 3;
 
-		final SimpleStateMachineDefinition<States, Events> definition = new SimpleStateMachineDefinition<States, Events>(
+		final SimpleStateMachineDefinition<States, Events> definition = new SimpleStateMachineDefinition<>(
 				"priorityFire", States.A);
 
 		definition.in(States.A).on(Events.B).goTo(States.B).execute(fireAction);
@@ -245,7 +245,7 @@ public abstract class BaseStateMachineTest {
 
 	@Test(expected = IllegalStateException.class)
 	public void startTwice() {
-		final SimpleStateMachineDefinition<States, Events> definition = new SimpleStateMachineDefinition<States, Events>(
+		final SimpleStateMachineDefinition<States, Events> definition = new SimpleStateMachineDefinition<>(
 				"startTwice", States.A);
 		initTestee(definition);
 		this.testee.start();
@@ -258,7 +258,7 @@ public abstract class BaseStateMachineTest {
 	@Test(expected = IllegalStateException.class)
 	public void stopAndStart() {
 
-		final SimpleStateMachineDefinition<States, Events> definition = new SimpleStateMachineDefinition<States, Events>(
+		final SimpleStateMachineDefinition<States, Events> definition = new SimpleStateMachineDefinition<>(
 				"startTwice", States.A);
 
 		definition.in(States.A).on(Events.B).goTo(States.B);

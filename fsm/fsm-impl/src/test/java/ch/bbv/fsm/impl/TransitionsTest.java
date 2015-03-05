@@ -180,7 +180,7 @@ public class TransitionsTest {
 	 */
 	@Test
 	public void missingTransition() {
-		final SimpleStateMachineDefinition<States, Events> stateMachineDefinition = new SimpleStateMachineDefinition<States, Events>(
+		final SimpleStateMachineDefinition<States, Events> stateMachineDefinition = new SimpleStateMachineDefinition<>(
 				"missingTransition", States.A);
 		stateMachineDefinition.in(States.A).on(Events.B).goTo(States.B);
 

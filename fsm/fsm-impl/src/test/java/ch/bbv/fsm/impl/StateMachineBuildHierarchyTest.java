@@ -57,6 +57,6 @@ public class StateMachineBuildHierarchyTest {
 	 */
 	@Before
 	public void setUp() {
-		this.testee = new SimpleStateMachineDefinition<States, Events>("StateMachineBuildHierarchyTest", States.A);
+		this.testee = new SimpleStateMachineDefinition<>("StateMachineBuildHierarchyTest", States.A);
 	}
 }
