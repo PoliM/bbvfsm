@@ -1,13 +1,6 @@
 package ch.bbv.fsm.impl.documentation;
 
-import java.io.File;
 import java.io.StringReader;
-
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.sax.SAXSource;
-import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.scxml.io.SCXMLParser;
 import org.apache.commons.scxml.model.SCXML;
@@ -70,12 +63,6 @@ public class SCXMLGeneratorTest {
 				States.D, States.E);
 
 		// Action
-		TransformerFactory transformerFactory = TransformerFactory.newInstance();
-		Transformer transformer = transformerFactory.newTransformer();
-		//		transformer.
-		//		transformer.transform(new SAXSource(reader, inputSource), outputTarget);
-		//		StreamResult result = new StreamResult(new File("C:\\file.xml"
-
 		SCXMLVisitor<SimpleStateMachine<States, Events>, States, Events> visitor = new SCXMLVisitor<>();
 		definition.traverseModel(visitor);
 		StringBuffer result = visitor.getScxml();
