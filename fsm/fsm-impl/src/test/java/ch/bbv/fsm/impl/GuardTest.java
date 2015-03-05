@@ -110,7 +110,7 @@ public class GuardTest {
 			return true;
 		}
 
-	};
+	}
 
 	private boolean transitionDeclined = false;
 
