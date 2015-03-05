@@ -15,7 +15,7 @@ public class StateMachineMemento<TState extends Enum<?>, TEvent extends Enum<?>>
 
 	private TState currentState;
 
-	private Map<TState, TState> savedHistoryStates = new HashMap<TState, TState>();
+	private Map<TState, TState> savedHistoryStates = new HashMap<>();
 
 	/**
 	 * Returns the state machine's current state.

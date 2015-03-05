@@ -87,7 +87,7 @@ class StateMachineInitializer<TStateMachine extends StateMachine<TState, TEvent>
 	 * @return The stack containing all states up the state hierarchy.
 	 */
 	private Stack<InternalState<TStateMachine, TState, TEvent>> traverseUpTheStateHierarchy() {
-		final Stack<InternalState<TStateMachine, TState, TEvent>> stack = new Stack<InternalState<TStateMachine, TState, TEvent>>();
+		final Stack<InternalState<TStateMachine, TState, TEvent>> stack = new Stack<>();
 
 		InternalState<TStateMachine, TState, TEvent> state = this.initialState;
 		while (state != null) {

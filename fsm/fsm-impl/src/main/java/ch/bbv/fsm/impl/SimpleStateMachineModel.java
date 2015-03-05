@@ -66,7 +66,7 @@ public class SimpleStateMachineModel<TStateMachine extends StateMachine<TState, 
 			final StateDictionary<TStateMachine, TState, TEvent> states,
 			final TState initialState) {
 
-		this.states = new StateDictionary<TStateMachine, TState, TEvent>();
+		this.states = new StateDictionary<>();
 		this.initialState = initialState;
 	}
 
@@ -80,7 +80,7 @@ public class SimpleStateMachineModel<TStateMachine extends StateMachine<TState, 
 	 */
 	private List<State<TStateMachine, TState, TEvent>> getRootStates() {
 
-		List<State<TStateMachine, TState, TEvent>> rootStates = new LinkedList<State<TStateMachine, TState, TEvent>>();
+		List<State<TStateMachine, TState, TEvent>> rootStates = new LinkedList<>();
 
 		for (InternalState<TStateMachine, TState, TEvent> state : this.states
 				.getStates()) {

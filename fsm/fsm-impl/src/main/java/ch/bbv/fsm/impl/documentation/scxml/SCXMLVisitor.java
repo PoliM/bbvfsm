@@ -19,7 +19,10 @@
 
 package ch.bbv.fsm.impl.documentation.scxml;
 
-import java.io.FileWriter;
+import static java.nio.file.Files.newBufferedWriter;
+
+import java.io.BufferedWriter;
+import java.nio.file.Paths;
 
 import ch.bbv.fsm.StateMachine;
 import ch.bbv.fsm.model.State;
@@ -57,10 +60,9 @@ public class SCXMLVisitor<TStateMachine extends StateMachine<TState, TEvent>, TS
 	 *             if a problem occurs.
 	 */
 	public void convertSCXMLFile(final String filename) throws Exception {
-
-		final FileWriter file = new FileWriter(filename + ".scxml");
-		file.write(this.scxml.toString());
-		file.close();
+		try (BufferedWriter writer = newBufferedWriter(Paths.get(filename.concat(".scxml")))) {
+			writer.write(this.scxml.toString());
+		}
 	}
 
 	@Override

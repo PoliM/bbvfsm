@@ -39,7 +39,7 @@ public class StateMachineTest {
 	private class StateMachineTestStateMachine extends
 			AbstractStateMachine<StateMachineTestStateMachine, States, Events> {
 
-		private final List<Record> records = new ArrayList<Record>();
+		private final List<Record> records = new ArrayList<>();
 
 		protected StateMachineTestStateMachine(
 				final StateMachine<States, Events> driver) {
