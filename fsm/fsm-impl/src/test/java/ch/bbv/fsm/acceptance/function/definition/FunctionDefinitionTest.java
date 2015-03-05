@@ -61,10 +61,6 @@ public class FunctionDefinitionTest {
 			callingActions.add(callingAction);
 		}
 
-		public List<Function<FunctionDefinitionTestStateMachine, States, Events, Object[], Boolean>> getCallingActions() {
-			return callingActions;
-		}
-
 		protected FunctionDefinitionTestStateMachine(
 				final StateMachine<States, Events> driver) {
 			super(driver);
