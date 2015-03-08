@@ -7,4 +7,6 @@
 <suppressions>
     <suppress files=".*[\\/]src[\\/]test[\\/].*" checks="JavadocPackage|JavadocMethod|JavadocType|MagicNumber|DesignForExtension|LocalVariableName|LocalFinalVariableName"/>
     <suppress files=".*[\\/]generated-sources[\\/].*" checks=".*"/>
+    <suppress files=".*[\\/]XmiReaderStateMachineDefinition\.java" checks=".*"/>
+    <suppress files=".*[\\/]transfer/model[\\/].*" checks=".*"/>
 </suppressions>

@@ -9,83 +9,85 @@ import com.google.common.collect.Lists;
 
 public class RegionModel {
 
-	private String guid;
+  private final String guid;
 
-	private String name;
+  private final String name;
 
-	private List<StateModel> states = Lists.newLinkedList();
+  private final List<StateModel> states = Lists.newLinkedList();
 
-	private List<TransitionModel> transitions = Lists.newLinkedList();
+  private final List<TransitionModel> transitions = Lists.newLinkedList();
 
-	public RegionModel(String guid, String name) {
-		this.guid = guid;
-		this.name = name;
-	}
+  public RegionModel(final String guid, final String name) {
+    this.guid = guid;
+    this.name = name;
+  }
 
-	public void appendString(StateMachineModel stateMachineModel, String indent, StringBuilder str) {
-		str.append(indent).append("Region: ").append(guid).append(" / ").append(name).append('\n');
-		for (StateModel sm : states) {
-			sm.appendString(indent + '\t', str);
-		}
-		for (TransitionModel tm : transitions) {
-			tm.appendString(stateMachineModel, indent + '\t', str);
-		}
-	}
+  public void appendString(final StateMachineModel stateMachineModel, final String indent,
+      final StringBuilder str) {
+    str.append(indent).append("Region: ").append(guid).append(" / ").append(name).append('\n');
+    for (final StateModel sm : states) {
+      sm.appendString(indent + '\t', str);
+    }
+    for (final TransitionModel tm : transitions) {
+      tm.appendString(stateMachineModel, indent + '\t', str);
+    }
+  }
 
-	public void addNewState(String guid, String name) {
-		states.add(new StateModel(guid, name));
-	}
+  public void addNewState(final String guid, final String name) {
+    states.add(new StateModel(guid, name));
+  }
 
-	public TransitionModel addNewTransition(String guid, String source, String target) {
-		TransitionModel tm = new TransitionModel(guid, source, target);
-		transitions.add(tm);
-		return tm;
-	}
+  public TransitionModel addNewTransition(final String guid, final String source,
+      final String target) {
+    final TransitionModel tm = new TransitionModel(guid, source, target);
+    transitions.add(tm);
+    return tm;
+  }
 
-	public void addNewPseudoState(String guid, String name, PseudostateKinds kind) {
-		states.add(new PseudoStateModel(guid, name, kind));
-	}
+  public void addNewPseudoState(final String guid, final String name, final PseudostateKinds kind) {
+    states.add(new PseudoStateModel(guid, name, kind));
+  }
 
-	public void addNewFinalState(String guid, String name) {
-		states.add(new FinalStateModel(guid, name));
-	}
+  public void addNewFinalState(final String guid, final String name) {
+    states.add(new FinalStateModel(guid, name));
+  }
 
-	public List<StateModel> getOrderedStates() {
-		List<StateModel> orderedList = Lists.newArrayList(states);
-		Collections.sort(orderedList);
-		return orderedList;
-	}
+  public List<StateModel> getOrderedStates() {
+    final List<StateModel> orderedList = Lists.newArrayList(states);
+    Collections.sort(orderedList);
+    return orderedList;
+  }
 
-	public PseudoStateModel findInitialState() throws GeneratorException {
-		PseudoStateModel result = null;
-		for (StateModel sm : states) {
-			if (sm.isInitialState()) {
-				PseudoStateModel candidate = (PseudoStateModel) sm;
-				if (result != null) {
-					throw new GeneratorException("only one initial state allowed");
-				}
-				result = candidate;
-			}
-		}
-		return result;
-	}
+  public PseudoStateModel findInitialState() throws GeneratorException {
+    PseudoStateModel result = null;
+    for (final StateModel sm : states) {
+      if (sm.isInitialState()) {
+        final PseudoStateModel candidate = (PseudoStateModel) sm;
+        if (result != null) {
+          throw new GeneratorException("only one initial state allowed");
+        }
+        result = candidate;
+      }
+    }
+    return result;
+  }
 
-	public List<TransitionModel> getTransitionsForSource(String guid) throws GeneratorException {
-		List<TransitionModel> result = Lists.newLinkedList();
-		for (TransitionModel tm : transitions) {
-			if (guid.equals(tm.getSource())) {
-				result.add(tm);
-			}
-		}
-		return result;
-	}
+  public List<TransitionModel> getTransitionsForSource(final String guid) throws GeneratorException {
+    final List<TransitionModel> result = Lists.newLinkedList();
+    for (final TransitionModel tm : transitions) {
+      if (guid.equals(tm.getSource())) {
+        result.add(tm);
+      }
+    }
+    return result;
+  }
 
-	public StateModel getState(String target) throws GeneratorException {
-		for (StateModel sm : states) {
-			if (target.equals(sm.getGuid())) {
-				return sm;
-			}
-		}
-		throw new GeneratorException("state with guid not found: " + target);
-	}
+  public StateModel getState(final String target) throws GeneratorException {
+    for (final StateModel sm : states) {
+      if (target.equals(sm.getGuid())) {
+        return sm;
+      }
+    }
+    throw new GeneratorException("state with guid not found: " + target);
+  }
 }

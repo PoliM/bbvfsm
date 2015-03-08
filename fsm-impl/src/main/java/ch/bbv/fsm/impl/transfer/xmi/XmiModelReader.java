@@ -20,64 +20,80 @@ import ch.bbv.fsm.impl.transfer.model.StateMachineModel;
 
 import com.google.common.collect.Lists;
 
-public class XmiModelReader extends DefaultHandler {
+/**
+ * This is the SAX based parser for XMI state machines.
+ */
+public final class XmiModelReader extends DefaultHandler {
 
-	private XmiReaderStateMachine xmiReaderFsm;
+  private final XmiReaderStateMachine xmiReaderFsm;
 
-	private List<Exception> exceptions = Lists.newLinkedList();
+  private final List<Exception> exceptions = Lists.newLinkedList();
 
-	private XmiModelReader(String fsmName) {
-		XmiReaderStateMachineDefinition fsmDef = new XmiReaderStateMachineDefinition();
+  private XmiModelReader(final String fsmName) {
+    final XmiReaderStateMachineDefinition fsmDef = new XmiReaderStateMachineDefinition();
 
-		fsmDef.addEventHandler(new StateMachineEventAdapter<XmiReaderStateMachine, States, Events>() {
+    fsmDef.addEventHandler(new StateMachineEventAdapter<XmiReaderStateMachine, States, Events>() {
 
-			@Override
-			public void onTransitionThrowsException(
-					TransitionExceptionEventArgs<XmiReaderStateMachine, States, Events> arg) {
-				exceptions.add(arg.getException());
-			}
+      @Override
+      public void onTransitionThrowsException(
+          final TransitionExceptionEventArgs<XmiReaderStateMachine, States, Events> arg) {
+        exceptions.add(arg.getException());
+      }
 
-			@Override
-			public void onExceptionThrown(ExceptionEventArgs<XmiReaderStateMachine, States, Events> arg) {
-				exceptions.add(arg.getException());
-			}
-		});
-		xmiReaderFsm = fsmDef.createPassiveStateMachine("XmiReaderFSM");
-		xmiReaderFsm.setFsmNameToLookFor(fsmName);
-		xmiReaderFsm.start();
-	}
+      @Override
+      public void onExceptionThrown(
+          final ExceptionEventArgs<XmiReaderStateMachine, States, Events> arg) {
+        exceptions.add(arg.getException());
+      }
+    });
+    xmiReaderFsm = fsmDef.createPassiveStateMachine("XmiReaderFSM");
+    xmiReaderFsm.setFsmNameToLookFor(fsmName);
+    xmiReaderFsm.start();
+  }
 
-	public static StateMachineModel readFromUrl(URL resource, String fsmName) throws GeneratorException {
+  /**
+   * Parses an XMI of a state machine and creates the corresponding model.
+   *
+   * @param resource The XMI resource URL.
+   * @param fsmName The name of the state machine.
+   * @return The parsed model of the state machine.
+   * @throws GeneratorException In case something bad happens.
+   */
+  public static StateMachineModel readFromUrl(final URL resource, final String fsmName)
+      throws GeneratorException {
 
-		try {
-			SAXParserFactory factory = SAXParserFactory.newInstance();
-			SAXParser saxParser = factory.newSAXParser();
+    try {
+      final SAXParserFactory factory = SAXParserFactory.newInstance();
+      final SAXParser saxParser = factory.newSAXParser();
 
-			XmiModelReader xmiModelReader = new XmiModelReader(fsmName);
+      final XmiModelReader xmiModelReader = new XmiModelReader(fsmName);
 
-			saxParser.parse(resource.openStream(), xmiModelReader);
+      saxParser.parse(resource.openStream(), xmiModelReader);
 
-			if (xmiModelReader.exceptions.isEmpty()) {
-				return xmiModelReader.getStateMachineModel();
-			}
-			throw new GeneratorException("Exceptions occured. Here is the first", xmiModelReader.exceptions.get(0));
-		} catch (ParserConfigurationException | SAXException | IOException e) {
-			throw new GeneratorException("Parsing esception", e);
-		}
-	}
+      if (xmiModelReader.exceptions.isEmpty()) {
+        return xmiModelReader.getStateMachineModel();
+      }
+      throw new GeneratorException("Exceptions occured. Here is the first",
+          xmiModelReader.exceptions.get(0));
+    } catch (ParserConfigurationException | SAXException | IOException e) {
+      throw new GeneratorException("Parsing esception", e);
+    }
+  }
 
-	@Override
-	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-		xmiReaderFsm.fire(Events.StartElement, qName, attributes);
-	}
+  @Override
+  public void startElement(final String uri, final String localName, final String qName,
+      final Attributes attributes) throws SAXException {
+    xmiReaderFsm.fire(Events.StartElement, qName, attributes);
+  }
 
-	@Override
-	public void endElement(String uri, String localName, String qName) throws SAXException {
-		xmiReaderFsm.fire(Events.EndElement, qName);
-	}
+  @Override
+  public void endElement(final String uri, final String localName, final String qName)
+      throws SAXException {
+    xmiReaderFsm.fire(Events.EndElement, qName);
+  }
 
-	private StateMachineModel getStateMachineModel() {
-		return xmiReaderFsm.getStateMachineModel();
-	}
+  private StateMachineModel getStateMachineModel() {
+    return xmiReaderFsm.getStateMachineModel();
+  }
 
 }
