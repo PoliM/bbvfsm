@@ -9,6 +9,9 @@
 	<artifactId>fsm-api</artifactId>
 	<name>bbvfsm - Statemachine API</name>
 
+	<properties>
+		<common.dir>${basedir}/../common</common.dir>
+	</properties>
 	<build>
 		<plugins>
 			<plugin>

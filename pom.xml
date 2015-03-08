@@ -33,6 +33,7 @@
 		<guava.version>10.0.1</guava.version>
 		<mockito.version>1.8.4</mockito.version>
 		<hamcrest.version>1.2.1</hamcrest.version>
+		<common.dir>${basedir}/common</common.dir>
 	</properties>
 
 	<modules>
@@ -149,8 +150,8 @@
 				</executions>
 				<configuration>
 					<includeTestSourceDirectory>true</includeTestSourceDirectory>
-					<configLocation>${basedir}/common/bbvfsm-cs.xml</configLocation>
-					<propertiesLocation>${basedir}/common/checkstyle_maven.properties</propertiesLocation>
+					<configLocation>${common.dir}/bbvfsm-cs.xml</configLocation>
+					<propertiesLocation>${common.dir}/checkstyle_maven.properties</propertiesLocation>
 					<failsOnError>true</failsOnError>
 					<failOnViolation>true</failOnViolation>
 					<consoleOutput>true</consoleOutput>
