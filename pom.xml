@@ -112,6 +112,16 @@
 				<role>Skivvy</role>
 			</roles>
 		</developer>
+		<developer>
+			<id>pom</id>
+			<name>Marco Poli</name>
+			<email>marco.poli@bbv.ch</email>
+			<organization>bbv Software Services AG</organization>
+			<organizationUrl>http://www.bbv.ch</organizationUrl>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</developer>
 	</developers>
 
 	<build>
