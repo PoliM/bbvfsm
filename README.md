@@ -1,6 +1,8 @@
 # bbv FSM
 bbvfsm is a hierarchical state machine with fluent definition syntax. 
 
+[![Build Status](https://travis-ci.org/PoliM/bbvfsm.svg?branch=master)](https://travis-ci.org/PoliM/bbvfsm)
+
 ## Features
 
 The finite state machine provides the following features:
