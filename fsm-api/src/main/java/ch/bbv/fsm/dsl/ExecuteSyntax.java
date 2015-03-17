@@ -45,8 +45,8 @@ public interface ExecuteSyntax<TStateMachine extends StateMachine<TState, TEvent
 	/**
 	 * Defines the actions to execute on a transition.
 	 * 
-	 * @param action
-	 * @param <T>
+	 * @param action the action.
+	 * @param <T> the type of the one and only parameter.
 	 * 
 	 * @return
 	 */
@@ -56,9 +56,9 @@ public interface ExecuteSyntax<TStateMachine extends StateMachine<TState, TEvent
 	/**
 	 * Defines the actions to execute on a transition.
 	 * 
-	 * @param action
-	 * @param <T1>
-	 * @param <T2>
+	 * @param action the action.
+	 * @param <T1> the type of the first parameter.
+	 * @param <T2> the type of the second parameter.
 	 * @return
 	 */
 	<T1, T2> ExecuteSyntax<TStateMachine, TState, TEvent> execute(
