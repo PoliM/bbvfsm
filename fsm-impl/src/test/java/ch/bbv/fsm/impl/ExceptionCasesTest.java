@@ -1,20 +1,17 @@
 /*******************************************************************************
- *  Copyright 2010, 2011 bbv Software Services AG, Ueli Kurmann
+ * Copyright 2010, 2011 bbv Software Services AG, Ueli Kurmann
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  *
- * Contributors:
- *     bbv Software Services AG (http://www.bbv.ch), Ueli Kurmann
+ * Contributors: bbv Software Services AG (http://www.bbv.ch), Ueli Kurmann
  *******************************************************************************/
 package ch.bbv.fsm.impl;
 
@@ -22,7 +19,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import ch.bbv.fsm.StateMachine;
-import ch.bbv.fsm.action.Action;
+import ch.bbv.fsm.action.FsmAction0;
 import ch.bbv.fsm.events.ExceptionEventArgs;
 import ch.bbv.fsm.events.StateMachineEventAdapter;
 import ch.bbv.fsm.events.TransitionEventArgs;
@@ -33,261 +30,217 @@ import ch.bbv.fsm.impl.StatesAndEvents.States;
 
 public class ExceptionCasesTest {
 
-	private class Handler
-			extends
-			StateMachineEventAdapter<ExceptionCasesTestStateMachine, States, Events> {
+  private class Handler extends StateMachineEventAdapter<ExceptionCasesTestStateMachine, States, Events> {
 
-		@Override
-		public void onExceptionThrown(
-				final ExceptionEventArgs<ExceptionCasesTestStateMachine, States, Events> eventArgs) {
-			if (eventArgs != null) {
-				ExceptionCasesTest.this.recordedException = eventArgs
-						.getException();
-			}
+    @Override
+    public void onExceptionThrown(final ExceptionEventArgs<ExceptionCasesTestStateMachine, States, Events> eventArgs) {
+      if (eventArgs != null) {
+        ExceptionCasesTest.this.recordedException = eventArgs.getException();
+      }
 
-		}
+    }
 
-		@Override
-		public void onTransitionDeclined(
-				final TransitionEventArgs<ExceptionCasesTestStateMachine, States, Events> arg) {
-			ExceptionCasesTest.this.transitionDeclined = true;
+    @Override
+    public void onTransitionDeclined(final TransitionEventArgs<ExceptionCasesTestStateMachine, States, Events> arg) {
+      ExceptionCasesTest.this.transitionDeclined = true;
 
-		}
+    }
 
-		@Override
-		public void onTransitionThrowsException(
-				final TransitionExceptionEventArgs<ExceptionCasesTestStateMachine, States, Events> eventArgs) {
+    @Override
+    public void onTransitionThrowsException(final TransitionExceptionEventArgs<ExceptionCasesTestStateMachine, States, Events> eventArgs) {
 
-			ExceptionCasesTest.this.recordedStateId = eventArgs.getStateId();
-			ExceptionCasesTest.this.recordedEventId = eventArgs.getEventId();
-			ExceptionCasesTest.this.recordedEventArguments = eventArgs
-					.getEventArguments();
-			ExceptionCasesTest.this.recordedException = eventArgs
-					.getException();
+      ExceptionCasesTest.this.recordedStateId = eventArgs.getStateId();
+      ExceptionCasesTest.this.recordedEventId = eventArgs.getEventId();
+      ExceptionCasesTest.this.recordedEventArguments = eventArgs.getEventArguments();
+      ExceptionCasesTest.this.recordedException = eventArgs.getException();
 
-		}
+    }
 
-	}
+  }
 
-	private class ExceptionCasesTestStateMachine
-			extends
-			AbstractStateMachine<ExceptionCasesTestStateMachine, States, Events> {
+  private class ExceptionCasesTestStateMachine extends AbstractStateMachine<ExceptionCasesTestStateMachine, States, Events> {
 
-		private final RuntimeException e = new RuntimeException();
+    private final RuntimeException e = new RuntimeException();
 
-		public RuntimeException getException() {
-			return e;
-		}
+    public RuntimeException getException() {
+      return e;
+    }
 
-		protected ExceptionCasesTestStateMachine(
-				final StateMachine<States, Events> driver) {
-			super(driver);
-		}
+    protected ExceptionCasesTestStateMachine(final StateMachine<States, Events> driver) {
+      super(driver);
+    }
 
-	}
+  }
 
-	private class ExceptionCasesTestStateMachineDefinition
-			extends
-			AbstractStateMachineDefinition<ExceptionCasesTestStateMachine, States, Events> {
+  private class ExceptionCasesTestStateMachineDefinition extends AbstractStateMachineDefinition<ExceptionCasesTestStateMachine, States, Events> {
 
-		public ExceptionCasesTestStateMachineDefinition(final String name,
-				final States initialState) {
+    public ExceptionCasesTestStateMachineDefinition(final String name, final States initialState) {
 
-			super("ExceptionCasesTestStateMachine", States.A);
-		}
+      super("ExceptionCasesTestStateMachine", States.A);
+    }
 
-		@Override
-		protected ExceptionCasesTestStateMachine createStateMachine(
-				final StateMachine<States, Events> driver) {
-			return new ExceptionCasesTestStateMachine(driver);
-		}
+    @Override
+    protected ExceptionCasesTestStateMachine createStateMachine(final StateMachine<States, Events> driver) {
+      return new ExceptionCasesTestStateMachine(driver);
+    }
 
-	}
+  }
 
-	public static class ThrowExceptionAction implements
-			Action<ExceptionCasesTestStateMachine, States, Events> {
+  public static class ThrowExceptionAction implements FsmAction0<ExceptionCasesTestStateMachine, States, Events> {
 
-		private static RuntimeException exception = new RuntimeException();
+    private static RuntimeException exception = new RuntimeException();
 
-		@Override
-		public void execute(final ExceptionCasesTestStateMachine stateMachine,
-				final Object... arguments) {
+    @Override
+    public void exec(final ExceptionCasesTestStateMachine stateMachine) {
 
-			throw exception;
-		}
+      throw exception;
+    }
 
-		/**
-		 * @return the exception
-		 */
-		public static RuntimeException getException() {
-			return exception;
-		}
+    /**
+     * @return the exception
+     */
+    public static RuntimeException getException() {
+      return exception;
+    }
 
-	}
+  }
 
-	/**
-	 * The state that was provided in the
-	 * {@link ch.bbv.fsm.events.StateMachineEventHandler#onExceptionThrown(ExceptionEventArgs)}
-	 * event.
-	 */
-	private States recordedStateId;
+  /**
+   * The state that was provided in the
+   * {@link ch.bbv.fsm.events.StateMachineEventHandler#onExceptionThrown(ExceptionEventArgs)} event.
+   */
+  private States recordedStateId;
 
-	/**
-	 * The event that was provided in the
-	 * {@link ch.bbv.fsm.events.StateMachineEventHandler#onExceptionThrown(ExceptionEventArgs)}
-	 * event.
-	 */
-	private Events recordedEventId;
+  /**
+   * The event that was provided in the
+   * {@link ch.bbv.fsm.events.StateMachineEventHandler#onExceptionThrown(ExceptionEventArgs)} event.
+   */
+  private Events recordedEventId;
 
-	/**
-	 * The event arguments that was provided in the
-	 * {@link ch.bbv.fsm.events.StateMachineEventHandler#onExceptionThrown(ExceptionEventArgs)}
-	 * event.
-	 */
-	private Object[] recordedEventArguments;
+  /**
+   * The event arguments that was provided in the
+   * {@link ch.bbv.fsm.events.StateMachineEventHandler#onExceptionThrown(ExceptionEventArgs)} event.
+   */
+  private Object[] recordedEventArguments;
 
-	/**
-	 * The exception that was provided in the
-	 * {@link ch.bbv.fsm.events.StateMachineEventHandler#onExceptionThrown(ExceptionEventArgs)}
-	 * event.
-	 */
-	private Exception recordedException;
+  /**
+   * The exception that was provided in the
+   * {@link ch.bbv.fsm.events.StateMachineEventHandler#onExceptionThrown(ExceptionEventArgs)} event.
+   */
+  private Exception recordedException;
 
-	private boolean transitionDeclined;
+  private boolean transitionDeclined;
 
-	private final ThrowExceptionAction throwException = new ThrowExceptionAction();
+  private final ThrowExceptionAction throwException = new ThrowExceptionAction();
 
-	public static class ThrowExceptionFunction
-			implements
-			Function<ExceptionCasesTestStateMachine, States, Events, Object[], Boolean> {
+  public static class ThrowExceptionFunction implements Function<ExceptionCasesTestStateMachine, States, Events, Object[], Boolean> {
 
-		@Override
-		public Boolean execute(
-				final ExceptionCasesTestStateMachine stateMachine,
-				final Object[] parameter) {
+    @Override
+    public Boolean execute(final ExceptionCasesTestStateMachine stateMachine, final Object[] parameter) {
 
-			throw stateMachine.getException();
-		}
-	}
+      throw stateMachine.getException();
+    }
+  }
 
-	/**
-	 * Asserts that the correct exception was notified.
-	 */
-	private void assertException(final States expectedStateId,
-			final Events expectedEventId,
-			final Object[] expectedEventArguments,
-			final Exception expectedException) {
-		Assert.assertEquals(expectedStateId, this.recordedStateId);
-		Assert.assertEquals(expectedEventId, this.recordedEventId);
-		Assert.assertArrayEquals(expectedEventArguments,
-				this.recordedEventArguments);
-		Assert.assertEquals(expectedException, this.recordedException);
-	}
+  /**
+   * Asserts that the correct exception was notified.
+   */
+  private void assertException(final States expectedStateId, final Events expectedEventId, final Object[] expectedEventArguments,
+      final Exception expectedException) {
+    Assert.assertEquals(expectedStateId, this.recordedStateId);
+    Assert.assertEquals(expectedEventId, this.recordedEventId);
+    Assert.assertArrayEquals(expectedEventArguments, this.recordedEventArguments);
+    Assert.assertEquals(expectedException, this.recordedException);
+  }
 
-	/**
-	 * When a transition throws an exception then the exception is catched and
-	 * the
-	 * {@link ch.bbv.fsm.events.StateMachineEventHandler#onExceptionThrown(ExceptionEventArgs)}
-	 * event is fired. The transition is executed and the state machine is in
-	 * the target state.
-	 */
-	@Test
-	public void exceptionThrowingAction() {
+  /**
+   * When a transition throws an exception then the exception is catched and the
+   * {@link ch.bbv.fsm.events.StateMachineEventHandler#onExceptionThrown(ExceptionEventArgs)} event
+   * is fired. The transition is executed and the state machine is in the target state.
+   */
+  @Test
+  public void exceptionThrowingAction() {
 
-		final Object[] eventArguments = new Object[] { 1, 2, "test" };
+    final Object[] eventArguments = new Object[] {1, 2, "test"};
 
-		final ExceptionCasesTestStateMachineDefinition def = new ExceptionCasesTestStateMachineDefinition(
-				"exceptionThrowingAction", States.A);
+    final ExceptionCasesTestStateMachineDefinition def = new ExceptionCasesTestStateMachineDefinition("exceptionThrowingAction", States.A);
 
-		def.in(States.A).on(Events.B).goTo(States.B).execute(throwException);
-		def.addEventHandler(new Handler());
-		final StateMachine<States, Events> testee = def
-				.createPassiveStateMachine("testee", States.A);
-		testee.start();
-		testee.fire(Events.B, eventArguments);
+    def.in(States.A).on(Events.B).goTo(States.B).execute(throwException);
+    def.addEventHandler(new Handler());
+    final StateMachine<States, Events> testee = def.createPassiveStateMachine("testee", States.A);
+    testee.start();
+    testee.fire(Events.B, eventArguments);
 
-		this.assertException(States.A, Events.B, eventArguments,
-				ThrowExceptionAction.getException());
-		Assert.assertEquals(States.B, testee.getCurrentState());
-	}
+    this.assertException(States.A, Events.B, eventArguments, ThrowExceptionAction.getException());
+    Assert.assertEquals(States.B, testee.getCurrentState());
+  }
 
-	/**
-	 * When an exception is thrown in an entry action then it is notified and
-	 * the state is entered anyway.
-	 */
-	@Test
-	public void exceptionThrowingEntryAction() {
+  /**
+   * When an exception is thrown in an entry action then it is notified and the state is entered
+   * anyway.
+   */
+  @Test
+  public void exceptionThrowingEntryAction() {
 
-		final Object[] eventArguments = new Object[] { 1, 2, "test" };
+    final Object[] eventArguments = new Object[] {1, 2, "test"};
 
-		final ExceptionCasesTestStateMachineDefinition def = new ExceptionCasesTestStateMachineDefinition(
-				"exceptionThrowingEntryAction", States.A);
-		def.addEventHandler(new Handler());
-		def.in(States.A).on(Events.B).goTo(States.B);
+    final ExceptionCasesTestStateMachineDefinition def = new ExceptionCasesTestStateMachineDefinition("exceptionThrowingEntryAction", States.A);
+    def.addEventHandler(new Handler());
+    def.in(States.A).on(Events.B).goTo(States.B);
 
-		def.in(States.B).executeOnEntry(throwException);
+    def.in(States.B).executeOnEntry(throwException);
 
-		final StateMachine<States, Events> testee = def
-				.createPassiveStateMachine("testee", States.A);
-		testee.start();
-		testee.fire(Events.B, eventArguments);
+    final StateMachine<States, Events> testee = def.createPassiveStateMachine("testee", States.A);
+    testee.start();
+    testee.fire(Events.B, eventArguments);
 
-		Assert.assertEquals(ThrowExceptionAction.getException(),
-				this.recordedException);
-		Assert.assertEquals(States.B, testee.getCurrentState());
-	}
+    Assert.assertEquals(ThrowExceptionAction.getException(), this.recordedException);
+    Assert.assertEquals(States.B, testee.getCurrentState());
+  }
 
-	/**
-	 * When an exception is thrown in an entry action then it is notified and
-	 * the state is entered anyway.
-	 */
-	@Test
-	public void exceptionThrowingExitAction() {
+  /**
+   * When an exception is thrown in an entry action then it is notified and the state is entered
+   * anyway.
+   */
+  @Test
+  public void exceptionThrowingExitAction() {
 
-		final Object[] eventArguments = new Object[] { 1, 2, "test" };
+    final Object[] eventArguments = new Object[] {1, 2, "test"};
 
-		final ExceptionCasesTestStateMachineDefinition def = new ExceptionCasesTestStateMachineDefinition(
-				"exceptionThrowingExitAction", States.A);
-		def.addEventHandler(new Handler());
-		def.in(States.A).executeOnExit(throwException).on(Events.B)
-				.goTo(States.B);
+    final ExceptionCasesTestStateMachineDefinition def = new ExceptionCasesTestStateMachineDefinition("exceptionThrowingExitAction", States.A);
+    def.addEventHandler(new Handler());
+    def.in(States.A).executeOnExit(throwException).on(Events.B).goTo(States.B);
 
-		final StateMachine<States, Events> testee = def
-				.createPassiveStateMachine("testee", States.A);
-		testee.start();
-		testee.fire(Events.B, eventArguments);
+    final StateMachine<States, Events> testee = def.createPassiveStateMachine("testee", States.A);
+    testee.start();
+    testee.fire(Events.B, eventArguments);
 
-		Assert.assertEquals(ThrowExceptionAction.getException(),
-				this.recordedException);
-		Assert.assertEquals(States.B, testee.getCurrentState());
-	}
+    Assert.assertEquals(ThrowExceptionAction.getException(), this.recordedException);
+    Assert.assertEquals(States.B, testee.getCurrentState());
+  }
 
-	/**
-	 * When a guard throws an exception then it is catched and the
-	 * {@link ch.bbv.fsm.events.StateMachineEventHandler#onExceptionThrown(ExceptionEventArgs)}
-	 * event is fired. The transition is not executed and if there is no other
-	 * transition then the state machine remains in the same state.
-	 */
-	@Test
-	public void exceptionThrowingGuard() {
-		final Object[] eventArguments = new Object[] { 1, 2, "test" };
+  /**
+   * When a guard throws an exception then it is catched and the
+   * {@link ch.bbv.fsm.events.StateMachineEventHandler#onExceptionThrown(ExceptionEventArgs)} event
+   * is fired. The transition is not executed and if there is no other transition then the state
+   * machine remains in the same state.
+   */
+  @Test
+  public void exceptionThrowingGuard() {
+    final Object[] eventArguments = new Object[] {1, 2, "test"};
 
-		final ExceptionCasesTestStateMachineDefinition def = new ExceptionCasesTestStateMachineDefinition(
-				"exceptionThrowingGuard", States.A);
-		def.in(States.A).on(Events.B).goTo(States.B)
-				.onlyIf(new ExceptionCasesTest.ThrowExceptionFunction());
+    final ExceptionCasesTestStateMachineDefinition def = new ExceptionCasesTestStateMachineDefinition("exceptionThrowingGuard", States.A);
+    def.in(States.A).on(Events.B).goTo(States.B).onlyIf(new ExceptionCasesTest.ThrowExceptionFunction());
 
-		def.addEventHandler(new Handler());
+    def.addEventHandler(new Handler());
 
-		final ExceptionCasesTestStateMachine testee = def
-				.createPassiveStateMachine("testee", States.A);
-		testee.start();
-		testee.fire(Events.B, eventArguments);
+    final ExceptionCasesTestStateMachine testee = def.createPassiveStateMachine("testee", States.A);
+    testee.start();
+    testee.fire(Events.B, eventArguments);
 
-		this.assertException(States.A, Events.B, eventArguments,
-				testee.getException());
-		Assert.assertEquals(States.A, testee.getCurrentState());
-		Assert.assertTrue(this.transitionDeclined);
+    this.assertException(States.A, Events.B, eventArguments, testee.getException());
+    Assert.assertEquals(States.A, testee.getCurrentState());
+    Assert.assertTrue(this.transitionDeclined);
 
-	}
+  }
 }
