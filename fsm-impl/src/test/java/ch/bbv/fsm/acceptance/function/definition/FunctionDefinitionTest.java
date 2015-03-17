@@ -19,8 +19,7 @@ package ch.bbv.fsm.acceptance.function.definition;
 import java.util.LinkedList;
 import java.util.List;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 
 import ch.bbv.fsm.StateMachine;
