@@ -62,11 +62,12 @@ public interface ExitActionSyntax<TStateMachine extends StateMachine<TState, TEv
 			T parameter);
 
 	/**
-	 * Defines an entry action.
-	 * 
-	 * @param actionClass
-	 * @param parameter1
-	 * @param parameter2
+	 *  Defines an entry action.
+	 * @param actionClass the action. 
+	 * @param <T1> the type of the first parameter.
+	 * @param <T2> the type of the second parameter.
+	 * @param parameter1 the value of the first parameter.
+	 * @param parameter2 the value of the second parameter.
 	 * @return
 	 */
 	<T1, T2> EventSyntax<TStateMachine, TState, TEvent> executeOnExit(
