@@ -19,7 +19,9 @@
 package ch.bbv.fsm.dsl;
 
 import ch.bbv.fsm.StateMachine;
-import ch.bbv.fsm.action.Action;
+import ch.bbv.fsm.action.FsmAction0;
+import ch.bbv.fsm.action.FsmAction1;
+import ch.bbv.fsm.action.FsmAction2;
 
 /**
  * Possibilities to execute an action on exit.
@@ -39,10 +41,10 @@ public interface ExitActionSyntax<TStateMachine extends StateMachine<TState, TEv
 	 * Defines an exit action.
 	 * 
 	 * @param actionClass
-	 *            the {@link Action} Class
+	 *            the {@link FsmAction0} Class
 	 * @return the EventSyntax
 	 */
-	EventSyntax<TStateMachine, TState, TEvent> executeOnExit(Action<TStateMachine, TState, TEvent> actionClass);
+	EventSyntax<TStateMachine, TState, TEvent> executeOnExit(FsmAction0<TStateMachine, TState, TEvent> actionClass);
 
 	/**
 	 * Defines an entry action.
@@ -50,11 +52,25 @@ public interface ExitActionSyntax<TStateMachine extends StateMachine<TState, TEv
 	 * @param <T>
 	 *            The return type of the action.
 	 * @param actionClass
-	 *            The {@link Action} class.
+	 *            The {@link FsmAction1} class.
 	 * @param parameter
 	 *            (necessary?)
 	 * @return the EventSyntax
 	 */
-	<T> EventSyntax<TStateMachine, TState, TEvent> executeOnExit(Action<TStateMachine, TState, TEvent> actionClass, T parameter);
+	<T> EventSyntax<TStateMachine, TState, TEvent> executeOnExit(FsmAction1<TStateMachine, TState, TEvent, T> actionClass, T parameter);
 
+	/**
+	 * Defines an entry action.
+	 * 
+	 * @param <T>
+	 *            The return type of the action.
+	 * @param actionClass
+	 *            The {@link FsmAction2} class.
+	 * @param parameter
+	 *            (necessary?)
+	 * @return the EventSyntax
+	 */
+	<T1, T2> EventSyntax<TStateMachine, TState, TEvent> executeOnExit(FsmAction2<TStateMachine, TState, TEvent, T1, T2> actionClass, T1 parameter1, T2 parameter2);
+
+	
 }

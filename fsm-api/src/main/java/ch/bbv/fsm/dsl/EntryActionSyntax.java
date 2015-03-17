@@ -16,7 +16,8 @@
 package ch.bbv.fsm.dsl;
 
 import ch.bbv.fsm.StateMachine;
-import ch.bbv.fsm.action.Action;
+import ch.bbv.fsm.action.FsmAction0;
+import ch.bbv.fsm.action.FsmAction1;
 
 /**
  * Entry Action Syntax.
@@ -34,21 +35,21 @@ public interface EntryActionSyntax<TStateMachine extends StateMachine<TState, TE
   /**
    * Defines an entry action.
    * 
-   * @param action the {@link Action} to be executed.
+   * @param action the {@link FsmAction0} to be executed.
    * @return the ExitActionSyntax
    */
   ExitActionSyntax<TStateMachine, TState, TEvent> executeOnEntry(
-      Action<TStateMachine, TState, TEvent> action);
+      FsmAction0<TStateMachine, TState, TEvent> action);
 
   /**
    * Defines an entry action.
    * 
    * @param <T> The return type of the action.
-   * @param action The {@link Action} to be executed.
+   * @param action The {@link FsmAction1} to be executed.
    * @param parameter (necessary?)
    * @return the ExitActionSyntax
    */
   <T> ExitActionSyntax<TStateMachine, TState, TEvent> executeOnEntry(
-      Action<TStateMachine, TState, TEvent> action, T parameter);
+		  FsmAction1<TStateMachine, TState, TEvent, T> action,T parameter);
 
 }

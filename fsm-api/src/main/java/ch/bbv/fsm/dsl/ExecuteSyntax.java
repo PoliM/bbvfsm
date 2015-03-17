@@ -19,7 +19,7 @@
 package ch.bbv.fsm.dsl;
 
 import ch.bbv.fsm.StateMachine;
-import ch.bbv.fsm.action.Action;
+import ch.bbv.fsm.action.FsmAction0;
 
 /**
  * Possibilities to execute an action.
@@ -40,6 +40,6 @@ public interface ExecuteSyntax<TStateMachine extends StateMachine<TState, TEvent
 	 * @param action
 	 *            The action class.
 	 */
-	ExecuteSyntax<TStateMachine, TState, TEvent> execute(Action<TStateMachine, TState, TEvent> action);
+	ExecuteSyntax<TStateMachine, TState, TEvent> execute(FsmAction0<TStateMachine, TState, TEvent> action);
 
 }

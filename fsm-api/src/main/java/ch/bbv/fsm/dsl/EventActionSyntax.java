@@ -19,7 +19,7 @@
 package ch.bbv.fsm.dsl;
 
 import ch.bbv.fsm.StateMachine;
-import ch.bbv.fsm.action.Action;
+import ch.bbv.fsm.action.FsmAction0;
 
 /**
  * Possibilities to do with a transition.
@@ -49,6 +49,6 @@ public interface EventActionSyntax<TStateMachine extends StateMachine<TState, TE
 	 * @param action
 	 *            The actions to be executed.
 	 */
-	GuardSyntax<TStateMachine, TState, TEvent> execute(Action<TStateMachine, TState, TEvent> action);
+	GuardSyntax<TStateMachine, TState, TEvent> execute(FsmAction0<TStateMachine, TState, TEvent> action);
 
 }
