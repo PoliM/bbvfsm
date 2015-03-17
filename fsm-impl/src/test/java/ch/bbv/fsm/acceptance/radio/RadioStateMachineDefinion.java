@@ -50,37 +50,26 @@ public class RadioStateMachineDefinion
 	}
 
 	private void define() {
-	
 
 		in(State.Off).on(Event.TogglePower).goTo(State.On)
-				.execute((sm, p) -> sm.logTransitionFromOffToOn())
+				.execute((sm) -> sm.logTransitionFromOffToOn())
 				.onlyIf((sm, p) -> sm.isUserMode());
-		in(State.Off).executeOnEntry((sm, p) -> sm.logOffEntry());
-		in(State.Off).executeOnExit((sm, p) -> sm.logOffExit());
+		in(State.Off).executeOnEntry((sm) -> sm.logOffEntry());
+		in(State.Off).executeOnExit((sm) -> sm.logOffExit());
 
 		in(State.On).on(Event.TogglePower).goTo(State.Off)
-				.execute((sm, p) -> sm.logTransitionFromOnToOff());
-		in(State.On).executeOnEntry((sm, p) -> sm.logOnEntry());
-		in(State.On).executeOnExit((sm, p) -> sm.logOnExit());
+				.execute((sm) -> sm.logTransitionFromOnToOff());
+		in(State.On).executeOnEntry((sm) -> sm.logOnEntry());
+		in(State.On).executeOnExit((sm) -> sm.logOnExit());
 
-		in(State.Off)
-				.on(Event.TogglePower)
-				.goTo(State.Maintenance)
-				.execute(
-						(sm, p) -> sm
-								.logTransitionOffToMaintenance())
+		in(State.Off).on(Event.TogglePower).goTo(State.Maintenance)
+				.execute((sm) -> sm.logTransitionOffToMaintenance())
 				.onlyIf((sm, p) -> sm.isMaintenanceMode());
 
-		in(State.Maintenance)
-				.on(Event.TogglePower)
-				.goTo(State.Off)
-				.execute(
-						(sm, p) -> sm
-								.logTransitionFromMaintenanceToOff());
-		in(State.Maintenance).executeOnEntry(
-				(sm, p) -> sm.logMaintenanceEntry());
-		in(State.Maintenance).executeOnExit(
-				(sm, p) -> sm.logMaintenanceExit());
+		in(State.Maintenance).on(Event.TogglePower).goTo(State.Off)
+				.execute((sm) -> sm.logTransitionFromMaintenanceToOff());
+		in(State.Maintenance).executeOnEntry((sm) -> sm.logMaintenanceEntry());
+		in(State.Maintenance).executeOnExit((sm) -> sm.logMaintenanceExit());
 
 		defineOnBla();
 	}
@@ -90,14 +79,14 @@ public class RadioStateMachineDefinion
 				State.AM);
 
 		in(State.FM).on(Event.ToggleMode).goTo(State.AM)
-				.execute((sm, p) -> sm.logTransitionFromFMToAM());
-		in(State.FM).executeOnEntry((sm, p) -> sm.logFMEntry());
-		in(State.FM).executeOnExit((sm, p) -> sm.logFMExit());
+				.execute((sm) -> sm.logTransitionFromFMToAM());
+		in(State.FM).executeOnEntry((sm) -> sm.logFMEntry());
+		in(State.FM).executeOnExit((sm) -> sm.logFMExit());
 
 		in(State.AM).on(Event.ToggleMode).goTo(State.FM)
-				.execute((sm, p) -> sm.logTransitionFromAMToFM());
-		in(State.AM).executeOnEntry((sm, p) -> sm.logAMEntry());
-		in(State.AM).executeOnExit((sm, p) -> sm.logAMExit());
+				.execute((sm) -> sm.logTransitionFromAMToFM());
+		in(State.AM).executeOnEntry((sm) -> sm.logAMEntry());
+		in(State.AM).executeOnExit((sm) -> sm.logAMExit());
 
 		defineAM();
 	}
@@ -106,25 +95,14 @@ public class RadioStateMachineDefinion
 		defineHierarchyOn(State.AM, State.Play, historyTypeForAM, State.Play,
 				State.AutoTune);
 
-		in(State.Play)
-				.on(Event.StationLost)
-				.goTo(State.AutoTune)
-				.execute(
-						(sm, p) -> sm
-								.logTransitionFromPlayToAutoTune());
-		in(State.Play)
-				.executeOnEntry((sm, p) -> sm.logPlayEntry());
-		in(State.Play).executeOnExit((sm, p) -> sm.logPlayExit());
+		in(State.Play).on(Event.StationLost).goTo(State.AutoTune)
+				.execute((sm) -> sm.logTransitionFromPlayToAutoTune());
+		in(State.Play).executeOnEntry((sm) -> sm.logPlayEntry());
+		in(State.Play).executeOnExit((sm) -> sm.logPlayExit());
 
-		in(State.AutoTune)
-				.on(Event.StationFound)
-				.goTo(State.Play)
-				.execute(
-						(sm, p) -> sm
-								.logTransitionFromAutoTuneToPlay());
-		in(State.AutoTune).executeOnEntry(
-				(sm, p) -> sm.logAutoTuneEntry());
-		in(State.AutoTune).executeOnExit(
-				(sm, p) -> sm.logAutoTuneExit());
+		in(State.AutoTune).on(Event.StationFound).goTo(State.Play)
+				.execute((sm) -> sm.logTransitionFromAutoTuneToPlay());
+		in(State.AutoTune).executeOnEntry((sm) -> sm.logAutoTuneEntry());
+		in(State.AutoTune).executeOnExit((sm) -> sm.logAutoTuneExit());
 	}
 }

@@ -18,13 +18,14 @@
  *******************************************************************************/
 package ch.bbv.fsm.acceptance.tennis;
 
-import junit.framework.Assert;
 
+
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import ch.bbv.fsm.StateMachine;
-import ch.bbv.fsm.action.Action;
+import ch.bbv.fsm.action.FsmAction1;
 import ch.bbv.fsm.impl.AbstractStateMachine;
 import ch.bbv.fsm.impl.AbstractStateMachineDefinition;
 
@@ -83,13 +84,11 @@ public class Tennis {
 	private TennisTestStateMachineDefinition scorer;
 
 	public static class SimpleActionClass implements
-			Action<TennisTestStateMachine, States, Events> {
+			FsmAction1<TennisTestStateMachine, States, Events, States> {
 
 		@Override
-		public void execute(final TennisTestStateMachine stateMachine,
-				final Object... arguments) {
-
-			stateMachine.setState((States) arguments[0]);
+		public void exec(TennisTestStateMachine fsm, States p1) {
+			fsm.setState(p1);
 		}
 
 	}
