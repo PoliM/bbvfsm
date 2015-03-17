@@ -23,32 +23,45 @@ import ch.bbv.fsm.action.FsmAction2;
 /**
  * Possibilities to execute an action.
  *
- * @param <TStateMachine> the type of state machine
- * @param <TState> the type of the states.
- * @param <TEvent> the type of the events.
+ * @param <TStateMachine>
+ *            the type of state machine
+ * @param <TState>
+ *            the type of the states.
+ * @param <TEvent>
+ *            the type of the events.
  */
-public interface ExecuteSyntax<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>> extends
-    GuardSyntax<TStateMachine, TState, TEvent> {
+public interface ExecuteSyntax<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>>
+		extends GuardSyntax<TStateMachine, TState, TEvent> {
 
-  /**
-   * Defines the actions to execute on a transition.
-   *
-   * @param action The action class.
-   */
-  ExecuteSyntax<TStateMachine, TState, TEvent> execute(FsmAction0<TStateMachine, TState, TEvent> action);
+	/**
+	 * Defines the actions to execute on a transition.
+	 *
+	 * @param action
+	 *            The action class.
+	 */
+	ExecuteSyntax<TStateMachine, TState, TEvent> execute(
+			FsmAction0<TStateMachine, TState, TEvent> action);
 
-  /**
-   * Defines the actions to execute on a transition.
-   * @param action
-   * @return
-   */
-  <T> ExecuteSyntax<TStateMachine, TState, TEvent> execute(FsmAction1<TStateMachine, TState, TEvent, T> action);
+	/**
+	 * Defines the actions to execute on a transition.
+	 * 
+	 * @param action
+	 * @param <T>
+	 * 
+	 * @return
+	 */
+	<T> ExecuteSyntax<TStateMachine, TState, TEvent> execute(
+			FsmAction1<TStateMachine, TState, TEvent, T> action);
 
-  /**
-   * Defines the actions to execute on a transition.
-   * @param action
-   * @return
-   */
-  <T1, T2> ExecuteSyntax<TStateMachine, TState, TEvent> execute(FsmAction2<TStateMachine, TState, TEvent, T1, T2> action);
+	/**
+	 * Defines the actions to execute on a transition.
+	 * 
+	 * @param action
+	 * @param <T1>
+	 * @param <T2>
+	 * @return
+	 */
+	<T1, T2> ExecuteSyntax<TStateMachine, TState, TEvent> execute(
+			FsmAction2<TStateMachine, TState, TEvent, T1, T2> action);
 
 }
