@@ -50,6 +50,6 @@ public interface EntryActionSyntax<TStateMachine extends StateMachine<TState, TE
    * @return the ExitActionSyntax
    */
   <T> ExitActionSyntax<TStateMachine, TState, TEvent> executeOnEntry(
-		  FsmAction1<TStateMachine, TState, TEvent, T> action,T parameter);
+		  FsmAction1<TStateMachine, TState, TEvent, T> action, T parameter);
 
 }

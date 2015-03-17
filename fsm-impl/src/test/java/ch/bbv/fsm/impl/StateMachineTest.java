@@ -27,7 +27,7 @@ import org.junit.Test;
 
 import ch.bbv.fsm.HistoryType;
 import ch.bbv.fsm.StateMachine;
-import ch.bbv.fsm.action.Action;
+import ch.bbv.fsm.action.FsmAction1;
 import ch.bbv.fsm.impl.StatesAndEvents.Events;
 import ch.bbv.fsm.impl.StatesAndEvents.States;
 
@@ -102,33 +102,27 @@ public class StateMachineTest {
 	}
 
 	public static class RecordEntryActionClass implements
-			Action<StateMachineTestStateMachine, States, Events> {
+			FsmAction1<StateMachineTestStateMachine, States, Events, States> {
 
 		@Override
-		public void execute(final StateMachineTestStateMachine stateMachine,
-				final Object... arguments) {
-
-			States state = (States) arguments[0];
-
+		public void exec(StateMachineTestStateMachine fsm, States p) {
 			final EntryRecord record = new EntryRecord();
-			record.setState(state);
-			stateMachine.records.add(record);
+			record.setState(p);
+			fsm.records.add(record);
 		}
 	}
 
 	public static class RecordExitActionClass implements
-			Action<StateMachineTestStateMachine, States, Events> {
+			FsmAction1<StateMachineTestStateMachine, States, Events, States> {
 
 		@Override
-		public void execute(final StateMachineTestStateMachine stateMachine,
-				final Object... arguments) {
-
-			States state = (States) arguments[0];
-
+		public void exec(StateMachineTestStateMachine fsm, States p1) {
+		
 			final ExitRecord record = new ExitRecord();
-			record.setState(state);
-			stateMachine.records.add(record);
+			record.setState(p1);
+			fsm.records.add(record);
 		}
+
 	}
 
 	/**

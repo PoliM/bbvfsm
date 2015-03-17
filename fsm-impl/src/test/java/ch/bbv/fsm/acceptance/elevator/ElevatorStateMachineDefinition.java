@@ -2,7 +2,7 @@ package ch.bbv.fsm.acceptance.elevator;
 
 import ch.bbv.fsm.HistoryType;
 import ch.bbv.fsm.StateMachine;
-import ch.bbv.fsm.action.Action;
+import ch.bbv.fsm.action.FsmAction0;
 import ch.bbv.fsm.guard.Function;
 import ch.bbv.fsm.impl.AbstractStateMachineDefinition;
 
@@ -69,12 +69,12 @@ public class ElevatorStateMachineDefinition
 	 * Announces the floor.
 	 */
 	public static class AnnounceFloorAction implements
-			Action<ElevatorStateMachine, State, Event> {
+			FsmAction0<ElevatorStateMachine, State, Event> {
 
 		@Override
-		public void execute(final ElevatorStateMachine stateMachine,
-				final Object... arguments) {
+		public void exec(ElevatorStateMachine fsm) {
 			System.out.println("announceFloor: 1");
+
 		}
 	}
 
@@ -82,11 +82,10 @@ public class ElevatorStateMachineDefinition
 	 * Announces that the elevator is overloaded.
 	 */
 	public static class AnnounceOverloadAction implements
-			Action<ElevatorStateMachine, State, Event> {
+			FsmAction0<ElevatorStateMachine, State, Event> {
 
 		@Override
-		public void execute(final ElevatorStateMachine stateMachine,
-				final Object... arguments) {
+		public void exec(ElevatorStateMachine fsm) {
 			System.out.println("announceOverload...");
 		}
 	}

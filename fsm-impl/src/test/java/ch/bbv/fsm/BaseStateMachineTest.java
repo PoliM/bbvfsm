@@ -28,7 +28,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ch.bbv.fsm.StateMachine.RunningState;
-import ch.bbv.fsm.action.Action;
 import ch.bbv.fsm.events.ExceptionEventArgs;
 import ch.bbv.fsm.events.StateMachineEventAdapter;
 import ch.bbv.fsm.events.TransitionCompletedEventArgs;
@@ -74,20 +73,6 @@ public abstract class BaseStateMachineTest {
 		}
 
 	}
-
-	public static class FireAction implements
-			Action<SimpleStateMachine<States, Events>, States, Events> {
-
-		@Override
-		public void execute(
-				final SimpleStateMachine<States, Events> stateMaschine,
-				final Object... arguments) {
-			stateMaschine.fire(Events.D);
-			stateMaschine.firePriority(Events.C);
-		}
-	}
-
-	private final FireAction fireAction = new FireAction();
 
 	/**
 	 * The state machine under test.
@@ -225,7 +210,7 @@ public abstract class BaseStateMachineTest {
 		final SimpleStateMachineDefinition<States, Events> definition = new SimpleStateMachineDefinition<>(
 				"priorityFire", States.A);
 
-		definition.in(States.A).on(Events.B).goTo(States.B).execute(fireAction);
+		definition.in(States.A).on(Events.B).goTo(States.B).execute((fsm)->{fsm.fire(Events.D);fsm.firePriority(Events.C);});
 
 		definition.in(States.B).on(Events.C).goTo(States.C);
 

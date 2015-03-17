@@ -22,7 +22,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import ch.bbv.fsm.StateMachine;
-import ch.bbv.fsm.action.Action;
+import ch.bbv.fsm.action.FsmAction0;
+import ch.bbv.fsm.action.FsmAction1;
 import ch.bbv.fsm.impl.StatesAndEvents.Events;
 import ch.bbv.fsm.impl.StatesAndEvents.States;
 
@@ -75,24 +76,20 @@ public class StateActionTest {
 	}
 
 	public static class ActionClass implements
-			Action<StateActionTestStateMachine, States, Events> {
+			FsmAction0<StateActionTestStateMachine, States, Events> {
 
 		@Override
-		public void execute(final StateActionTestStateMachine stateMachine,
-				final Object... arguments) {
-
-			stateMachine.setEntered(true);
-
+		public void exec(StateActionTestStateMachine fsm) {
+			fsm.setEntered(true);
 		}
 	}
 
-	public static class ActionWithParameterClass implements
-			Action<StateActionTestStateMachine, States, Events> {
+	public static class ActionWithParameterClass<T> implements
+			FsmAction1<StateActionTestStateMachine, States, Events, T> {
 
 		@Override
-		public void execute(final StateActionTestStateMachine stateMachine,
-				final Object... arguments) {
-			stateMachine.setArguments(arguments);
+		public void exec(StateActionTestStateMachine fsm, T p1) {
+			fsm.setArguments(new Object[]{p1});
 		}
 	}
 
@@ -141,7 +138,7 @@ public class StateActionTest {
 		final StateActionTestStateMachineDefinition stateMachineDefinition = new StateActionTestStateMachineDefinition();
 
 		stateMachineDefinition.in(States.A).executeOnEntry(
-				new ActionWithParameterClass(), 3);
+				new ActionWithParameterClass<Integer>(), 3);
 
 		final StateActionTestStateMachine fsm = stateMachineDefinition
 				.createPassiveStateMachine("parameterizedEntryAction", States.A);
@@ -160,7 +157,7 @@ public class StateActionTest {
 		final StateActionTestStateMachineDefinition stateMachineDefinition = new StateActionTestStateMachineDefinition();
 
 		stateMachineDefinition.in(States.A)
-				.executeOnExit(new ActionWithParameterClass(), 3).on(Events.B)
+				.executeOnExit(new ActionWithParameterClass<Integer>(), 3).on(Events.B)
 				.goTo(States.B);
 
 		final StateActionTestStateMachine fsm = stateMachineDefinition

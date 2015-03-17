@@ -18,8 +18,9 @@
  *******************************************************************************/
 package ch.bbv.fsm.impl.internal;
 
-import junit.framework.Assert;
 
+
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -69,10 +70,10 @@ public class SyntaxTest {
 	public void setup() {
 		this.definition = new SimpleStateMachineDefinition<>("SimpleExample", States.A);
 
-		this.definition.in(States.A).executeOnEntry((sm, p)->this.fooEntry(ENTRY_A)).executeOnExit((sm, p)->this.fooExit(EXIT_A)).on(Events.toB)
+		this.definition.in(States.A).executeOnEntry((fsm, p)->{this.fooEntry(ENTRY_A);}, null).executeOnExit((sm, p)->this.fooExit(EXIT_A), null).on(Events.toB)
 				.goTo(States.B).onlyIf((sm, p)->this.bar((boolean)p[0]));
 
-		this.definition.in(States.B).executeOnEntry((sm, p)->this.fooEntry(ENTRY_B)).on(Events.toB).goTo(States.B)
+		this.definition.in(States.B).executeOnEntry((sm, p)->this.fooEntry(ENTRY_B), null).on(Events.toB).goTo(States.B)
 				.onlyIf((sm, p)->this.bar((boolean)p[0]));
 
 		this.definition.in(States.B).on(Events.toD).goTo(States.D);

@@ -25,6 +25,7 @@ import ch.bbv.fsm.StateMachine;
 import ch.bbv.fsm.impl.StatesAndEvents.Events;
 import ch.bbv.fsm.impl.StatesAndEvents.States;
 
+
 public class NewSyntaxTest {
 
 	private String testString;
@@ -41,7 +42,7 @@ public class NewSyntaxTest {
 		final SimpleStateMachineDefinition<States, Events> stateMachineDefinition = new SimpleStateMachineDefinition<>(
 				"transitionTest", States.A);
 
-		stateMachineDefinition.in(States.A).on(Events.B).goTo(States.B).execute((sm, p)->this.actionMethod((String)p[0], (int)p[1]));
+		stateMachineDefinition.in(States.A).on(Events.B).goTo(States.B).execute((sm, p)->{actionMethod("a", "b")}, "");
 
 		final StateMachine<States, Events> fsm = stateMachineDefinition.createPassiveStateMachine("transitionTest", States.A);
 		fsm.start();

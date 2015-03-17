@@ -18,11 +18,12 @@
  *******************************************************************************/
 package ch.bbv.fsm.impl;
 
+import javax.swing.Action;
+
 import org.junit.Assert;
 import org.junit.Test;
 
 import ch.bbv.fsm.StateMachine;
-import ch.bbv.fsm.action.Action;
 import ch.bbv.fsm.events.StateMachineEventAdapter;
 import ch.bbv.fsm.events.TransitionEventArgs;
 import ch.bbv.fsm.impl.StatesAndEvents.Events;
@@ -75,9 +76,9 @@ public class TransitionsTest {
 
 		public TransitionTestStateMachineDefinition() {
 			super("TransitionTestStateMachineDefinition", States.A);
-			in(States.A).on(Events.A).execute(new Action3());
-			in(States.A).on(Events.B).goTo(States.B).execute(new Action1())
-					.execute(new Action2());
+			in(States.A).on(Events.A).execute((fsm)->{fsm.setExecuted(true);});
+			in(States.A).on(Events.B).goTo(States.B).execute((fsm, p)->{fsm.setArgument1(p);})
+					.execute((fsm)->{fsm.setArgument2(arguments);});
 		}
 
 		@Override
@@ -88,39 +89,10 @@ public class TransitionsTest {
 
 	}
 
-	public static class Action1 implements
-			Action<TransitionTestStateMachine, States, Events> {
 
-		@Override
-		public void execute(final TransitionTestStateMachine stateMachine,
-				final Object... arguments) {
-			stateMachine.setArgument1(arguments);
 
-		}
-	}
-
-	public static class Action2 implements
-			Action<TransitionTestStateMachine, States, Events> {
-
-		@Override
-		public void execute(final TransitionTestStateMachine stateMachine,
-				final Object... arguments) {
-			stateMachine.setArgument2(arguments);
-
-		}
-	}
-
-	public static class Action3 implements
-			Action<TransitionTestStateMachine, States, Events> {
-
-		@Override
-		public void execute(final TransitionTestStateMachine stateMachine,
-				final Object... arguments) {
-
-			stateMachine.setExecuted(true);
-		}
-	}
-
+	
+	
 	private class Handler
 			extends
 			StateMachineEventAdapter<SimpleStateMachine<States, Events>, States, Events> {
@@ -164,7 +136,7 @@ public class TransitionsTest {
 	public void internalTransition() {
 
 		final TransitionTestStateMachineDefinition stateMachineDefinition = new TransitionTestStateMachineDefinition();
-		stateMachineDefinition.in(States.A).on(Events.A).execute(new Action3());
+		stateMachineDefinition.in(States.A).on(Events.A).execute((fsm)->{fsm.setExecuted(true);});
 		final TransitionTestStateMachine fsm = stateMachineDefinition
 				.createPassiveStateMachine("transitionTest", States.A);
 		fsm.start();
