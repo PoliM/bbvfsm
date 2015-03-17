@@ -35,6 +35,7 @@ import ch.bbv.fsm.StateMachine;
  * @param <TEvent>
  *            the event enumeration
  */
+@FunctionalInterface
 public interface Function<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>, ParameterType, ReturnType> {
 
 	/**
