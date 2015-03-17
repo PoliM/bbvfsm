@@ -70,8 +70,7 @@ public class TransitionsTest {
       in(States.A).on(Events.A).execute((fsm) -> {
         fsm.setExecuted(true);
       });
-      in(States.A).on(Events.B).goTo(States.B).execute(TransitionTestStateMachine::setArgument1, null)
-          .execute(TransitionTestStateMachine::setArgument2, null);
+      in(States.A).on(Events.B).goTo(States.B).execute(TransitionTestStateMachine::setArgument1).execute(TransitionTestStateMachine::setArgument2);
     }
 
     @Override

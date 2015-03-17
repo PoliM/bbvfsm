@@ -37,8 +37,8 @@ public interface ExecuteSyntax<TStateMachine extends StateMachine<TState, TEvent
    */
   ExecuteSyntax<TStateMachine, TState, TEvent> execute(FsmAction0<TStateMachine, TState, TEvent> action);
 
-  <T> ExecuteSyntax<TStateMachine, TState, TEvent> execute(FsmAction1<TStateMachine, TState, TEvent, T> action, T param);
+  <T> ExecuteSyntax<TStateMachine, TState, TEvent> execute(FsmAction1<TStateMachine, TState, TEvent, T> action);
 
-  <T1, T2> ExecuteSyntax<TStateMachine, TState, TEvent> execute(FsmAction2<TStateMachine, TState, TEvent, T1, T2> action, T1 param1, T2 param2);
+  <T1, T2> ExecuteSyntax<TStateMachine, TState, TEvent> execute(FsmAction2<TStateMachine, TState, TEvent, T1, T2> action);
 
 }

@@ -128,15 +128,14 @@ public class StateBuilder<TStateMachine extends StateMachine<TState, TEvent>, TS
   }
 
   @Override
-  public <T> ExecuteSyntax<TStateMachine, TState, TEvent> execute(final FsmAction1<TStateMachine, TState, TEvent, T> action, final T param) {
-    this.currentTransition.getActions().add(new FsmCall1<TStateMachine, TState, TEvent, T>(action, param));
+  public <T> ExecuteSyntax<TStateMachine, TState, TEvent> execute(final FsmAction1<TStateMachine, TState, TEvent, T> action) {
+    this.currentTransition.getActions().add(new FsmCall1<TStateMachine, TState, TEvent, T>(action, null));
     return this;
   }
 
   @Override
-  public <T1, T2> ExecuteSyntax<TStateMachine, TState, TEvent> execute(final FsmAction2<TStateMachine, TState, TEvent, T1, T2> action,
-      final T1 param1, final T2 param2) {
-    this.currentTransition.getActions().add(new FsmCall2<TStateMachine, TState, TEvent, T1, T2>(action, param1, param2));
+  public <T1, T2> ExecuteSyntax<TStateMachine, TState, TEvent> execute(final FsmAction2<TStateMachine, TState, TEvent, T1, T2> action) {
+    this.currentTransition.getActions().add(new FsmCall2<TStateMachine, TState, TEvent, T1, T2>(action, null, null));
     return this;
   }
 }
