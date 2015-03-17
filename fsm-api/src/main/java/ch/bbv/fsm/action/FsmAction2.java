@@ -2,15 +2,15 @@ package ch.bbv.fsm.action;
 
 import ch.bbv.fsm.StateMachine;
 
+
 /**
- * A functional interface that can execute actions with two parameters.
+ * A functional interface that can execute actions without a parameter.
  *
- * @param <FSM>
- *            The concrete type of the FSM.
+ * @param <TStateMachine>
+ * @param <TState>
+ * @param <TEvent>
  * @param <P1>
- *            The type of the first parameter.
  * @param <P2>
- *            The type of the second parameter.
  */
 @FunctionalInterface
 public interface FsmAction2<TStateMachine extends StateMachine<TState, TEvent>, TState extends Enum<?>, TEvent extends Enum<?>, P1, P2> {
