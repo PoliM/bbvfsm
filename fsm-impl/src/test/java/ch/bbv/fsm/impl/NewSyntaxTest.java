@@ -36,6 +36,7 @@ public class NewSyntaxTest {
 		this.testNumber = b;
 		return null;
 	}
+/*
 
 	@Test
 	public void transitionTest() {
@@ -52,5 +53,5 @@ public class NewSyntaxTest {
 		Assert.assertEquals("testString", this.testString);
 		Assert.assertEquals(77, this.testNumber);
 	}
-
+*/
 }
