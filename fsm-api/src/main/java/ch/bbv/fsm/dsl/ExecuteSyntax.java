@@ -37,8 +37,18 @@ public interface ExecuteSyntax<TStateMachine extends StateMachine<TState, TEvent
    */
   ExecuteSyntax<TStateMachine, TState, TEvent> execute(FsmAction0<TStateMachine, TState, TEvent> action);
 
+  /**
+   * Defines the actions to execute on a transition.
+   * @param action
+   * @return
+   */
   <T> ExecuteSyntax<TStateMachine, TState, TEvent> execute(FsmAction1<TStateMachine, TState, TEvent, T> action);
 
+  /**
+   * Defines the actions to execute on a transition.
+   * @param action
+   * @return
+   */
   <T1, T2> ExecuteSyntax<TStateMachine, TState, TEvent> execute(FsmAction2<TStateMachine, TState, TEvent, T1, T2> action);
 
 }
