@@ -42,7 +42,7 @@ public class Tennis {
       return state;
     }
 
-    protected TennisTestStateMachine(final StateMachine<States, Events> driver) {
+    TennisTestStateMachine(final StateMachine<States, Events> driver) {
       super(driver);
     }
 
@@ -54,7 +54,7 @@ public class Tennis {
 
   private class TennisTestStateMachineDefinition extends AbstractStateMachineDefinition<TennisTestStateMachine, States, Events> {
 
-    public TennisTestStateMachineDefinition() {
+    TennisTestStateMachineDefinition() {
       super("TennisTestStateMachineDefinition", States._0_0);
     }
 

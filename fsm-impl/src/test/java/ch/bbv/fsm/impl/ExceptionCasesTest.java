@@ -62,11 +62,11 @@ public class ExceptionCasesTest {
 
     private final RuntimeException e = new RuntimeException();
 
-    public RuntimeException getException() {
+    RuntimeException getException() {
       return e;
     }
 
-    protected ExceptionCasesTestStateMachine(final StateMachine<States, Events> driver) {
+    ExceptionCasesTestStateMachine(final StateMachine<States, Events> driver) {
       super(driver);
     }
 
@@ -74,7 +74,7 @@ public class ExceptionCasesTest {
 
   private class ExceptionCasesTestStateMachineDefinition extends AbstractStateMachineDefinition<ExceptionCasesTestStateMachine, States, Events> {
 
-    public ExceptionCasesTestStateMachineDefinition(final String name, final States initialState) {
+    ExceptionCasesTestStateMachineDefinition(final String name, final States initialState) {
 
       super("ExceptionCasesTestStateMachine", States.A);
     }
@@ -99,7 +99,7 @@ public class ExceptionCasesTest {
     /**
      * @return the exception
      */
-    public static RuntimeException getException() {
+    static RuntimeException getException() {
       return exception;
     }
 

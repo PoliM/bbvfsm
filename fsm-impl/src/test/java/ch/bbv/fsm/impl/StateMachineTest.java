@@ -37,11 +37,11 @@ public class StateMachineTest {
 
     private final List<Record> records = new ArrayList<>();
 
-    protected StateMachineTestStateMachine(final StateMachine<States, Events> driver) {
+    StateMachineTestStateMachine(final StateMachine<States, Events> driver) {
       super(driver);
     }
 
-    public void checkNoRemainingRecords() {
+    void checkNoRemainingRecords() {
       if (this.records.size() == 0) {
         return;
       }
@@ -49,7 +49,7 @@ public class StateMachineTest {
       final StringBuilder sb = new StringBuilder("there are additional records:");
       for (final Record record : this.records) {
         sb.append(NEWLINE);
-        sb.append(record.getClass().getName() + "-" + record.getState());
+        sb.append(record.getClass().getName()).append('-').append(record.getState());
       }
 
       Assert.fail(sb.toString());
@@ -59,11 +59,11 @@ public class StateMachineTest {
      * Checks that the first record in the list of records is of type T and involves the specified
      * state.
      */
-    public <T> void checkRecords(final States state, final Class<?> c) {
+    void checkRecords(final States state, final Class<?> c) {
       final Record record = this.records.get(0);
 
-      Assert.assertNotNull(String.format("expected record missing: {0} on {1}.", c.getName(), state), record);
-      Assert.assertTrue(record.getMessage(), record.getClass() == c);
+      Assert.assertNotNull(String.format("expected record missing: %s on %s.", c.getName(), state), record);
+      Assert.assertSame(record.getMessage(), c, record.getClass());
 
       this.records.remove(0);
     }
@@ -71,7 +71,7 @@ public class StateMachineTest {
     /**
      * Clears the records.
      */
-    public void clearRecords() {
+    void clearRecords() {
       this.records.clear();
     }
 
@@ -79,7 +79,7 @@ public class StateMachineTest {
 
   private class StateMachineTestStateMachineDefinition extends AbstractStateMachineDefinition<StateMachineTestStateMachine, States, Events> {
 
-    public StateMachineTestStateMachineDefinition() {
+    StateMachineTestStateMachineDefinition() {
       super("StateMachineTestStateMachineDefinition", States.A);
     }
 

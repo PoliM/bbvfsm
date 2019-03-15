@@ -37,7 +37,7 @@ class EventInformation<TEvent> {
 	 * @param eventArguments
 	 *            the event arguments.
 	 */
-	public EventInformation(final TEvent eventId, final Object[] eventArguments) {
+	EventInformation(final TEvent eventId, final Object[] eventArguments) {
 		this.eventId = eventId;
 		this.eventArguments = eventArguments;
 	}

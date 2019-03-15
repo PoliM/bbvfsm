@@ -50,8 +50,8 @@ class StateMachineInitializer<TStateMachine extends StateMachine<TState, TEvent>
 	 * @param stateContext
 	 *            the state context.
 	 */
-	public StateMachineInitializer(final InternalState<TStateMachine, TState, TEvent> initialState,
-			final StateContext<TStateMachine, TState, TEvent> stateContext) {
+	StateMachineInitializer(final InternalState<TStateMachine, TState, TEvent> initialState,
+							final StateContext<TStateMachine, TState, TEvent> stateContext) {
 		this.initialState = initialState;
 		this.stateContext = stateContext;
 	}
@@ -61,7 +61,7 @@ class StateMachineInitializer<TStateMachine extends StateMachine<TState, TEvent>
 	 * 
 	 * @return The entered state. The initial state or a sub state of the initial state.
 	 */
-	public InternalState<TStateMachine, TState, TEvent> enterInitialState() {
+	InternalState<TStateMachine, TState, TEvent> enterInitialState() {
 		final Stack<InternalState<TStateMachine, TState, TEvent>> stack = this.traverseUpTheStateHierarchy();
 		this.traverseDownTheStateHierarchyAndEnterStates(stack);
 		return this.initialState.enterByHistory(this.stateContext);

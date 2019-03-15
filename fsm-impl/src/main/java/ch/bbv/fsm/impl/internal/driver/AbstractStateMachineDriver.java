@@ -28,7 +28,7 @@ abstract class AbstractStateMachineDriver<TStateMachine extends StateMachine<TSt
 	 */
 	private StateMachineInterpreter<TStateMachine, TState, TEvent> stateMachineInterpreter;
 
-	public AbstractStateMachineDriver() {
+	AbstractStateMachineDriver() {
 	}
 
 	/**
@@ -97,7 +97,7 @@ abstract class AbstractStateMachineDriver<TStateMachine extends StateMachine<TSt
 	 * @param e
 	 *            the event to be fired on the state machine.
 	 */
-	protected void fireEventOnStateMachine(final EventInformation<TEvent> e) {
+	void fireEventOnStateMachine(final EventInformation<TEvent> e) {
 		stateMachineInterpreter.fire(e.getEventId(), e.getEventArguments());
 	}
 

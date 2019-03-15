@@ -210,7 +210,9 @@ public abstract class BaseStateMachineTest {
 		final SimpleStateMachineDefinition<States, Events> definition = new SimpleStateMachineDefinition<>(
 				"priorityFire", States.A);
 
-		definition.in(States.A).on(Events.B).goTo(States.B).execute((fsm)->{fsm.fire(Events.D);fsm.firePriority(Events.C);});
+		definition.in(States.A).on(Events.B).goTo(States.B).execute((fsm) -> {
+			fsm.fire(Events.D);fsm.firePriority(Events.C);
+		});
 
 		definition.in(States.B).on(Events.C).goTo(States.C);
 

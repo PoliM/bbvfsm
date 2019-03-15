@@ -35,16 +35,16 @@ public class GuardTest {
 
 		private final Object[][] eventArguments = new Object[1][];
 
-		public void setEventArguments(final int position,
-				final Object[] eventArguments) {
+		void setEventArguments(final int position,
+							   final Object[] eventArguments) {
 			this.eventArguments[position] = eventArguments;
 		}
 
-		public Object[][] getEventArguments() {
+		Object[][] getEventArguments() {
 			return eventArguments;
 		}
 
-		protected GuardTestStateMachine(
+		GuardTestStateMachine(
 				final StateMachine<States, Events> driver) {
 			super(driver);
 		}
@@ -55,8 +55,8 @@ public class GuardTest {
 			extends
 			AbstractStateMachineDefinition<GuardTestStateMachine, States, Events> {
 
-		public GuardTestStateMachineDefinition(final String name,
-				final States initialState) {
+		GuardTestStateMachineDefinition(final String name,
+										final States initialState) {
 
 			super("GuardTestStateMachine", States.A);
 		}

@@ -33,31 +33,31 @@ public class TransitionsTest {
 
     private boolean executed;
 
-    protected TransitionTestStateMachine(final StateMachine<States, Events> driver) {
+    TransitionTestStateMachine(final StateMachine<States, Events> driver) {
       super(driver);
     }
 
-    public void setArgument1(final Object[] arguments1) {
+    void setArgument1(final Object[] arguments1) {
       this.arguments1 = arguments1;
     }
 
-    public void setArgument2(final Object[] arguments) {
+    void setArgument2(final Object[] arguments) {
       arguments2 = arguments;
     }
 
-    public Object[] getArguments1() {
+    Object[] getArguments1() {
       return arguments1;
     }
 
-    public Object[] getArguments2() {
+    Object[] getArguments2() {
       return arguments2;
     }
 
-    public boolean isExecuted() {
+    boolean isExecuted() {
       return executed;
     }
 
-    public void setExecuted(final boolean executed) {
+    void setExecuted(final boolean executed) {
       this.executed = executed;
     }
 
@@ -65,7 +65,7 @@ public class TransitionsTest {
 
   private class TransitionTestStateMachineDefinition extends AbstractStateMachineDefinition<TransitionTestStateMachine, States, Events> {
 
-    public TransitionTestStateMachineDefinition() {
+    TransitionTestStateMachineDefinition() {
       super("TransitionTestStateMachineDefinition", States.A);
       in(States.A).on(Events.A).execute((fsm) -> {
         fsm.setExecuted(true);

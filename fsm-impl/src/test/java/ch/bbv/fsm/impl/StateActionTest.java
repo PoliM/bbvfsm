@@ -32,23 +32,23 @@ public class StateActionTest {
 
     private Object[] arguments;
 
-    protected StateActionTestStateMachine(final StateMachine<States, Events> driver) {
+    StateActionTestStateMachine(final StateMachine<States, Events> driver) {
       super(driver);
     }
 
-    public Boolean getEntered() {
+    Boolean getEntered() {
       return entered;
     }
 
-    public void setEntered(final Boolean entered) {
+    void setEntered(final Boolean entered) {
       this.entered = entered;
     }
 
-    public Object[] getArguments() {
+    Object[] getArguments() {
       return arguments;
     }
 
-    public void setArguments(final Object[] arguments) {
+    void setArguments(final Object[] arguments) {
       this.arguments = arguments;
     }
 
@@ -56,7 +56,7 @@ public class StateActionTest {
 
   private class StateActionTestStateMachineDefinition extends AbstractStateMachineDefinition<StateActionTestStateMachine, States, Events> {
 
-    public StateActionTestStateMachineDefinition() {
+    StateActionTestStateMachineDefinition() {
       super("StateActionTestStateMachineDefinition", States.A);
     }
 

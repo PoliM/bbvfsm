@@ -34,7 +34,7 @@ public interface StateMachine<TState extends Enum<?>, TEvent extends Enum<?>> {
 	 * The state of this state machine.
 	 * 
 	 */
-	public enum RunningState {
+	enum RunningState {
 		Created, Running, Terminated
 	}
 

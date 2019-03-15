@@ -19,84 +19,81 @@
 package ch.bbv.fsm.impl.internal;
 
 
-
+import ch.bbv.fsm.StateMachine;
+import ch.bbv.fsm.impl.SimpleStateMachineDefinition;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import ch.bbv.fsm.StateMachine;
-import ch.bbv.fsm.impl.SimpleStateMachineDefinition;
 
 /**
  * Sample showing usage of state machine.
  */
 public class SyntaxTest {
 
-	public enum Events {
-		toA, toB, toC, toD
-	}
+    private static final String EXIT_A = "ExitA";
+    private static final String ENTRY_A = "EntryA";
+    private static final String ENTRY_B = "EntryB";
+    private SimpleStateMachineDefinition<States, Events> definition;
+    private String fooEntryValue;
+    private String fooExitValue;
+    private boolean barValue;
 
-	public enum States {
-		A, B, C, D
-	}
+    public boolean bar(final Boolean value) {
+        this.barValue = value;
+        return true;
+    }
 
-	private static final String EXIT_A = "ExitA";
+    public Void fooEntry(final String text) {
+        this.fooEntryValue = text;
+        return null;
+    }
 
-	private static final String ENTRY_A = "EntryA";
+    public Void fooExit(final String text) {
+        this.fooExitValue = text;
+        return null;
+    }
 
-	private static final String ENTRY_B = "EntryB";
+    @Before
+    public void setup() {
+        this.definition = new SimpleStateMachineDefinition<>("SimpleExample", States.A);
 
-	private SimpleStateMachineDefinition<States, Events> definition;
-	private String fooEntryValue;
-	private String fooExitValue;
-	private boolean barValue;
+        this.definition.in(States.A) //
+                .executeOnEntry((fsm, p) -> this.fooEntry(ENTRY_A), null) //
+                .executeOnExit((sm, p) -> this.fooExit(EXIT_A), null).on(Events.toB) //
+                .goTo(States.B).onlyIf((sm, p) -> this.bar((boolean) p[0]));
 
-	public boolean bar(final Boolean value) {
-		this.barValue = value;
-		return true;
-	}
+        this.definition.in(States.B).executeOnEntry((sm, p) -> this.fooEntry(ENTRY_B), null).on(Events.toB).goTo(States.B)
+                .onlyIf((sm, p) -> this.bar((boolean) p[0]));
 
-	public Void fooEntry(final String text) {
-		this.fooEntryValue = text;
-		return null;
-	}
+        this.definition.in(States.B).on(Events.toD).goTo(States.D);
+        this.definition.in(States.D).on(Events.toA).goTo(States.A);
+    }
 
-	public Void fooExit(final String text) {
-		this.fooExitValue = text;
-		return null;
-	}
+    /**
+     * Test Enter & Exit of state A.
+     */
+    @Test
+    public void enterAndExitStateMustCallObject() {
+        final StateMachine<States, Events> testee = this.definition.createPassiveStateMachine("testee", States.A);
+        testee.start();
+        final String enterA = this.fooEntryValue;
+        testee.fire(Events.toB, true);
+        final boolean onlyIf = this.barValue;
+        final String exitA = this.fooExitValue;
+        final String enterB = this.fooEntryValue;
 
-	@Before
-	public void setup() {
-		this.definition = new SimpleStateMachineDefinition<>("SimpleExample", States.A);
+        Assert.assertTrue(onlyIf);
+        Assert.assertEquals(ENTRY_A, enterA);
+        Assert.assertEquals(EXIT_A, exitA);
+        Assert.assertEquals(ENTRY_B, enterB);
+    }
 
-		this.definition.in(States.A).executeOnEntry((fsm, p)->{this.fooEntry(ENTRY_A);}, null).executeOnExit((sm, p)->this.fooExit(EXIT_A), null).on(Events.toB)
-				.goTo(States.B).onlyIf((sm, p)->this.bar((boolean)p[0]));
+    public enum Events {
+        toA, toB, toC, toD
+    }
 
-		this.definition.in(States.B).executeOnEntry((sm, p)->this.fooEntry(ENTRY_B), null).on(Events.toB).goTo(States.B)
-				.onlyIf((sm, p)->this.bar((boolean)p[0]));
-
-		this.definition.in(States.B).on(Events.toD).goTo(States.D);
-		this.definition.in(States.D).on(Events.toA).goTo(States.A);
-	}
-
-	/**
-	 * Test Enter & Exit of state A.
-	 */
-	@Test
-	public void enterAndExitStateMustCallObject() {
-		final StateMachine<States, Events> testee = this.definition.createPassiveStateMachine("testee", States.A);
-		testee.start();
-		final String enterA = this.fooEntryValue;
-		testee.fire(Events.toB, true);
-		final boolean onlyIf = this.barValue;
-		final String exitA = this.fooExitValue;
-		final String enterB = this.fooEntryValue;
-
-		Assert.assertTrue(onlyIf);
-		Assert.assertEquals(ENTRY_A, enterA);
-		Assert.assertEquals(EXIT_A, exitA);
-		Assert.assertEquals(ENTRY_B, enterB);
-	}
+    public enum States {
+        A, B, C, D
+    }
 
 }

@@ -42,19 +42,19 @@ public class FunctionDefinitionTest {
 
     private final List<Function<FunctionDefinitionTestStateMachine, States, Events, Object[], Boolean>> callingActions = new LinkedList<>();
 
-    public String consumeLog() {
+    String consumeLog() {
       return log.toString();
     }
 
-    public void log(final String msg) {
+    void log(final String msg) {
       this.log.append(msg);
     }
 
-    public void addCallingAction(final Function<FunctionDefinitionTestStateMachine, States, Events, Object[], Boolean> callingAction) {
+    void addCallingAction(final Function<FunctionDefinitionTestStateMachine, States, Events, Object[], Boolean> callingAction) {
       callingActions.add(callingAction);
     }
 
-    protected FunctionDefinitionTestStateMachine(final StateMachine<States, Events> driver) {
+    FunctionDefinitionTestStateMachine(final StateMachine<States, Events> driver) {
       super(driver);
     }
 
@@ -63,7 +63,7 @@ public class FunctionDefinitionTest {
   private class FunctionDefinitionTestStateMachineDefinition extends
       AbstractStateMachineDefinition<FunctionDefinitionTestStateMachine, States, Events> {
 
-    public FunctionDefinitionTestStateMachineDefinition(final String name, final States initialState) {
+    FunctionDefinitionTestStateMachineDefinition(final String name, final States initialState) {
 
       super("FunctionDefinitionTestStateMachine", States.A);
     }
@@ -79,8 +79,6 @@ public class FunctionDefinitionTest {
 
     @Override
     public void exec(final FunctionDefinitionTestStateMachine stateMachine) {
-
-      return;
     }
   }
 
